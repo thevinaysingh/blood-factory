@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:orderInCategory="100"
+        android:title="Notification"
+        app:showAsAction="never" />
+    <item
+        android:orderInCategory="100"
+        android:title="Guidance"
+        app:showAsAction="never" />
+    <item
+        android:orderInCategory="100"
+        android:title="About us"
+        app:showAsAction="never" />
+    <item
+        android:orderInCategory="100"
+        android:title="Blood bank"
+        app:showAsAction="never" />
+    <item
+        android:orderInCategory="100"
+        android:title="FAQs"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        android:title="Log out"
+        app:showAsAction="never" />
+
+</menu>

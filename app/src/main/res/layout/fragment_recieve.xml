@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/header_color"
+            android:paddingTop="10dp"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:background="@drawable/rectangle_border"
+                    android:weightSum="1">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/find_blood"
+                        android:clickable="false"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Find Blood"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/medium_text"
+                        android:textColor="@color/backgroundWhite" />
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:text="We will keep you happy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/backgroundWhite"
+                android:textSize="@dimen/medium_text"
+                android:gravity="center" />
+            <View
+                style="@style/white_separator"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/neededBloodGroup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/list_of_blood_group"
+            style="@style/editText"
+            android:background="@drawable/rectangle_border_edittext">
+            <requestFocus/>
+        </Spinner>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/needState"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/list_of_states"
+            android:background="@drawable/rectangle_border_edittext"
+            style="@style/editText">
+            <requestFocus/>
+        </Spinner>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/needCity"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/list_of_cities"
+            android:background="@drawable/rectangle_border_edittext"
+            style="@style/editText">
+            <requestFocus/>
+        </Spinner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            <Button
+                android:id="@+id/directSearchBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundend_border"
+                android:text="Search now"
+                android:layout_weight="1"
+                style="@style/CommonButton"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+

@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.majavrella.bloodfactory.user.DonarList">
+    <ListView
+        android:id="@+id/list_view_all"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#D34836"
+        android:dividerHeight="1dp"
+        android:padding="5dp">
+
+    </ListView>
+
+</LinearLayout>

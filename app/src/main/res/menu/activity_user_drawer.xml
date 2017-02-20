@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/add_member"
+            android:title="Add member" />
+        <item
+            android:id="@+id/donate_blood"
+            android:title="Donate blood" />
+        <item
+            android:id="@+id/search_blood"
+            android:title="Search blood" />
+        <item
+            android:id="@+id/post_blood_request"
+            android:title="Post blood request" />
+        <item
+            android:id="@+id/people_in_need"
+            android:title="People in need" />
+        <item
+            android:id="@+id/edit_profile"
+            android:title="Edit profile" />
+        <item
+            android:id="@+id/change_password"
+            android:title="Change password" />
+        <item
+            android:id="@+id/extra_settings"
+            android:title="Extra Settings" />
+    </group>
+</menu>

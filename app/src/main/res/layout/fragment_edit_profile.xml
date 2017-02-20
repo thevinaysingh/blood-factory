@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:orientation="vertical"
+        android:background="@color/header_color">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp"
+                android:background="@drawable/rectangle_border"
+                android:weightSum="1">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/edit_profile_view"
+                    android:clickable="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit profile"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+        <TextView
+            android:text="Do whatever want to do"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:gravity="center" />
+        <View
+            style="@style/white_separator"/>
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <EditText
+            android:hint="Full name"
+            android:background="@drawable/roundend_border_edittext"
+            style="@style/username_et">
+            <requestFocus />
+        </EditText>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <EditText
+            android:hint="email id"
+            android:background="@drawable/roundend_border_edittext"
+            style="@style/email_et">
+        </EditText>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:paddingLeft="5dp">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textColor="#fff"
+                android:textStyle="normal"
+                android:textSize="16sp"/>
+
+            <RadioGroup
+                android:id="@+id/genderStatus"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+                <RadioButton
+                    android:id="@+id/genderMale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:checked="true"
+                    android:textSize="16dp"
+                    android:textColor="#fff"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/genderFemale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:textColor="#fff"
+                    android:checked="false"
+                    android:textSize="16dp"
+                    android:layout_weight="1"/>
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/donarBloodGroup"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:entries="@array/list_of_blood_group"
+            style="@style/editText"
+            android:background="@drawable/roundend_border_edittext"/>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <EditText
+            android:inputType="date"
+            android:hint="Enter DOB (dd/mm/yy)"
+            android:background="@drawable/roundend_border_edittext"
+            style="@style/mob_et">
+        </EditText>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <EditText
+            android:hint="Mob no (10 digits)"
+            android:background="@drawable/roundend_border_edittext"
+            style="@style/mob_et">
+        </EditText>
+
+        <LinearLayout
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <Spinner
+                android:id="@+id/donarState"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:entries="@array/list_of_states"
+                android:layout_weight="1"
+                android:background="@drawable/roundend_border_edittext"
+                style="@style/editText">
+            </Spinner>
+            <Spinner
+                android:id="@+id/donarCity"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:entries="@array/list_of_cities"
+                android:layout_weight="1"
+                android:background="@drawable/roundend_border_edittext"
+                style="@style/editText">
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            android:layout_marginBottom="10dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:background="@drawable/roundend_border"
+                android:layout_weight="1"
+                style="@style/CommonButton"
+                android:gravity="center" />
+
+        </LinearLayout>
+        <View
+            style="@style/dummy_space"/>
+    </LinearLayout>
+</ScrollView>

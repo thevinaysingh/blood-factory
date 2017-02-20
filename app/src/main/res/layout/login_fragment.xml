@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:background="#3b945c"
+    android:gravity="start">
+    <FrameLayout
+        android:id="@+id/back"
+        style="@style/back_button_frame">
+        <ImageView
+            style="@style/back_button_image"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="start"
+            android:gravity="center"
+            android:padding="5dp">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/login_icon"
+                android:clickable="false"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User login"
+                android:layout_marginLeft="10dp"
+                android:textSize="30sp"
+                android:textColor="#fff"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="-6dp">
+        <TextView
+            android:text="* "
+            style="@style/redStar"/>
+        <TextView
+            android:id="@+id/emailError"
+            android:text=""
+            style="@style/redStar"/>
+    </LinearLayout>
+    <EditText
+        android:hint="Email"
+        android:id="@+id/userEmail"
+        style="@style/email_et">
+        <requestFocus/>
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="-6dp">
+        <TextView
+            android:text="* "
+            style="@style/redStar"/>
+        <TextView
+            android:id="@+id/passwordError"
+            android:text=""
+            style="@style/redStar"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/userPassword"
+        android:hint="Password"
+        style="@style/password_et">
+
+    </EditText>
+    <CheckBox
+        android:id="@+id/showPassword"
+        android:text="Show password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:layout_marginBottom="5dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="right"
+        android:layout_marginTop="15dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signin"
+            android:text="Login"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:textColor="#08b49b"
+            style="@style/frontButton"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lost Password ? "
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:id="@+id/lostPassword"
+            android:textSize="18sp"
+            android:textColor="#971d29"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:layout_marginTop="25dp"
+        android:gravity="center">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:id="@+id/textRegister"
+            android:text="Not a Member? Register now."
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>

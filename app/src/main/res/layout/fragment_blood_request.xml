@@ -31,13 +31,6 @@
                         android:layout_height="50dp"
                         android:src="@drawable/blood_request"
                         android:clickable="false"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Post Blood Request"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/medium_text"
-                        android:textColor="@color/backgroundWhite" />
                 </LinearLayout>
             </FrameLayout>
             <TextView
@@ -52,22 +45,37 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/name_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/nameError"
+                android:id="@+id/name_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <EditText
+            android:id="@+id/patient_name"
             android:hint="Patient name"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
             <requestFocus />
         </EditText>
 
+        <LinearLayout
+            android:id="@+id/gender_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:id="@+id/gender_error"
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,8 +90,9 @@
                 android:text="Gender"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_text" />
+
             <RadioGroup
-                android:id="@+id/genderStatus"
+                android:id="@+id/gender_status"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -110,6 +119,18 @@
             </RadioGroup>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/age_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:id="@+id/age_error"
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,21 +176,19 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_marginTop="-3dp"
-            android:layout_marginBottom="-11dp">
+            android:id="@+id/blood_grp_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/bloodGrpError"
+                android:id="@+id/blood_grp_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <Spinner
+            android:id="@+id/patient_blood_group"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:entries="@array/list_of_blood_group"
@@ -177,28 +196,33 @@
             android:background="@drawable/rectangle_border_edittext"/>
 
         <LinearLayout
+            android:id="@+id/mob_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/mobError"
+                android:id="@+id/mob_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <EditText
+            android:id="@+id/patient_mob"
             android:hint="Mob no (10 digits)"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/mob_et">
         </EditText>
 
         <LinearLayout
+            android:id="@+id/address_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/addressError"
+                android:id="@+id/address_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
@@ -208,7 +232,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <Spinner
-                android:id="@+id/donarState"
+                android:id="@+id/patient_state"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:entries="@array/list_of_states"
@@ -217,6 +241,7 @@
                 style="@style/editText">
             </Spinner>
             <Spinner
+                android:id="@+id/patient_city"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:entries="@array/list_of_cities"
@@ -227,11 +252,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/last_date_need_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
+                android:id="@+id/last_date_need_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
@@ -265,6 +293,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
             <Button
+                android:id="@+id/post_blood_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Post request"

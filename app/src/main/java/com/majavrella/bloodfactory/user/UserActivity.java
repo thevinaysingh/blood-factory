@@ -111,10 +111,7 @@ public class UserActivity extends BaseActivity
         } else if (id == R.id.people_in_need) {
             PeopleNeedFragment fragment = new PeopleNeedFragment();
             add(PeopleNeedFragment.newInstance());
-        } else if (id == R.id.edit_profile) {
-            EditProfileFragment fragment = new EditProfileFragment();
-            add(EditProfileFragment.newInstance());
-        } else if (id == R.id.change_password) {
+        }  else if (id == R.id.change_password) {
             ChangePasswordFragment fragment = new ChangePasswordFragment();
             add(ChangePasswordFragment.newInstance());
         } else if (id == R.id.extra_settings) {

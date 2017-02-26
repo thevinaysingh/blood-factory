@@ -10,11 +10,11 @@
         android:orientation="vertical"
         android:background="@color/backgroundWhite">
 
-<!--
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:orientation="vertical"
             android:background="@color/header_color">
             <FrameLayout
                 android:layout_width="match_parent"
@@ -26,21 +26,12 @@
                     android:orientation="vertical"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/rectangle_border"
-                    android:weightSum="1">
+                    android:padding="5dp">
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/add_member"
                         android:clickable="false"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Add Member"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/medium_text"
-                        android:textColor="@color/backgroundWhite" />
                 </LinearLayout>
             </FrameLayout>
             <TextView
@@ -53,26 +44,39 @@
             <View
                 style="@style/white_separator"/>
         </LinearLayout>
--->
 
         <LinearLayout
+            android:id="@+id/name_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/nameError"
+                android:id="@+id/name_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <EditText
-            android:id="@+id/donarName"
+            android:id="@+id/donar_name"
             android:hint="Full name"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
             <requestFocus />
         </EditText>
 
+        <LinearLayout
+            android:id="@+id/gender_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:id="@+id/gender_error"
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,7 +93,7 @@
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
-                android:id="@+id/genderStatus"
+                android:id="@+id/gender_status"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -116,6 +120,18 @@
             </RadioGroup>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/age_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:id="@+id/age_error"
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,17 +177,19 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/blood_grp_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/bloodGrpError"
+                android:id="@+id/blood_grp_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <Spinner
-            android:id="@+id/donarBloodGroup"
+            android:id="@+id/donar_blood_group"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:entries="@array/list_of_blood_group"
@@ -179,29 +197,33 @@
             android:background="@drawable/rectangle_border_edittext"/>
 
         <LinearLayout
+            android:id="@+id/mob_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/mobError"
+                android:id="@+id/mob_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <EditText
-            android:id="@+id/donarMob"
+            android:id="@+id/donar_mob"
             android:hint="Mob no (10 digits)"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/mob_et">
         </EditText>
 
         <LinearLayout
+            android:id="@+id/address_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
-                android:id="@+id/addressError"
+                android:id="@+id/address_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
@@ -211,7 +233,7 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <Spinner
-                android:id="@+id/donarState"
+                android:id="@+id/donar_state"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:entries="@array/list_of_states"
@@ -220,7 +242,7 @@
                 style="@style/editText">
             </Spinner>
             <Spinner
-                android:id="@+id/donarCity"
+                android:id="@+id/donar_city"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:entries="@array/list_of_cities"
@@ -248,7 +270,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp">
                 <RadioGroup
-                    android:id="@+id/donarStatus"
+                    android:id="@+id/availability_status"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -276,19 +298,6 @@
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
-
-        <CheckBox
-            android:id="@+id/donarAuthorization"
-            android:text="I authorize the app to display details, So that the nearby could contact me."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            android:checked="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"

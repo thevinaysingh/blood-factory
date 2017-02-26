@@ -123,6 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         boolean consumedBackPress = ((BackButtonSupportFragment) fragmentOnTop).onBackPressed();
         return consumedBackPress;
     }
+
     protected abstract ActionBarDrawerToggle getDrawerToggle();
 
     protected abstract DrawerLayout getDrawer();

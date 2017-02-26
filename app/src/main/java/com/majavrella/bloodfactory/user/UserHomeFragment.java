@@ -5,18 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
 import com.majavrella.bloodfactory.base.UserFragment;
 
+import butterknife.Bind;
+
 public class UserHomeFragment extends UserFragment implements BackButtonSupportFragment {
 
     private static View userHomeFragment;
-    private static Button donate, recieve;
     private boolean consumingBackPress = true;
     private Toast toast;
+
+    @Bind(R.id.donate_blood)
+    LinearLayout mDonateButton;
+
+    @Bind(R.id.find_blood)
+    LinearLayout mFindButton;
 
     public static UserHomeFragment newInstance() {
         return new UserHomeFragment();
@@ -31,7 +39,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userHomeFragment = inflater.inflate(R.layout.fragment_user_home, container, false);
-        donate = (Button) userHomeFragment.findViewById(R.id.donateBtn);
+        /*donate = (Button) userHomeFragment.findViewById(R.id.donateBtn);
         donate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,8 +48,8 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
 
 
             }
-        });
-        recieve = (Button) userHomeFragment.findViewById(R.id.recieveBtn);
+        });*/
+       /* recieve = (Button) userHomeFragment.findViewById(R.id.recieveBtn);
         recieve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +57,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                 //mFragmentTransaction.replace(R.id.frag_container,recieveFragment).addToBackStack(null).commit();
 
             }
-        });
+        });*/
         return userHomeFragment;
     }
 

@@ -30,5 +30,7 @@ public abstract class UserFragment extends Fragment {
 		getActivity().setTitle(getTitle());
 	}
 
+
+
 	protected abstract String getTitle();
 }

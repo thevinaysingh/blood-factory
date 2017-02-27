@@ -109,11 +109,11 @@ public class AddMemberFragment extends UserFragment {
         return validation;
     }
 
-    public void setErrorMsg(LinearLayout linearLayout,TextView tv, String msg){
+    /*public void setErrorMsg(LinearLayout linearLayout,TextView tv, String msg){
         linearLayout.setVisibility(View.VISIBLE);
         tv.setText(msg);
     }
-
+*/
     public void setErrorMsgEmpty(){
         mNameError.setText("");
         mBloodGrpError.setText("");
@@ -123,10 +123,9 @@ public class AddMemberFragment extends UserFragment {
         mAgeError.setText("");
     }
 
-    public void hideIt(LinearLayout ll){
+    /*public void hideIt(LinearLayout ll){
         ll.setVisibility(View.GONE);
-
-    }
+    }*/
 
     @Override
     protected String getTitle() {

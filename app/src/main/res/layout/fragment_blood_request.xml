@@ -264,17 +264,20 @@
                 style="@style/redStar"/>
         </LinearLayout>
         <EditText
+            android:id="@+id/last_date_need"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:lines="1"
             android:inputType="date"
+            android:maxLength="10"
             android:maxLines="1"
-            android:hint="Last date of need (dd/mm/yy)"
+            android:hint="Last date of need (dd/mm/yyyy)"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/editText">
         </EditText>
 
         <EditText
+            android:id="@+id/purpose_of_request"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="start"

@@ -15,31 +15,14 @@
             android:paddingTop="10dp"
             android:orientation="vertical">
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/rectangle_border"
-                    android:weightSum="1">
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/find_blood"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Find Blood"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/medium_text"
-                        android:textColor="@color/backgroundWhite" />
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/find_blood"
+                    android:clickable="false"/>
             </FrameLayout>
             <TextView
                 android:text="We will keep you happy"
@@ -53,16 +36,19 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/blood_grp_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
+                android:id="@+id/blood_grp_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <Spinner
-            android:id="@+id/neededBloodGroup"
+            android:id="@+id/blood_group"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:entries="@array/list_of_blood_group"
@@ -72,16 +58,19 @@
         </Spinner>
 
         <LinearLayout
+            android:id="@+id/state_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
+                android:id="@+id/state_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <Spinner
-            android:id="@+id/needState"
+            android:id="@+id/state"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:entries="@array/list_of_states"
@@ -91,16 +80,19 @@
         </Spinner>
 
         <LinearLayout
+            android:id="@+id/city_error_layout"
+            android:visibility="gone"
             style="@style/errorLayout">
             <TextView
                 android:text="* "
                 style="@style/redStar"/>
             <TextView
+                android:id="@+id/city_error"
                 android:text=""
                 style="@style/redStar"/>
         </LinearLayout>
         <Spinner
-            android:id="@+id/needCity"
+            android:id="@+id/city"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:entries="@array/list_of_cities"

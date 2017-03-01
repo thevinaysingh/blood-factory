@@ -56,4 +56,16 @@
     <string name="add_item">Add New Item</string>
     <string name="action_logout">Logout</string>
     <string name="register_success_msg">Click ok to login in app! Please update your information to donate blood and be a hero.</string>
+    <string name="add_member_tagline">It\'s a step to help needy people</string>
+    <string name="placeholder_name">Full name</string>
+    <string name="gender">Gender</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+    <string name="age_group_text">Age group</string>
+    <string name="age_group_text_18">18+</string>
+    <string name="age_group_text_35">35+</string>
+    <string name="placeholder_mob">Mob no (10 digits)</string>
+    <string name="availability_text">Please, confirm member availbility to donate</string>
+    <string name="available">Available</string>
+    <string name="unavailable">Unavailable</string>
 </resources>

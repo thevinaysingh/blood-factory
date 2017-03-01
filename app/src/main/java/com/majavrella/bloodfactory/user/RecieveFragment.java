@@ -37,9 +37,6 @@ public class RecieveFragment extends UserFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         directRecieveFragment = inflater.inflate(R.layout.fragment_recieve, container, false);
-        needBloodGroup = (Spinner) directRecieveFragment.findViewById(R.id.neededBloodGroup);
-        needState = (Spinner) directRecieveFragment.findViewById(R.id.needState);
-        needCity = (Spinner) directRecieveFragment.findViewById(R.id.needCity);
         directSearchBtn = (Button) directRecieveFragment.findViewById(R.id.directSearchBtn);
         directSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override

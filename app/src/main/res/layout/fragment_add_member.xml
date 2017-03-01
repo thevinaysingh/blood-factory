@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/medium_distance"
             android:orientation="vertical"
             android:background="@color/header_color">
             <FrameLayout
@@ -26,16 +26,16 @@
                     android:orientation="vertical"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:padding="5dp">
+                    android:padding="@dimen/very_small_distance">
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/small_img_size"
+                        android:layout_height="@dimen/small_img_size"
                         android:src="@drawable/add_member"
                         android:clickable="false"/>
                 </LinearLayout>
             </FrameLayout>
             <TextView
-                android:text="It's a step to help needy people"
+                android:text="@string/add_member_tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/backgroundWhite"
@@ -45,21 +45,9 @@
                 style="@style/white_separator"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/name_error_layout"
-            android:visibility="gone"
-            style="@style/errorLayout">
-            <TextView
-                android:text="* "
-                style="@style/redStar"/>
-            <TextView
-                android:id="@+id/name_error"
-                android:text=""
-                style="@style/redStar"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/donar_name"
-            android:hint="Full name"
+            android:hint="@string/placeholder_name"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
             <requestFocus />
@@ -82,13 +70,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="5dp"
-            android:layout_margin="5dp"
-            android:paddingLeft="5dp">
+            android:paddingTop="@dimen/very_small_distance"
+            android:layout_margin="@dimen/very_small_distance"
+            android:paddingLeft="@dimen/very_small_distance">
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Gender"
+                android:text="@string/gender"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_text" />
 
@@ -103,7 +91,7 @@
                     android:id="@+id/genderFemale"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Female"
+                    android:text="@string/gender_female"
                     android:checked="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text"
@@ -112,7 +100,7 @@
                     android:id="@+id/genderMale"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="@string/gender_male"
                     android:checked="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text"
@@ -143,7 +131,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Age group"
+                android:text="@string/age_group_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_text" />
 
@@ -158,7 +146,7 @@
                     android:id="@+id/above18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="18+"
+                    android:text="@string/age_group_text_18"
                     android:checked="true"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text"
@@ -168,7 +156,7 @@
                     android:id="@+id/below18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="35+"
+                    android:text="@string/age_group_text_35"
                     android:checked="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text"
@@ -196,21 +184,9 @@
             style="@style/editText"
             android:background="@drawable/rectangle_border_edittext"/>
 
-        <LinearLayout
-            android:id="@+id/mob_error_layout"
-            android:visibility="gone"
-            style="@style/errorLayout">
-            <TextView
-                android:text="* "
-                style="@style/redStar"/>
-            <TextView
-                android:id="@+id/mob_error"
-                android:text=""
-                style="@style/redStar"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/donar_mob"
-            android:hint="Mob no (10 digits)"
+            android:hint="@string/placeholder_mob"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/mob_et">
         </EditText>
@@ -258,7 +234,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical">
             <TextView
-                android:text="Please, confirm member availbility to donate"
+                android:text="@string/availability_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/editText"
@@ -268,7 +244,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp">
+                android:layout_marginLeft="@dimen/very_small_distance">
                 <RadioGroup
                     android:id="@+id/availability_status"
                     android:layout_width="0dp"
@@ -280,20 +256,20 @@
                         android:id="@+id/donarActive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Availble"
+                        android:text="@string/available"
                         android:checked="true"
-                        android:textSize="14dp"
-                        android:textColor="#000000"
+                        android:textSize="@dimen/very_small_text"
+                        android:textColor="@color/black"
                         android:layout_weight="1"/>
 
                     <RadioButton
                         android:id="@+id/donarInactive"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="unavailable"
-                        android:textColor="#000000"
+                        android:text="@string/unavailable"
+                        android:textColor="@color/black"
                         android:checked="false"
-                        android:textSize="14dp"
+                        android:textSize="@dimen/very_small_text"
                         android:layout_weight="1"/>
                 </RadioGroup>
             </LinearLayout>

@@ -2,9 +2,11 @@ package com.majavrella.bloodfactory.user;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.modal.Member;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,13 +29,9 @@ import butterknife.OnItemClick;
 public class AddMemberFragment extends UserFragment {
 
     private static View mAddMemberView;
-
-    @Bind(R.id.name_error) TextView mNameError;
-    @Bind(R.id.name_error_layout) LinearLayout mNameErrorLayout;
+    private static String name, gender, age, bloodGroup, mob, state, city, availability;
     @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
     @Bind(R.id.blood_grp_error_layout) LinearLayout mBloodGrpErrorLayout;
-    @Bind(R.id.mob_error) TextView mMobError;
-    @Bind(R.id.mob_error_layout) LinearLayout mMobErrorLayout;
     @Bind(R.id.address_error) TextView mAddressError;
     @Bind(R.id.address_error_layout) LinearLayout mAddressErrorLayout;
     @Bind(R.id.gender_error) TextView mGenderError;
@@ -63,44 +63,81 @@ public class AddMemberFragment extends UserFragment {
         mAddMemberView = inflater.inflate(R.layout.fragment_add_member, container, false);
         ButterKnife.bind(this, mAddMemberView);
 
-        mAddMember.setOnClickListener(new View.OnClickListener() {
+        mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                boolean isValid = dataValidation();
-                if (isValid){
-                    Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}
+        });
+        mAgeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mAgeErrorLayout);}
+        });
+        mDonarBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mBloodGrpErrorLayout);
                 }
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
+        mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mAddressErrorLayout);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mDonarCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mAddressErrorLayout);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mAddMember.setOnClickListener(mAddMemberButtonListener);
         return mAddMemberView;
     }
 
     private boolean dataValidation() {
         boolean validation = true;
-        if(mDonarName.getText().toString().equals("")|| mDonarName.getText().toString().trim().length()<3){
-            setErrorMsg(mNameErrorLayout, mNameError, "Good name? Please!");
+        if(name.equals("")||!isNameValid(name)){
+            mDonarName.setError(Constants.nameErrorText);
             validation = false;
-        } else { hideIt(mNameErrorLayout); }
+        }
         if(mGenderStatus.getCheckedRadioButtonId()<0){
-            setErrorMsg(mGenderErrorLayout, mGenderError, "Who is?");
+            setErrorMsg(mGenderErrorLayout, mGenderError, Constants.genderErrorText);
             validation = false;
-        } else { hideIt(mGenderErrorLayout); }
+        }
         if (mAgeGroup.getCheckedRadioButtonId()<0){
-            setErrorMsg(mAgeErrorLayout, mAgeError, "Age group? Please");
+            setErrorMsg(mAgeErrorLayout, mAgeError, Constants.ageErrorText);
             validation = false;
-        } else { hideIt(mAgeErrorLayout); }
-        if(mDonarBloodGroup.getSelectedItem().toString().equals("--Select blood group--")){
-            setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, "Select a blood group!");
+        }
+        if(bloodGroup.equals("--Select blood group--")){
+            setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, Constants.bloodGroupErrorText);
             validation = false;
-        } else { hideIt(mBloodGrpErrorLayout); }
-        if(mDonarMob.getText().toString().equals("")||mDonarMob.getText().toString().trim().length()<10){
-            setErrorMsg(mMobErrorLayout, mMobError, "Oops! Mobile no?");
+        }
+        if(mob.equals("")||!isPhoneValid(mob)){
+            mDonarMob.setError(Constants.mobErrorText);
             validation = false;
-        } else { hideIt(mMobErrorLayout); }
-        if(mDonarState.getSelectedItem().toString().equals("--select state--")){
+        }
+        if(state.equals("--select state--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
             validation = false;
-        } else if(mDonarCity.getSelectedItem().toString().equals("--select city--")){
+        } else if(city.equals("--select city--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Select your City");
             validation = false;
         } else {
@@ -109,27 +146,44 @@ public class AddMemberFragment extends UserFragment {
         return validation;
     }
 
-    /*public void setErrorMsg(LinearLayout linearLayout,TextView tv, String msg){
-        linearLayout.setVisibility(View.VISIBLE);
-        tv.setText(msg);
-    }
-*/
-    public void setErrorMsgEmpty(){
-        mNameError.setText("");
-        mBloodGrpError.setText("");
-        mMobError.setText("");
-        mAddressError.setText("");
-        mGenderError.setText("");
-        mAgeError.setText("");
-    }
+    private View.OnClickListener mAddMemberButtonListener    =   new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setDataInStringFormat();
+            boolean isAllFieldsValid = dataValidation();
+            if (isAllFieldsValid){
+                Member member = new Member();
+                member.setName(name);
+                member.setGender(gender);
+                member.setAgeGroup(age);
+                member.setBloodGroup(bloodGroup);
+                member.setMobile(mob);
+                member.setState(state);
+                member.setCity(city);
+                member.setAvailability(availability);
+                Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
-    /*public void hideIt(LinearLayout ll){
-        ll.setVisibility(View.GONE);
-    }*/
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mDonarName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            age = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
+        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
+        mob = getStringDataFromEditText(mDonarMob);
+        state = getStringDataFromSpinner(mDonarState);
+        city = getStringDataFromSpinner(mDonarCity);
+        availability = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
+    }
 
     @Override
     protected String getTitle() {
-        return "Add Member";
+        return Constants.kAddMemberFragment;
     }
 
 }

@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +44,31 @@ public abstract class UserFragment extends Fragment {
 		linearLayout.setVisibility(View.VISIBLE);
 		tv.setText(msg);
 	}
+
+	public String getStringDataFromEditText(EditText v){
+		return v.getText().toString().trim();
+	}
+
+    public String getStringDataFromSpinner(Spinner v){
+        return v.getSelectedItem().toString();
+    }
+
+    public String getStringDataFromRadioButton(RadioButton v){
+        return v.getText().toString();
+    }
+
+	public boolean isNameValid(String name){
+        return name.matches(Constants.nameRegex);
+    }
+	public boolean isEmailValid(String email){
+        return email.matches(Constants.emailRegex);
+    }
+	public boolean isPhoneValid(String phone){
+        return phone.matches(Constants.mobRegex);
+    }
+	public boolean isDateValid(String date){
+        return date.matches(Constants.dateRegex);
+    }
 
 	protected abstract String getTitle();
 }

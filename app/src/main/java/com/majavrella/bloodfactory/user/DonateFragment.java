@@ -2,20 +2,29 @@ package com.majavrella.bloodfactory.user;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.modal.Donar;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 /**
@@ -23,13 +32,27 @@ import com.majavrella.bloodfactory.base.UserFragment;
  */
 public class DonateFragment extends UserFragment {
 
-    public View directDonateFragment;
-    Spinner donarBloodGroup,donarCity,donarState;
-    EditText donarName, donarDob, donarContact, donarAddress;
-    CheckBox  donarAuthorization;
-    RadioGroup donarSexGroup, donarStatus;
-    RadioButton donarSex, statusButton;
-    Button donateNow;
+    private static View mDonateFragment;
+    private static String name, gender, dob, bloodGroup, mob, address, state, city, availability, authorization;
+
+    @Bind(R.id.gender_error) TextView mGenderError;
+    @Bind(R.id.gender_error_layout) LinearLayout mGenderErrorLayout;
+    @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
+    @Bind(R.id.blood_grp_error_layout) LinearLayout mBloodGrpErrorLayout;
+    @Bind(R.id.address_error) TextView mAddressError;
+    @Bind(R.id.address_error_layout) LinearLayout mAddressErrorLayout;
+
+    @Bind(R.id.donar_name) EditText mDonarName;
+    @Bind(R.id.gender_status) RadioGroup mGenderStatus;
+    @Bind(R.id.donar_dob) EditText mDonarDob;
+    @Bind(R.id.donar_blood_group) Spinner mDonarBloodGroup;
+    @Bind(R.id.donar_mob) EditText mDonarMob;
+    @Bind(R.id.donar_address) EditText mDonarAddress;
+    @Bind(R.id.donar_state) Spinner mDonarState;
+    @Bind(R.id.donar_city) Spinner mDonarCity;
+    @Bind(R.id.donar_status) RadioGroup mAvailabilityStatus;
+    @Bind(R.id.donar_authorization) CheckBox mDonarAuthorization;
+    @Bind(R.id.donate_button) Button mDonateButton;
 
     public static DonateFragment newInstance() {
         return new DonateFragment();
@@ -42,91 +65,154 @@ public class DonateFragment extends UserFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        directDonateFragment = inflater.inflate(R.layout.fragment_donate, container, false);
+        mDonateFragment = inflater.inflate(R.layout.fragment_donate, container, false);
+        ButterKnife.bind(this, mDonateFragment);
 
-        donarBloodGroup = (Spinner) directDonateFragment.findViewById(R.id.donarBloodGroup);
-        donarCity = (Spinner) directDonateFragment.findViewById(R.id.donarCity);
-        donarState = (Spinner) directDonateFragment.findViewById(R.id.donarState);
-        donarName = (EditText) directDonateFragment.findViewById(R.id.donarName);
-        donarDob = (EditText) directDonateFragment.findViewById(R.id.donarDob);
-        donarContact = (EditText) directDonateFragment.findViewById(R.id.donarMob);
-        donarAddress = (EditText) directDonateFragment.findViewById(R.id.donarAddress);
-        donarAuthorization= (CheckBox) directDonateFragment.findViewById(R.id.donarAuthorization);
-        donarSexGroup = (RadioGroup) directDonateFragment.findViewById(R.id.genderStatus);
-        donarStatus = (RadioGroup) directDonateFragment.findViewById(R.id.donarStatus);
-        donateNow = (Button) directDonateFragment.findViewById(R.id.directDonateBtn);
-        donateNow.setOnClickListener(new View.OnClickListener() {
+        mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                boolean isValid = dataValidation();
-                if(isValid){
-                    String name = donarName.getText().toString();
-                    String dob = donarDob.getText().toString();
-                    int genderId = donarSexGroup.getCheckedRadioButtonId();
-                    String gender;
-                    donarSex = (RadioButton) directDonateFragment.findViewById(genderId);
-                    if(donarSex.getText().toString().equals("M")){
-                        gender = "Male";
-                    }else{
-                        gender = "Male";
-                    }
-                    String mob = donarContact.getText().toString();
-                    String bloodGroup = donarBloodGroup.getSelectedItem().toString() ;
-                    String address = donarAddress.getText().toString();
-                    String city = donarCity.getSelectedItem().toString();
-                    String state = donarState.getSelectedItem().toString();
-                    int statusId = donarStatus.getCheckedRadioButtonId();
-                    statusButton = (RadioButton) directDonateFragment.findViewById(statusId);
-                    String status ;
-                    if(statusButton.getText().toString().equals("Availble")){
-                        status = "Active";
-                    }else {
-                        status = "Inactive";
-                    }
-                    String authorizationCall;
-                    if(donarAuthorization.isChecked()){
-                        authorizationCall = "true";
-                    } else{
-                        authorizationCall = "false";
-                    }
-
-                    Toast.makeText(mActivity, "Successfully saved !!!", Toast.LENGTH_SHORT).show();
-
-                }else {
-                    Toast.makeText(mActivity, "Please fill all data field !!!", Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(RadioGroup group, int checkedId) { hideIt(mGenderErrorLayout); }
+        });
+        mDonarBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mBloodGrpErrorLayout);
                 }
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
-        return directDonateFragment;
+        mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mAddressErrorLayout);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mDonarCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position>0){
+                    hideIt(mAddressErrorLayout);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        mDonateButton.setOnClickListener(mDonateButtonListener);
+        return mDonateFragment;
+    }
+
+    private Donar setDataInModal(Donar donar) {
+        donar.setName(name);
+        donar.setGender(gender);
+        donar.setDob(dob);
+        donar.setBloodGroup(bloodGroup);
+        donar.setMobile(mob);
+        donar.setAddress(address);
+        donar.setState(state);
+        donar.setCity(city);
+        donar.setAvailability(availability);
+        donar.setAuthorization(authorization);
+        return donar;
     }
 
     private boolean dataValidation() {
-       boolean validation = false;
-        if(donarName.getText().toString().equals("")){
+        boolean validation = true;
+        if(!isNameValid(name)){
+            mDonarName.setError(Constants.nameErrorText);
             validation = false;
-        } else if(donarDob.getText().toString().equals("")){
+        }
+        if(mGenderStatus.getCheckedRadioButtonId()<0){
+            setErrorMsg(mGenderErrorLayout, mGenderError, Constants.genderErrorText);
             validation = false;
-        } else if(donarContact.getText().toString().equals("")){
+        }
+        if(!isDateValid(dob)){
+            mDonarDob.setError(Constants.nameErrorText);
             validation = false;
-        } else if(donarAddress.getText().toString().equals("")){
+        }
+        if(bloodGroup.equals("--Select blood group--")){
+            setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, Constants.bloodGroupErrorText);
             validation = false;
-        } else if(!donarDob.getText().toString().contains("/")||donarDob.getText().toString().length()<10){
+        }
+        if(mob.equals("")||!isPhoneValid(mob)){
+            mDonarMob.setError(Constants.mobErrorText);
             validation = false;
-        } else if(donarContact.getText().toString().length()<10){
+        }
+        if(address.equals("")){
+            mDonarAddress.setError(Constants.commonErrorText);
             validation = false;
-        } else if(donarBloodGroup.getSelectedItem().toString().equals("--Select blood group--")){
+        }
+        if(state.equals("--select state--")){
+            setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
             validation = false;
-        } else if(donarCity.getSelectedItem().toString().equals("--select city--")){
+        } else if(city.equals("--select city--")){
+            setErrorMsg(mAddressErrorLayout, mAddressError, "Select your City");
             validation = false;
-        } else if(donarState.getSelectedItem().toString().equals("--select state--")){
-            validation = false;
-        } else if(donarSexGroup.getCheckedRadioButtonId()<0){
-            validation = false;
-        } else{
-            validation = true;
+        } else {
+            hideIt(mAddressErrorLayout);
         }
         return validation;
     }
+
+    private void resetModalData() {
+        name = gender = dob = bloodGroup = mob = address = state = city = availability = authorization = null;
+    }
+
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mDonarName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        dob = getStringDataFromEditText(mDonarDob);
+        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
+        mob = getStringDataFromEditText(mDonarMob);
+        address = getStringDataFromEditText(mDonarAddress);
+        state = getStringDataFromSpinner(mDonarState);
+        city = getStringDataFromSpinner(mDonarCity);
+        availability = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
+        authorization = mDonarAuthorization.isChecked()? "True" : "False";
+    }
+
+    View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            resetModalData();
+            setDataInStringFormat();
+            boolean isAllFieldsValid = dataValidation();
+            if(isAllFieldsValid){
+                progress.setMessage("Saving donar...");
+                progress.show();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        try{
+                            Donar donar = setDataInModal(new Donar());
+                            Toast.makeText(mActivity, "Now, You're able to donate!!!", Toast.LENGTH_SHORT).show();
+                            progress.dismiss();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            Toast.makeText(mActivity, "Operation failed!!!", Toast.LENGTH_SHORT).show();
+                            progress.dismiss();
+                        }
+                    }
+                }, 2000);
+
+            }else {
+                Toast.makeText(mActivity, "Something went wrong !!!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     @Override
     protected String getTitle() {

@@ -17,4 +17,5 @@ public class Constants {
     public static final String genderErrorText = "Unknown identity!";
     public static final String ageErrorText = "Please, Select an age group!";
     public static final String bloodGroupErrorText = "Select a blood group";
+    public static final String commonErrorText = "It is not valid";
 }

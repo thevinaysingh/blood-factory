@@ -14,24 +14,14 @@
             android:paddingTop="10dp"
             android:background="@color/header_color">
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:background="@drawable/rectangle_border"
-                    android:weightSum="1">
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/blood_request"
-                        android:clickable="false"/>
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/blood_request"
+                    android:clickable="false"/>
             </FrameLayout>
             <TextView
                 android:text="Your request is most valuable"
@@ -44,18 +34,6 @@
                 style="@style/white_separator"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/name_error_layout"
-            android:visibility="gone"
-            style="@style/errorLayout">
-            <TextView
-                android:text="* "
-                style="@style/redStar"/>
-            <TextView
-                android:id="@+id/name_error"
-                android:text=""
-                style="@style/redStar"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/patient_name"
             android:hint="Patient name"
@@ -195,18 +173,6 @@
             style="@style/editText"
             android:background="@drawable/rectangle_border_edittext"/>
 
-        <LinearLayout
-            android:id="@+id/mob_error_layout"
-            android:visibility="gone"
-            style="@style/errorLayout">
-            <TextView
-                android:text="* "
-                style="@style/redStar"/>
-            <TextView
-                android:id="@+id/mob_error"
-                android:text=""
-                style="@style/redStar"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/patient_mob"
             android:hint="Mob no (10 digits)"
@@ -251,18 +217,6 @@
             </Spinner>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/last_date_need_error_layout"
-            android:visibility="gone"
-            style="@style/errorLayout">
-            <TextView
-                android:text="* "
-                style="@style/redStar"/>
-            <TextView
-                android:id="@+id/last_date_need_error"
-                android:text=""
-                style="@style/redStar"/>
-        </LinearLayout>
         <EditText
             android:id="@+id/last_date_need"
             android:layout_width="match_parent"

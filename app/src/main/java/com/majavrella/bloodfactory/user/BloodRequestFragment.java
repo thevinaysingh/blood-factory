@@ -19,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.modal.Donar;
+import com.majavrella.bloodfactory.modal.Member;
 import com.majavrella.bloodfactory.modal.Patient;
 
 import butterknife.Bind;
@@ -31,21 +34,16 @@ import butterknife.ButterKnife;
 public class BloodRequestFragment extends UserFragment {
 
     private static View mBloodRequestView;
+    private static String name, gender, ageGroup, bloodGroup, mob, state, city, lastDate, purpose;
 
-    @Bind(R.id.name_error) TextView mNameError;
-    @Bind(R.id.name_error_layout) LinearLayout mNameErrorLayout;
     @Bind(R.id.gender_error) TextView mGenderError;
     @Bind(R.id.gender_error_layout) LinearLayout mGenderErrorLayout;
     @Bind(R.id.age_error) TextView mAgeError;
     @Bind(R.id.age_error_layout) LinearLayout mAgeErrorLayout;
     @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
     @Bind(R.id.blood_grp_error_layout) LinearLayout mBloodGrpErrorLayout;
-    @Bind(R.id.mob_error) TextView mMobError;
-    @Bind(R.id.mob_error_layout) LinearLayout mMobErrorLayout;
     @Bind(R.id.address_error) TextView mAddressError;
     @Bind(R.id.address_error_layout) LinearLayout mAddressErrorLayout;
-    @Bind(R.id.last_date_need_error) TextView mLastDateNeedError;
-    @Bind(R.id.last_date_need_error_layout) LinearLayout mLastDateNeedErrorLayout;
 
     @Bind(R.id.patient_name) EditText mPatientName;
     @Bind(R.id.gender_status) RadioGroup mGenderStatus;
@@ -73,33 +71,13 @@ public class BloodRequestFragment extends UserFragment {
         mBloodRequestView = inflater.inflate(R.layout.fragment_blood_request, container, false);
         ButterKnife.bind(this, mBloodRequestView);
 
-        mPostBloodRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isValid = dataValidation();
-                if (isValid){
-                    Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
-                    setData();
-                }
-            }
-        });
-
-        mPatientName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {   }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(count>2){
-                    hideIt(mNameErrorLayout);
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}
+        });
+        mAgeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mAgeErrorLayout);}
         });
         mPatientBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -138,90 +116,105 @@ public class BloodRequestFragment extends UserFragment {
 
             }
         });
-        mPatientMob.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {   }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                hideIt(mMobErrorLayout);
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        mLastDateNeed.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {   }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                hideIt(mLastDateNeedErrorLayout);
-            }
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
 
+        mPostBloodRequest.setOnClickListener(mPostBloodRequestListener);
         return mBloodRequestView;
     }
 
     private void setData() {
         Patient patient = new Patient();
-        patient.setName(mPatientName.getText().toString().trim());
-        RadioButton patientSex = (RadioButton) mBloodRequestView.findViewById(mGenderStatus.getCheckedRadioButtonId());
-        patient.setGender(patientSex.getText().toString());
-        RadioButton patientAge = (RadioButton) mBloodRequestView.findViewById(mAgeGroup.getCheckedRadioButtonId());
-        patient.setAgeGroup(patientAge.getText().toString());
-        patient.setBloodGroup(mPatientBloodGroup.getSelectedItem().toString());
-        patient.setMobile(mPatientMob.getText().toString().trim());
-        patient.setState(mPatientState.getSelectedItem().toString());
-        patient.setCity(mPatientCity.getSelectedItem().toString());
-        patient.setDate(mLastDateNeed.getText().toString().trim());
-        patient.setPurpose(mPurposeOfRequest.getText().toString());
     }
 
     private boolean dataValidation() {
         boolean validation = true;
-        if(mPatientName.getText().toString().equals("")|| mPatientName.getText().toString().trim().length()<3){
-            setErrorMsg(mNameErrorLayout, mNameError, "Good name? Please!");
+        if(name.equals("")|| !isNameValid(name)){
+            mPatientName.setError(Constants.nameErrorText);
             validation = false;
-        } else { hideIt(mNameErrorLayout); }
+        }
         if(mGenderStatus.getCheckedRadioButtonId()<0){
-            setErrorMsg(mGenderErrorLayout, mGenderError, "Who is?");
+            setErrorMsg(mGenderErrorLayout, mGenderError, Constants.genderErrorText);
             validation = false;
-        } else { hideIt(mGenderErrorLayout); }
+        }
         if (mAgeGroup.getCheckedRadioButtonId()<0){
-            setErrorMsg(mAgeErrorLayout, mAgeError, "Age group? Please");
+            setErrorMsg(mAgeErrorLayout, mAgeError, Constants.ageErrorText);
             validation = false;
-        } else { hideIt(mAgeErrorLayout); }
-        if(mPatientBloodGroup.getSelectedItem().toString().equals("--Select blood group--")){
-            setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, "Select a blood group!");
+        }
+        if(bloodGroup.equals("--Select blood group--")){
+            setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, Constants.bloodGroupErrorText);
             validation = false;
-        } else { hideIt(mBloodGrpErrorLayout); }
-        if(mPatientMob.getText().toString().equals("")||mPatientMob.getText().toString().trim().length()<10){
-            setErrorMsg(mMobErrorLayout, mMobError, "Oops! Mobile no?");
+        }
+        if(mob.equals("")||!isPhoneValid(mob)){
+            mPatientMob.setError(Constants.mobErrorText);
             validation = false;
-        } else { hideIt(mMobErrorLayout); }
-        if(mPatientState.getSelectedItem().toString().equals("--select state--")){
-            setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
+        }
+        if(state.equals("--select state--")){
+            setErrorMsg(mAddressErrorLayout, mAddressError, Constants.stateErrorText);
             validation = false;
-        } else if(mPatientCity.getSelectedItem().toString().equals("--select city--")){
-            setErrorMsg(mAddressErrorLayout, mAddressError, "Select your City");
+        } else if(city.equals("--select city--")){
+            setErrorMsg(mAddressErrorLayout, mAddressError, Constants.cityErrorText);
             validation = false;
         } else {
             hideIt(mAddressErrorLayout);
         }
-        if(mLastDateNeed.getText().toString().equals("")){
-            setErrorMsg(mLastDateNeedErrorLayout, mLastDateNeedError, "Last date of need is missing!");
+        if(!isDateValid(lastDate)){
+            mLastDateNeed.setError(Constants.dateErrorText);
             validation = false;
-        } else if (mLastDateNeed.getText().toString().trim().length()<10||!mLastDateNeed.getText().toString().contains("/")){
-            setErrorMsg(mLastDateNeedErrorLayout, mLastDateNeedError, "Date format is not good!");
-            validation = false;
-        } else { hideIt(mLastDateNeedErrorLayout); }
+        }
+        if(purpose==null){
+            purpose = "Purpose not given!";
+        }
         return validation;
+    }
+
+    View.OnClickListener mPostBloodRequestListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            resetModalData();
+            setDataInStringFormat();
+            boolean isAllFieldsValid =  dataValidation();
+            if (isAllFieldsValid){
+                Patient patient = setDataInModal(new Patient());
+                Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
+                setData();
+            }
+        }
+    };
+
+    private Patient setDataInModal(Patient patient) {
+        patient.setName(name);
+        patient.setGender(gender);
+        patient.setAgeGroup(ageGroup);
+        patient.setBloodGroup(bloodGroup);
+        patient.setMobile(mob);
+        patient.setState(state);
+        patient.setCity(city);
+        patient.setDate(lastDate);
+        patient.setPurpose(purpose);
+        return patient;
+    }
+
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mPatientName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            ageGroup = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
+        bloodGroup = getStringDataFromSpinner(mPatientBloodGroup);
+        mob = getStringDataFromEditText(mPatientMob);
+        state = getStringDataFromSpinner(mPatientState);
+        city = getStringDataFromSpinner(mPatientCity);
+        lastDate= getStringDataFromEditText(mLastDateNeed);
+        purpose = getStringDataFromEditText(mPurposeOfRequest);
+    }
+
+    private void resetModalData() {
+        name = gender = ageGroup = bloodGroup = mob = state = city = lastDate = purpose = null;
     }
 
     @Override
     protected String getTitle() {
-        return "Post Blood request";
+        return Constants.kBloodRequestFragment;
     }
 }

@@ -10,6 +10,9 @@ public class Constants {
     public static final String mobRegex = "^[0-9]{10}$";
     public static final String dateRegex = "^[0-3]{1}+[0-9]{1}/[0-1]{1}+[0-9]{1}/[0-9]{4}$";
     public static final String kAddMemberFragment = "Add Member";
+    public static final String kSearchBloodFragment = "Search Blood";
+    public static final String kBloodRequestFragment = "Post Blood request";
+    public static final String kChangePasswordFragment = "Change Password";
     public static final String nameErrorText = "Name is not valid!";
     public static final String emailErrorText = "Email is not valid!";
     public static final String mobErrorText = "Mobile no is not valid!";
@@ -18,4 +21,6 @@ public class Constants {
     public static final String ageErrorText = "Please, Select an age group!";
     public static final String bloodGroupErrorText = "Select a blood group";
     public static final String commonErrorText = "It is not valid";
+    public static final String stateErrorText = "Please, Select a state";
+    public static final String cityErrorText = "Please, select a city";
 }

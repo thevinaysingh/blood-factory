@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.modal.Member;
 
 import butterknife.Bind;
@@ -149,22 +150,31 @@ public class AddMemberFragment extends UserFragment {
     private View.OnClickListener mAddMemberButtonListener    =   new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            resetData();
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();
             if (isAllFieldsValid){
-                Member member = new Member();
-                member.setName(name);
-                member.setGender(gender);
-                member.setAgeGroup(age);
-                member.setBloodGroup(bloodGroup);
-                member.setMobile(mob);
-                member.setState(state);
-                member.setCity(city);
-                member.setAvailability(availability);
+                Member member = setDataInModal(new Member());
                 Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
             }
         }
     };
+
+    private Member setDataInModal(Member member) {
+        member.setName(name);
+        member.setGender(gender);
+        member.setAgeGroup(age);
+        member.setBloodGroup(bloodGroup);
+        member.setMobile(mob);
+        member.setState(state);
+        member.setCity(city);
+        member.setAvailability(availability);
+        return member;
+    }
+
+    private void resetData() {
+        name = gender = age = bloodGroup = mob = state = city = availability = null;
+    }
 
     private void setDataInStringFormat() {
         name = getStringDataFromEditText(mDonarName);

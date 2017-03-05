@@ -1,6 +1,7 @@
 package com.majavrella.bloodfactory.user;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,17 +11,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.activities.MainActivity;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BaseActivity;
+import com.majavrella.bloodfactory.base.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 
-public class UserActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class UserActivity extends BaseActivity {
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -28,8 +33,11 @@ public class UserActivity extends BaseActivity
     @Bind(R.id.main_toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.main_navigation)
+    ListView drawerList;
+
     @Bind(R.id.nav_view)
-    NavigationView navigationView;
+    LinearLayout navigationView;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -38,8 +46,9 @@ public class UserActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
+        setupNavigationItems();
         setupDrawerAndToggle();
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
         add(UserHomeFragment.newInstance());
     }
 
@@ -64,6 +73,43 @@ public class UserActivity extends BaseActivity
         drawerToggle.syncState();
     }
 
+    private void setupNavigationItems() {
+        String[] navigationItems = {Constants.kAddMemberFragment, Constants.kDonateBloodFragment, Constants.kSearchBloodFragment,
+                Constants.kBloodRequestFragment, Constants.kPeopleInNeedFragment, Constants.kChangePasswordFragment, Constants.kExtraSettingsFragment};
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navigationItems);
+        drawerList.setAdapter(mAdapter);
+    }
+
+    @OnItemClick(R.id.main_navigation)
+    public void onItemClick(int index) {
+        switch (index) {
+            case 0:
+                add(AddMemberFragment.newInstance());
+                break;
+            case 1:
+                add(DonateFragment.newInstance());
+                break;
+            case 2:
+                add(RecieveFragment.newInstance());
+                break;
+            case 3:
+                add(BloodRequestFragment.newInstance());
+                break;
+            case 4:
+                add(PeopleNeedFragment.newInstance());
+                break;
+            case 5:
+                add(ChangePasswordFragment.newInstance());
+                break;
+            case 6:
+                add(ExtraSettingsFragment.newInstance());
+                break;
+            default:
+                break;
+        }
+        drawerLayout.closeDrawer(navigationView);
+    }
+
     @Override
     protected ActionBarDrawerToggle getDrawerToggle() {
         return drawerToggle;
@@ -72,6 +118,11 @@ public class UserActivity extends BaseActivity
     @Override
     protected DrawerLayout getDrawer() {
         return drawerLayout;
+    }
+
+    @Override
+    protected ListView getDrawerList() {
+        return drawerList;
     }
 
     @Override
@@ -93,7 +144,7 @@ public class UserActivity extends BaseActivity
         }
         return super.onOptionsItemSelected(item);
     }
-
+/*
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -120,6 +171,6 @@ public class UserActivity extends BaseActivity
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
+    }*/
 }
 

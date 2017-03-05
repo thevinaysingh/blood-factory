@@ -1,5 +1,6 @@
 package com.majavrella.bloodfactory.base;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -7,11 +8,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ListView;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
-    private AddFragmentHandler fragmentHandler;
+    protected FragmentManager fragmentManager;
+    protected AddFragmentHandler fragmentHandler;
 
     final View.OnClickListener navigationBackPressListener = new View.OnClickListener() {
         @Override
@@ -19,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             fragmentManager.popBackStack();
         }
     };
+
     FragmentManager.OnBackStackChangedListener backStackListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
         public void onBackStackChanged() {
@@ -123,6 +126,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         boolean consumedBackPress = ((BackButtonSupportFragment) fragmentOnTop).onBackPressed();
         return consumedBackPress;
     }
+
+    protected abstract ListView getDrawerList();
 
     protected abstract ActionBarDrawerToggle getDrawerToggle();
 

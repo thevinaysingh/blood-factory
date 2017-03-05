@@ -57,10 +57,8 @@ public class ChangePasswordFragment extends UserFragment {
             if(isBothFields == false){
                 mPasswordError.setText("Something went wrong!");
             } else {
-                Toast.makeText(mActivity, ""+ oldPassword + " and "+ newPassowrd, Toast.LENGTH_SHORT).show();
-                Log.d("onClick: ", String.valueOf(mOldPassword.getText().toString()==mNewPassword.getText().toString()));
-                if(oldPassword.compareTo(newPassowrd)>0){
-                    mPasswordError.setTextColor(Color.parseColor("#00FF00"));
+                if(oldPassword.equals(newPassowrd)){
+                    mPasswordError.setTextColor(Color.parseColor("#228327"));
                     mPasswordError.setText("Password is successfully updated!!!");
                 }else{
                     mPasswordError.setText("Got difference between passwords!");

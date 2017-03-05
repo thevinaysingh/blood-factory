@@ -17,7 +17,7 @@ import com.majavrella.bloodfactory.user.UserActivity;
 
 public abstract class UserFragment extends Fragment {
 	public UserActivity mActivity;
-
+    private AddFragmentHandler fragmentHandler;
 	protected FirebaseAuth mFirebaseAuth;
 	protected ProgressDialog progress;
 
@@ -25,7 +25,8 @@ public abstract class UserFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mActivity		=	(UserActivity) this.getActivity();
+        fragmentHandler = new AddFragmentHandler(getActivity().getSupportFragmentManager());
+        mActivity		=	(UserActivity) this.getActivity();
         mFirebaseAuth = FirebaseAuth.getInstance();
         progress=new ProgressDialog(mActivity);
 	}
@@ -71,4 +72,8 @@ public abstract class UserFragment extends Fragment {
     }
 
 	protected abstract String getTitle();
+
+    protected void add(UserFragment fragment) {
+        fragmentHandler.add(fragment);
+    }
 }

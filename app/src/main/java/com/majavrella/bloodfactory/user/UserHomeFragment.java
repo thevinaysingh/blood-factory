@@ -10,9 +10,11 @@ import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
+import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class UserHomeFragment extends UserFragment implements BackButtonSupportFragment {
 
@@ -20,11 +22,9 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     private boolean consumingBackPress = true;
     private Toast toast;
 
-    @Bind(R.id.donate_blood)
-    LinearLayout mDonateButton;
+    @Bind(R.id.donate_blood) LinearLayout mDonateButton;
 
-    @Bind(R.id.find_blood)
-    LinearLayout mFindButton;
+    @Bind(R.id.find_blood) LinearLayout mFindButton;
 
     public static UserHomeFragment newInstance() {
         return new UserHomeFragment();
@@ -39,6 +39,19 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         userHomeFragment = inflater.inflate(R.layout.fragment_user_home, container, false);
+        ButterKnife.bind(this, userHomeFragment);
+        mDonateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(DonateFragment.newInstance());
+            }
+        });
+        mFindButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(RecieveFragment.newInstance());
+            }
+        });
         /*donate = (Button) userHomeFragment.findViewById(R.id.donateBtn);
         donate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +76,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
 
     @Override
     protected String getTitle() {
-        return "Home";
+        return Constants.kHomeFragment;
     }
 
     @Override

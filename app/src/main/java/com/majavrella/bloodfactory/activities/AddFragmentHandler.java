@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.majavrella.bloodfactory.R;
-import com.majavrella.bloodfactory.base.UserFragment;
 
 public class AddFragmentHandler {
     private final FragmentManager fragmentManager;
@@ -15,8 +14,8 @@ public class AddFragmentHandler {
         this.fragmentManager = fragmentManager;
     }
 
-    public void add(UserFragment fragment) {
-        UserFragment currentFragment = getCurrentFragment();
+    public void add(BaseFragment fragment) {
+        BaseFragment currentFragment = getCurrentFragment();
         if (currentFragment != null) {
             if (currentFragment.getClass() == fragment.getClass()) {
                 return;
@@ -24,13 +23,13 @@ public class AddFragmentHandler {
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frag_container, fragment, fragment.getTitle());
+        fragmentTransaction.replace(R.id.front_fragment_container, fragment, fragment.getTitle());
         fragmentTransaction.addToBackStack(fragment.getTitle());
         fragmentTransaction.commit();
     }
 
     @Nullable
-    public UserFragment getCurrentFragment() {
+    public BaseFragment getCurrentFragment() {
         if (fragmentManager.getBackStackEntryCount() == 0) {
             return null;
         }
@@ -38,6 +37,6 @@ public class AddFragmentHandler {
 
         String tag = currentEntry.getName();
         Fragment fragment = fragmentManager.findFragmentByTag(tag);
-        return (UserFragment) fragment;
+        return (BaseFragment) fragment;
     }
 }

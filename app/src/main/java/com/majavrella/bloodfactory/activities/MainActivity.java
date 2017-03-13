@@ -11,9 +11,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.FirstFragment;
 import com.majavrella.bloodfactory.R;
-import com.majavrella.bloodfactory.user.UserActivity;
+import com.majavrella.bloodfactory.RegisterFragment;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
 
     static private FirebaseAuth mFirebaseAuth;
     static private FirebaseUser mFirebaseUser;
@@ -21,13 +21,14 @@ public class MainActivity extends FragmentActivity {
     private boolean exit = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFragmentManager = getSupportFragmentManager();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        if (mFirebaseUser == null) {
+        loadLogInView();
+        /*if (mFirebaseUser == null) {
             loadLogInView();
         }
         else {
@@ -35,31 +36,10 @@ public class MainActivity extends FragmentActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }
+        }*/
     }
 
     private void loadLogInView() {
-        FirstFragment firstFragment = new FirstFragment();
-        if(firstFragment!=null){
-            mFragmentManager.beginTransaction().add(R.id.front_fragment_container,firstFragment).commit();
-        } else {
-            // setContentView(R.layout.error_layout);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(exit){
-            finish();
-        } else {
-            Toast.makeText(this, "Press back again to exit !!!", Toast.LENGTH_SHORT).show();
-            exit = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    exit= false;
-                }
-            },3 * 1000);
-        }
+        add(FirstFragment.newInstance());
     }
 }

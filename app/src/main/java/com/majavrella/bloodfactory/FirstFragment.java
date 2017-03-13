@@ -1,18 +1,32 @@
 package com.majavrella.bloodfactory;
 
-
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import com.majavrella.bloodfactory.activities.BaseFragment;
+import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
+import com.majavrella.bloodfactory.base.Constants;
 
-import com.majavrella.bloodfactory.base.BaseFragment;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
-public class FirstFragment extends BaseFragment {
+public class FirstFragment extends BaseFragment implements BackButtonSupportFragment {
 
-    private View firstFragmentView;
-    private Button loginBtn,registerBtn;
+    private static View mFirstFragment;
+    @Bind(R.id.loginBtn) Button mloginBtn;
+    @Bind(R.id.registerBtn) Button mRegisterBtn;
+    private boolean consumingBackPress = true;
+    private Toast toast;
+
+    public static FirstFragment newInstance() {
+        return new FirstFragment();
+    }
 
     public FirstFragment() {
         // Required empty public constructor
@@ -21,26 +35,45 @@ public class FirstFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        firstFragmentView = inflater.inflate(R.layout.main_fragment, container, false);
-        loginBtn = (Button)firstFragmentView.findViewById(R.id.loginBtn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        mFirstFragment = inflater.inflate(R.layout.main_fragment, container, false);
+        ButterKnife.bind(this, mFirstFragment);
+        mloginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SigninFragment loginFragment = new SigninFragment();
-                mFragmentTransaction.replace(R.id.front_fragment_container, loginFragment).addToBackStack(null).commit();
-
+                add(SigninFragment.newInstance());
             }
         });
-        registerBtn = (Button)firstFragmentView.findViewById(R.id.registerBtn);
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RegisterFragment recieveFragment = new RegisterFragment();
-                mFragmentTransaction.replace(R.id.front_fragment_container, recieveFragment).addToBackStack(null).commit();
-
+               add(RegisterFragment.newInstance());
             }
         });
-        return firstFragmentView;
+        return mFirstFragment;
     }
 
+    @Override
+    protected String getTitle() {
+        return Constants.kFirstFragment;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(mActivity);
+        super.onResume();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (consumingBackPress) {
+            toast = Toast.makeText(getActivity(), "Press back again to exit !!!", Toast.LENGTH_LONG);
+            toast.show();
+            consumingBackPress = false;
+            return true;
+        } else {
+            toast.cancel();
+            mActivity.finish();
+            return true;
+        }
+    }
 }

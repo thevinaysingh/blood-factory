@@ -3,6 +3,11 @@
     package="com.majavrella.bloodfactory">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -12,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <!-- Splash screen -->
-        <!--<activity
+        <activity
             android:name=".MainSplashScreen"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -20,14 +25,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>-->
-        <!-- Main activity -->
+        </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <!--
         <activity
-            android:name=".user.UserActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -36,6 +41,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="628596e0c18526875f8704eb4623b281ca269f70" />
     </application>
-
 </manifest>

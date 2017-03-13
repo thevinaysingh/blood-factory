@@ -5,10 +5,18 @@ package com.majavrella.bloodfactory.base;
  */
 
 public class Constants {
+
+    public static final String kConsumerKey = "OcDNJGwlUg1XtfdGjmv4riYAC";
+    public static final String kConsumerSecret = "KiCE5JBOsqkgOew9T9sCIfsFIs1w4A6MizjUtC4BTcU5raOiHT";
+
     public static final String nameRegex = "^[\\p{L}\\s]{1,}+$";
     public static final String emailRegex = "^[\\p{L}0-9!$'*+\\-_]+(\\.[\\p{L}0-9!$'*+\\-_]+)*@[\\p{L}0-9]+(\\-[\\p{L}0-9]+)*(\\.[\\p{L}0-9]+)*(\\.[\\p{L}]{2,})$";
     public static final String mobRegex = "^[0-9]{10}$";
     public static final String dateRegex = "^[0-3]{1}+[0-9]{1}/[0-1]{1}+[0-9]{1}/[0-9]{4}$";
+
+    public static final String kFirstFragment = "First Page";
+    public static final String kLoginFragment = "Login";
+    public static final String kRegisterFragment = "Register";
     public static final String kHomeFragment = "Home";
     public static final String kAddMemberFragment = "Add Member";
     public static final String kDonateBloodFragment = "Donate Blood";
@@ -22,6 +30,7 @@ public class Constants {
     public static final String kGuidanceFragment = "Guidance";
     public static final String kAboutUsFragment = "About us";
     public static final String kFAQFragment = "FAQs";
+
     public static final String nameErrorText = "Name is not valid!";
     public static final String emailErrorText = "Email is not valid!";
     public static final String mobErrorText = "Mobile no is not valid!";

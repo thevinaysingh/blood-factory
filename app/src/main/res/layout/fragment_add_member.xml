@@ -191,6 +191,13 @@
             style="@style/mob_et">
         </EditText>
 
+        <EditText
+            android:id="@+id/donar_address"
+            android:hint="Address"
+            android:background="@drawable/rectangle_border_edittext"
+            style="@style/username_et">
+        </EditText>
+
         <LinearLayout
             android:id="@+id/address_error_layout"
             android:visibility="gone"
@@ -274,6 +281,16 @@
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
+        <CheckBox
+            android:id="@+id/donar_authorization"
+            android:text="I authorize the app to display details, So that the nearby could contact me."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:checked="true"
+            android:layout_margin="5dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"

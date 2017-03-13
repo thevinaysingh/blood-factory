@@ -1,6 +1,8 @@
 package com.majavrella.bloodfactory.base;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -75,5 +77,10 @@ public abstract class UserFragment extends Fragment {
 
     protected void add(UserFragment fragment) {
         fragmentHandler.add(fragment);
+    }
+
+	public boolean isNetworkAvailable() {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 }

@@ -1,146 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:orientation="vertical"
-    android:background="#35586c"
-    android:gravity="start">
-    <FrameLayout
-        android:id="@+id/back"
-        style="@style/back_button_frame">
-        <ImageView
-            style="@style/back_button_image"/>
-    </FrameLayout>
-
-    <FrameLayout
+    android:fillViewport="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="start"
-            android:gravity="center"
-            android:padding="5dp">
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:background="#35586c"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="start">
+        <FrameLayout
+            android:id="@+id/back"
+            style="@style/back_button_frame">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/register_icon"
-                android:clickable="false"/>
-            <TextView
+                style="@style/back_button_image"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Account"
-                android:layout_marginLeft="10dp"
-                android:textSize="30sp"
-                android:textColor="#fff"/>
+                android:orientation="horizontal"
+                android:layout_gravity="start"
+                android:gravity="center"
+                android:padding="5dp">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/user_icon"
+                    android:clickable="false"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Account"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="30sp"
+                    android:textColor="#fff"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </FrameLayout>
+        </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="-6dp">
-        <TextView
-            android:text="* "
-            style="@style/redStar"/>
-        <TextView
-            android:id="@+id/nameError"
-            android:text=""
-            style="@style/redStar"/>
-    </LinearLayout>
-    <EditText
-        android:id="@+id/username"
-        android:hint="Full name"
-        android:background="@drawable/rectangle_border_edittext"
-        style="@style/username_et">
-        <requestFocus/>
-    </EditText>
+        <EditText
+            android:id="@+id/user_name"
+            android:hint="Full name"
+            android:background="@drawable/rectangle_border_edittext"
+            style="@style/username_et"/>
+        <EditText
+            android:id="@+id/user_id"
+            android:hint="Mobile no (10 Digits only)"
+            style="@style/mob_et"/>
+        <EditText
+            android:id="@+id/user_password"
+            android:hint="Password (6 to 16 chars)"
+            style="@style/password_et"/>
+    <!--
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-6dp"
-        android:orientation="horizontal">
-        <TextView
-            android:text="* "
-            style="@style/redStar"/>
-        <TextView
-            android:id="@+id/emailError"
-            android:text=""
-            style="@style/redStar"/>
-    </LinearLayout>
-    <EditText
-        android:id="@+id/useremail"
-        android:hint="Email"
-        style="@style/email_et">
-    </EditText>
+        <com.digits.sdk.android.DigitsAuthButton
+            android:id="@+id/auth_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-6dp"
-        android:orientation="horizontal">
-        <TextView
-            android:text="* "
-            style="@style/redStar"/>
-        <TextView
-            android:id="@+id/passwordError"
-            android:text=""
-            style="@style/redStar"/>
-    </LinearLayout>
-    <EditText
-        android:id="@+id/userpassword"
-        android:hint="Password"
-        style="@style/password_et">
-    </EditText>
-    <CheckBox
-        android:id="@+id/showPassword"
-        android:text="Show password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/backgroundWhite"
-        android:textSize="14sp"
-        android:layout_marginBottom="5dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        android:layout_marginTop="15dp">
-        <Button
+    -->
+
+        <CheckBox
+            android:id="@+id/show_password"
+            android:text="Show password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register"
-            android:layout_weight="1"
-            android:background="#ffffff"
-            android:id="@+id/register"
-            android:textColor="#08b49b"
-            style="@style/frontButton"
-            android:gravity="center">
-        </Button>
-    </LinearLayout>
+            android:textColor="@color/backgroundWhite"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="end"
-        android:layout_marginTop="15dp"
-        android:gravity="center">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:clickable="true"
-            android:id="@+id/textSignup"
-            android:layout_height="40dp"
-            android:text="Have account? Login now."
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:gravity="center"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginTop="15dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:id="@+id/register"
+                android:textColor="#08b49b"
+                style="@style/frontButton"
+                android:gravity="center">
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="end"
+            android:layout_marginTop="15dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:clickable="true"
+                android:layout_height="40dp"
+                android:text="Have account ?"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:gravity="center"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:clickable="true"
+                    android:id="@+id/text_signup"
+                    android:layout_height="40dp"
+                    android:focusableInTouchMode="true"
+                    android:text="  Login now."
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="-4dp"
+                    android:background="#ff0000"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

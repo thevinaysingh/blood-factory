@@ -7,47 +7,69 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="10dp"
         android:orientation="vertical"
-        android:background="@color/header_color">
-        <FrameLayout
+        android:background="@color/backgroundWhite">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-            <LinearLayout
-                android:layout_width="wrap_content"
+            android:paddingTop="@dimen/medium_distance"
+            android:orientation="vertical"
+            android:background="@color/header_color">
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:padding="5dp"
-                android:background="@drawable/rectangle_border"
-                android:weightSum="1">
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/edit_profile_view"
-                    android:clickable="false"/>
-                <TextView
+                android:layout_gravity="center">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Edit profile"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="#fff" />
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/very_small_distance">
+                    <ImageView
+                        android:layout_width="@dimen/small_img_size"
+                        android:layout_height="@dimen/small_img_size"
+                        android:src="@drawable/edit_profile_view"
+                        android:clickable="false"/>
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:text="Do whatever you want to do"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/backgroundWhite"
+                android:textSize="@dimen/medium_text"
+                android:gravity="center" />
+            <View
+                style="@style/white_separator"/>
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </FrameLayout>
-        <TextView
-            android:text="Do whatever want to do"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:textSize="16sp"
-            android:gravity="center" />
-        <View
-            style="@style/white_separator"/>
+            android:padding="10dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    style="@style/small_black_text"
+                    android:layout_height="wrap_content"
+                    android:text="Name"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/edit"/>
+            </LinearLayout>
+            <View
+                style="@style/black_separator"/>
+
+        </LinearLayout>
+
         <LinearLayout
             style="@style/errorLayout">
             <TextView

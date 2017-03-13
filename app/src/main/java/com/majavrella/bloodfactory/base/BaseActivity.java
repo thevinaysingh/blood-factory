@@ -1,6 +1,8 @@
 package com.majavrella.bloodfactory.base;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -132,4 +134,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract ActionBarDrawerToggle getDrawerToggle();
 
     protected abstract DrawerLayout getDrawer();
+
+    public boolean isNetworkAvailable() {
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+    }
 }

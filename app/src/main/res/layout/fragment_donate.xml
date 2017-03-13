@@ -98,14 +98,61 @@
             </RadioGroup>
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/donar_dob"
-            android:hint="Enter DOB (mm/dd/yyyy)"
-            android:inputType="date"
-            android:background="@drawable/rectangle_border_edittext"
-            style="@style/mob_et">
-            <requestFocus />
-        </EditText>
+        <LinearLayout
+            android:id="@+id/age_error_layout"
+            android:visibility="gone"
+            style="@style/errorLayout">
+            <TextView
+                android:text="* "
+                style="@style/redStar"/>
+            <TextView
+                android:id="@+id/age_error"
+                android:text=""
+                style="@style/redStar"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="5dp"
+            android:layout_margin="5dp"
+            android:paddingLeft="5dp">
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/age_group_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_text" />
+
+            <RadioGroup
+                android:id="@+id/age_group"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+                <RadioButton
+                    android:id="@+id/above18"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_group_text_18"
+                    android:checked="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text"
+                    android:layout_weight="1"/>
+
+                <RadioButton
+                    android:id="@+id/below18"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_group_text_35"
+                    android:checked="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/small_text"
+                    android:layout_weight="1"/>
+            </RadioGroup>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/blood_grp_error_layout"
@@ -226,7 +273,7 @@
         </LinearLayout>
         <CheckBox
             android:id="@+id/donar_authorization"
-            android:text="I authorize the app to display my details, So that the nearby could contact me."
+            android:text="I authorize the app to display details, So that the nearby could contact me."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"

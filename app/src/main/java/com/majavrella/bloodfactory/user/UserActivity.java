@@ -39,6 +39,8 @@ public class UserActivity extends BaseActivity {
     @Bind(R.id.nav_view)
     LinearLayout navigationView;
 
+    @Bind(R.id.edit_profile) LinearLayout mEditProfile;
+
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -50,6 +52,13 @@ public class UserActivity extends BaseActivity {
         setupDrawerAndToggle();
         //navigationView.setNavigationItemSelectedListener(this);
         add(UserHomeFragment.newInstance());
+        mEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(EditProfileFragment.newInstance());
+                drawerLayout.closeDrawer(navigationView);
+            }
+        });
     }
 
     private void setupDrawerAndToggle() {

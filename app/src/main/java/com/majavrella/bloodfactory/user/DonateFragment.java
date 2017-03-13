@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 public class DonateFragment extends UserFragment {
 
     private static View mDonateFragment;
-    private static String name, gender, dob, bloodGroup, mob, address, state, city, availability, authorization;
+    private static String name, gender, age, bloodGroup, mob, address, state, city, availability, authorization;
 
     @Bind(R.id.gender_error) TextView mGenderError;
     @Bind(R.id.gender_error_layout) LinearLayout mGenderErrorLayout;
@@ -44,7 +44,7 @@ public class DonateFragment extends UserFragment {
 
     @Bind(R.id.donar_name) EditText mDonarName;
     @Bind(R.id.gender_status) RadioGroup mGenderStatus;
-    @Bind(R.id.donar_dob) EditText mDonarDob;
+    @Bind(R.id.age_group) RadioGroup mAgeGroup;
     @Bind(R.id.donar_blood_group) Spinner mDonarBloodGroup;
     @Bind(R.id.donar_mob) EditText mDonarMob;
     @Bind(R.id.donar_address) EditText mDonarAddress;
@@ -116,8 +116,8 @@ public class DonateFragment extends UserFragment {
     private Donar setDataInModal(Donar donar) {
         donar.setName(name);
         donar.setGender(gender);
-        donar.setDob(dob);
         donar.setBloodGroup(bloodGroup);
+        donar.setAgeGroup(age);
         donar.setMobile(mob);
         donar.setAddress(address);
         donar.setState(state);
@@ -135,10 +135,6 @@ public class DonateFragment extends UserFragment {
         }
         if(mGenderStatus.getCheckedRadioButtonId()<0){
             setErrorMsg(mGenderErrorLayout, mGenderError, Constants.genderErrorText);
-            validation = false;
-        }
-        if(!isDateValid(dob)){
-            mDonarDob.setError(Constants.nameErrorText);
             validation = false;
         }
         if(bloodGroup.equals("--Select blood group--")){
@@ -166,7 +162,7 @@ public class DonateFragment extends UserFragment {
     }
 
     private void resetModalData() {
-        name = gender = dob = bloodGroup = mob = address = state = city = availability = authorization = null;
+        name = gender = age = bloodGroup = mob = address = state = city = availability = authorization = null;
     }
 
     private void setDataInStringFormat() {
@@ -174,7 +170,9 @@ public class DonateFragment extends UserFragment {
         if(mGenderStatus.getCheckedRadioButtonId()>=0){
             gender = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mGenderStatus.getCheckedRadioButtonId()));
         }
-        dob = getStringDataFromEditText(mDonarDob);
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            age = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
         bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
         mob = getStringDataFromEditText(mDonarMob);
         address = getStringDataFromEditText(mDonarAddress);

@@ -30,7 +30,7 @@ import butterknife.OnItemClick;
 public class AddMemberFragment extends UserFragment {
 
     private static View mAddMemberView;
-    private static String name, gender, age, bloodGroup, mob, state, city, availability;
+    private static String name, gender, age, bloodGroup, mob, address, state, city, availability, authorization;
     @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
     @Bind(R.id.blood_grp_error_layout) LinearLayout mBloodGrpErrorLayout;
     @Bind(R.id.address_error) TextView mAddressError;
@@ -45,9 +45,11 @@ public class AddMemberFragment extends UserFragment {
     @Bind(R.id.age_group) RadioGroup mAgeGroup;
     @Bind(R.id.donar_blood_group) Spinner mDonarBloodGroup;
     @Bind(R.id.donar_mob) EditText mDonarMob;
+    @Bind(R.id.donar_address) EditText mDonarAddress;
     @Bind(R.id.donar_state) Spinner mDonarState;
     @Bind(R.id.donar_city) Spinner mDonarCity;
     @Bind(R.id.availability_status) RadioGroup mAvailabilityStatus;
+    @Bind(R.id.donar_authorization) CheckBox mDonarAuthorization;
     @Bind(R.id.add_member) Button mAddMember;
 
     public static AddMemberFragment newInstance() {
@@ -135,6 +137,10 @@ public class AddMemberFragment extends UserFragment {
             mDonarMob.setError(Constants.mobErrorText);
             validation = false;
         }
+        if(address.equals("")){
+            mDonarAddress.setError(Constants.commonErrorText);
+            validation = false;
+        }
         if(state.equals("--select state--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
             validation = false;
@@ -154,26 +160,28 @@ public class AddMemberFragment extends UserFragment {
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();
             if (isAllFieldsValid){
-                Member member = setDataInModal(new Member());
+                Donar Donar = setDataInModal(new Donar());
                 Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
             }
         }
     };
 
-    private Member setDataInModal(Member member) {
-        member.setName(name);
-        member.setGender(gender);
-        member.setAgeGroup(age);
-        member.setBloodGroup(bloodGroup);
-        member.setMobile(mob);
-        member.setState(state);
-        member.setCity(city);
-        member.setAvailability(availability);
-        return member;
+    private Donar setDataInModal(Donar donar) {
+        donar.setName(name);
+        donar.setGender(gender);
+        donar.setAgeGroup(age);
+        donar.setBloodGroup(bloodGroup);
+        donar.setMobile(mob);
+        donar.setAddress(address);
+        donar.setState(state);
+        donar.setCity(city);
+        donar.setAvailability(availability);
+        donar.setAuthorization(authorization);
+        return donar;
     }
 
     private void resetData() {
-        name = gender = age = bloodGroup = mob = state = city = availability = null;
+        name = gender = age = bloodGroup = mob = address = state = city = availability = authorization = null;
     }
 
     private void setDataInStringFormat() {
@@ -186,14 +194,15 @@ public class AddMemberFragment extends UserFragment {
         }
         bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
         mob = getStringDataFromEditText(mDonarMob);
+        address = getStringDataFromEditText(mDonarAddress);
         state = getStringDataFromSpinner(mDonarState);
         city = getStringDataFromSpinner(mDonarCity);
         availability = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
+        authorization = mDonarAuthorization.isChecked()? "True" : "False";
     }
 
     @Override
     protected String getTitle() {
         return Constants.kAddMemberFragment;
     }
-
 }

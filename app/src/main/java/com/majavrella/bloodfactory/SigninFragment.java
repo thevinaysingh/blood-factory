@@ -22,18 +22,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.majavrella.bloodfactory.activities.MainActivity;
-import com.majavrella.bloodfactory.base.BaseFragment;
+import com.majavrella.bloodfactory.activities.BaseFragment;
+import com.majavrella.bloodfactory.base.Constants;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class SigninFragment extends BaseFragment {
 
-    private View signinFragment;
-    private EditText userName, userPassword;
-    private Button signin;
-    private TextView textRegister, lostPassword, emailError, passwordError;
-    private FrameLayout back;
-    private FirstFragment firstFragment;
-    private RegisterFragment registerFragment;
-    private CheckBox showPassword;
+    private static View mSigninFragment;
+    @Bind(R.id.user_mob) EditText mUserMobile;
+    @Bind(R.id.user_password) EditText mUserPassword;
+    @Bind(R.id.show_password) CheckBox mShowPassword;
+    @Bind(R.id.signin) Button mSignin;
+    @Bind(R.id.textRegister) TextView mTextRegister;
+    @Bind(R.id.lostPassword) TextView mLostPassword;
+    @Bind(R.id.back) FrameLayout mBack;
+
+    public static SigninFragment newInstance() {
+        return new SigninFragment();
+    }
 
     public SigninFragment() {
         // Required empty public constructor
@@ -42,116 +50,107 @@ public class SigninFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        signinFragment = inflater.inflate(R.layout.login_fragment, container, false);
-        firstFragment = new FirstFragment();
-        registerFragment = new RegisterFragment();
+        mSigninFragment = inflater.inflate(R.layout.login_fragment, container, false);
+        ButterKnife.bind(this, mSigninFragment);
 
-        userName = (EditText) signinFragment.findViewById(R.id.userEmail);
-        userPassword = (EditText) signinFragment.findViewById(R.id.userPassword);
-        showPassword = (CheckBox)signinFragment.findViewById(R.id.showPassword);
-        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(mActivity);
+                add(FirstFragment.newInstance()); }
+        });
+        mSignin.setOnClickListener(mSigninListener);
+        mTextRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(RegisterFragment.newInstance());}
+        });
+
+        mShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    userPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    mUserPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 } else {
-                    userPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    mUserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
             }
         });
-        emailError = (TextView) signinFragment.findViewById(R.id.emailError);
-        passwordError = (TextView) signinFragment.findViewById(R.id.passwordError);
-        back = (FrameLayout) signinFragment.findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFragmentTransaction.replace(R.id.front_fragment_container, firstFragment).commit();
-            }
-        });
+        mLostPassword.setOnClickListener(mLostPasswordListener);
 
-        lostPassword = (TextView) signinFragment.findViewById(R.id.lostPassword);
-        lostPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Lost password cliked!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        signin = (Button) signinFragment.findViewById(R.id.signin);
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isValid = dataValidation();
-                if (isValid){
-                    progress.setMessage("Validating user...");
-                    progress.show();
-                    String email = userName.getText().toString();
-                    String password = userPassword.getText().toString();
-                    email = email.trim();
-                    password = password.trim();
-                    mFirebaseAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        progress.dismiss();
-                                        Intent intent = new Intent(mActivity, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        Toast.makeText(mActivity, " Successfully login!!!", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        progress.dismiss();
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                                        builder.setMessage(task.getException().getMessage())
-                                                .setTitle(R.string.login_error_title)
-                                                .setPositiveButton(android.R.string.ok, null);
-                                        AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                    }
-                                }
-                            });
-                } else {
-                    progress.dismiss();
-                    Toast.makeText(mActivity, "Validation Error!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        textRegister = (TextView) signinFragment.findViewById(R.id.textRegister);
-        textRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFragmentTransaction.replace(R.id.front_fragment_container, registerFragment).commit();
-            }
-        });
-
-        return signinFragment;
+        return mSigninFragment;
     }
 
     private boolean dataValidation() {
-        boolean validation = false;
-        if(userName.getText().toString().equals("")){
+        boolean validation = true;
+        if(!isPhoneValid(mUserMobile.getText().toString())){
             validation = false;
-            emailError.setText("Enter your email please");
-            passwordError.setText("");
-        } else if(userPassword.getText().toString().equals("")){
+            mUserMobile.setError(Constants.mobErrorText);
+        }
+        if(mUserPassword.getText().toString().trim().length()<6){
             validation = false;
-            passwordError.setText("Password not set");
-            emailError.setText("");
-        } else if(!userName.getText().toString().contains("@")){
-            validation = false;
-            emailError.setText("Enter email in good format");
-            passwordError.setText("");
-        } else if(userPassword.getText().toString().length()<6){
-            validation = false;
-            passwordError.setText("Enter password in 6 letters");
-            emailError.setText("");
-        } else{
-            emailError.setText("");
-            passwordError.setText("");
-            validation = true;
+            mUserPassword.setError("Enter more than 6 characters");
         }
         return validation;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(mActivity);
+        super.onResume();
+    }
+
+    View.OnClickListener mSigninListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            boolean isAllFieldsValid = dataValidation();
+            if (isAllFieldsValid){
+                progress.setMessage("Validating user...");
+                progress.show();
+                progress.dismiss();
+                /*String email = userName.getText().toString();
+                String password = userPassword.getText().toString();
+                email = email.trim();
+                password = password.trim();
+                mFirebaseAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    progress.dismiss();
+                                    Intent intent = new Intent(mActivity, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    Toast.makeText(mActivity, " Successfully login!!!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    progress.dismiss();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                                    builder.setMessage(task.getException().getMessage())
+                                            .setTitle(R.string.login_error_title)
+                                            .setPositiveButton(android.R.string.ok, null);
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+                            }
+                        });*/
+            } else {
+                progress.dismiss();
+                Toast.makeText(mActivity, "Validation Error!!!", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    };
+
+    View.OnClickListener mLostPasswordListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getActivity(), "Lost password cliked!!", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Override
+    protected String getTitle() {
+        return Constants.kLoginFragment;
     }
 }

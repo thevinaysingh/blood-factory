@@ -1,5 +1,6 @@
-package com.majavrella.bloodfactory.base;
+package com.majavrella.bloodfactory.activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.majavrella.bloodfactory.activities.MainActivity;
 
 public class BaseFragment extends Fragment {
-	protected MainActivity mActivity;
+	protected Activity mActivity;
 	protected FirebaseAuth mFirebaseAuth;
 	protected FragmentManager mFragmentManager;
     protected FragmentTransaction mFragmentTransaction;
@@ -23,7 +24,7 @@ public class BaseFragment extends Fragment {
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		mActivity		=	(MainActivity) this.getActivity();
+		mActivity		=	(Activity) this.getActivity();
         mFragmentManager = getFragmentManager();
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFirebaseAuth = FirebaseAuth.getInstance();

@@ -6,7 +6,7 @@ package com.majavrella.bloodfactory.modal;
 
 public class Donar {
 
-    private static String name, gender, dob, bloodGroup, mobile, address, state, city, availability, authorization;
+    private static String name, gender, ageGroup, bloodGroup, mobile, address, state, city, availability, authorization;
 
     public Donar() {
       /*Blank default constructor essential for Firebase*/
@@ -27,12 +27,12 @@ public class Donar {
         this.gender = gender;
     }
 
-    //Getters and setters for dob
-    public String getDob() {
-        return dob;
+    //Getters and setters for age group
+    public String getAgeGroup() {
+        return ageGroup;
     }
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setAgeGroup(String ageGroup) {
+        this.ageGroup = ageGroup;
     }
 
     //Getters and setters for blood group

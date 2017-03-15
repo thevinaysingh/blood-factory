@@ -1,15 +1,12 @@
-package com.majavrella.bloodfactory.activities;
+package com.majavrella.bloodfactory.appbase;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
@@ -21,11 +18,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.majavrella.bloodfactory.R;
-import com.majavrella.bloodfactory.activities.MainActivity;
-import com.majavrella.bloodfactory.base.*;
-import com.majavrella.bloodfactory.user.UserActivity;
+import com.majavrella.bloodfactory.base.Constants;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 public abstract class BaseFragment extends Fragment {
     public MainActivity mActivity;
@@ -101,7 +96,7 @@ public abstract class BaseFragment extends Fragment {
 		return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
 	}
 
-    public void showDialog(String title, String msg) {
+    public void showDialogError(String title, String msg) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(true);
         builder.setTitle(title);

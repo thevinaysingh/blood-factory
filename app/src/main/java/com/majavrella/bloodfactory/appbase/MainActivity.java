@@ -1,17 +1,12 @@
-package com.majavrella.bloodfactory.activities;
+package com.majavrella.bloodfactory.appbase;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.FirstFragment;
 import com.majavrella.bloodfactory.R;
-import com.majavrella.bloodfactory.RegisterFragment;
 
 public class MainActivity extends BaseActivity {
 

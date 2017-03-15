@@ -1,10 +1,7 @@
 package com.majavrella.bloodfactory;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -18,11 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.majavrella.bloodfactory.activities.MainActivity;
-import com.majavrella.bloodfactory.activities.BaseFragment;
+import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.base.Constants;
 
 import butterknife.Bind;

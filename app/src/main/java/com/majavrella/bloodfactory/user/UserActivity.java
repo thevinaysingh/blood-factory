@@ -1,10 +1,7 @@
 package com.majavrella.bloodfactory.user;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.majavrella.bloodfactory.activities.MainActivity;
+import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BaseActivity;
 import com.majavrella.bloodfactory.base.Constants;

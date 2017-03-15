@@ -1,15 +1,12 @@
 package com.majavrella.bloodfactory;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-import com.majavrella.bloodfactory.activities.BaseFragment;
+import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
 import com.majavrella.bloodfactory.base.Constants;
 

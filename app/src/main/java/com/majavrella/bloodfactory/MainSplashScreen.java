@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ProgressBar;
 
-import com.majavrella.bloodfactory.activities.MainActivity;
-
-import butterknife.Bind;
+import com.majavrella.bloodfactory.appbase.MainActivity;
 
 public class MainSplashScreen extends Activity {
 

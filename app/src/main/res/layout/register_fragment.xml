@@ -7,7 +7,10 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:orientation="vertical"
         android:background="#35586c"
         android:focusable="true"
@@ -84,7 +87,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="end"
-            android:layout_marginTop="15dp">
+            android:layout_marginTop="5dp">
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

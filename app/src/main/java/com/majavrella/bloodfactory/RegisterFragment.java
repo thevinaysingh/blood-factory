@@ -1,17 +1,12 @@
 package com.majavrella.bloodfactory;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.telephony.SmsManager;
-import android.telephony.TelephonyManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +16,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.AuthConfig;
 import com.digits.sdk.android.Digits;
-import com.digits.sdk.android.DigitsAuthButton;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,24 +27,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.ProviderQueryResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.majavrella.bloodfactory.activities.BaseFragment;
+import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.base.Constants;
-import com.majavrella.bloodfactory.base.UserFragment;
-import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.modal.RegisterUser;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
-
-import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
+
+
 
 public class RegisterFragment extends BaseFragment {
 
@@ -81,10 +70,9 @@ public class RegisterFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         mRegisterFragment = inflater.inflate(R.layout.register_fragment, container, false);
         ButterKnife.bind(this, mRegisterFragment);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.kConsumerKey, Constants.kConsumerSecret);
         Fabric.with(mActivity, new TwitterCore(authConfig), new Digits.Builder().build());
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,62 +151,62 @@ public class RegisterFragment extends BaseFragment {
     };*/
 
     /*
-    View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            boolean isAllFieldsValid = dataValidation();
-            if (isAllFieldsValid){
-                progress.setMessage("Registering user...");
-                progress.show();
-                mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    progress.dismiss();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                                    builder.setMessage(R.string.register_success_msg)
-                                            .setTitle("Registration successful..thanks")
-                                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    mFragmentTransaction.replace(R.id.front_fragment_container, signinFragment).commit();
-                                                }
-                                            });
-                                    AlertDialog dialog = builder.create();
-                                    dialog.show();
-                                } else {
-                                    progress.dismiss();
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                                    builder.setMessage(task.getException().getMessage())
-                                            .setTitle(R.string.login_error_title)
-                                            .setPositiveButton(android.R.string.ok, null);
-                                    AlertDialog dialog = builder.create();
-                                    dialog.show();
+        View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isAllFieldsValid = dataValidation();
+                if (isAllFieldsValid){
+                    progress.setMessage("Registering user...");
+                    progress.show();
+                    mFirebaseAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        progress.dismiss();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                                        builder.setMessage(R.string.register_success_msg)
+                                                .setTitle("Registration successful..thanks")
+                                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        mFragmentTransaction.replace(R.id.front_fragment_container, signinFragment).commit();
+                                                    }
+                                                });
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    } else {
+                                        progress.dismiss();
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                                        builder.setMessage(task.getException().getMessage())
+                                                .setTitle(R.string.login_error_title)
+                                                .setPositiveButton(android.R.string.ok, null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    }
                                 }
-                            }
-                        });
-            }
-            else{
-                progress.dismiss();
-                Toast.makeText(mActivity, "Validation Error!!!", Toast.LENGTH_SHORT).show();
-            }
+                            });
+                }
+                else{
+                    progress.dismiss();
+                    Toast.makeText(mActivity, "Validation Error!!!", Toast.LENGTH_SHORT).show();
+                }
 
-        }
-    };
-*/
+            }
+        };
+    */
     AuthCallback authCallback = new AuthCallback() {
         @Override
         public void success(DigitsSession session, String phoneNumber) {
-           /* if(!phoneNumber.equals(mobile)){
+            if(!phoneNumber.equals(RegisterConstants.countryCode+mobile)){
+                showDialogError(RegisterConstants.phoneErrorTitle,RegisterConstants.phoneErrorText2 );
                 return;
-            }*/
-            progress.setMessage("Registering user...");
-            progress.show();
+            }
             RegisterUser registerUser = setDataInModal(new RegisterUser());
             mDatabase =  mDatabase.child("user_list");
-            mDatabase.setValue(registerUser);
-            final  String user_id = mobile+"@bloodfactory.com";
+            String temp_key = mDatabase.push().getKey();
+            mDatabase.child(temp_key).setValue(registerUser);
+           /* final  String user_id = mobile+"@bloodfactory.com";
             mFirebaseAuth = FirebaseAuth.getInstance();
             mFirebaseAuth.createUserWithEmailAndPassword(user_id,password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -239,15 +227,15 @@ public class RegisterFragment extends BaseFragment {
                         dialog.show();
                     } else {
                         progress.dismiss();
-                        showDialog("Registration Error", "Registration failed, Something went wrong.");
+                        showDialogError("Registration Error", "Registration failed, Something went wrong.");
                     }
                 }
-            });
+            });*/
         }
 
         @Override
         public void failure(DigitsException exception) {
-            showDialog("Token Verification", "You have enterered wrong code!");
+            showDialogError("Verification Error", "Something went wrong!");
         }
     };
 
@@ -271,27 +259,23 @@ public class RegisterFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             if(isNetworkAvailable()){
-                resetData();
-                setDataInStringFormat();
-                boolean isAllFieldsValid = dataValidation();
+                resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
                 if(isAllFieldsValid){
-                    progress.setMessage("Verifing user...");
-                    progress.show();
-                    Boolean isUserExist = checkIfUserExist(mobile+"@bloodfactory.com");
+                    progress.setMessage("Verifing user..."); progress.show();
+                    Boolean isUserExist = checkIfUserExist(mobile+RegisterConstants.userIdDummyTail);
                     if(isUserExist) {
                         progress.dismiss();
-                        showDialog("Mobile no Error", "This Mobile no is already registered.");
+                        showDialogError(RegisterConstants.phoneErrorTitle, RegisterConstants.phoneErrorText);
                         return;
                     } else {
                         progress.dismiss();
-                        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder()
-                                .withAuthCallBack(authCallback)
-                                .withPhoneNumber("+91"+mobile);
+                        Digits.logout();
+                        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
                         Digits.authenticate(authConfigBuilder.build());
                     }
                 }
             } else {
-                showDialog("Network Error", "Internet is not available.");
+                showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
             }
         }
     };

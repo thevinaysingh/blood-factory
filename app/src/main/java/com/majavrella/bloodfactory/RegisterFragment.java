@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.AuthConfig;
@@ -47,7 +49,6 @@ public class RegisterFragment extends BaseFragment {
     private static View mRegisterFragment;
     private String name, mobile, password;
     private DatabaseReference mDatabase;
-    private FirebaseAuth mFirebaseAuth;
     @Bind(R.id.user_name) EditText mUsername;
     @Bind(R.id.user_id) EditText mUserId;
     @Bind(R.id.user_password) EditText mUserPassword;
@@ -138,63 +139,6 @@ public class RegisterFragment extends BaseFragment {
         name = mobile = password = null;
     }
 
-    /*ValueEventListener checkIfUserExistListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };*/
-
-    /*
-        View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean isAllFieldsValid = dataValidation();
-                if (isAllFieldsValid){
-                    progress.setMessage("Registering user...");
-                    progress.show();
-                    mFirebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        progress.dismiss();
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                                        builder.setMessage(R.string.register_success_msg)
-                                                .setTitle("Registration successful..thanks")
-                                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        mFragmentTransaction.replace(R.id.front_fragment_container, signinFragment).commit();
-                                                    }
-                                                });
-                                        AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                    } else {
-                                        progress.dismiss();
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                                        builder.setMessage(task.getException().getMessage())
-                                                .setTitle(R.string.login_error_title)
-                                                .setPositiveButton(android.R.string.ok, null);
-                                        AlertDialog dialog = builder.create();
-                                        dialog.show();
-                                    }
-                                }
-                            });
-                }
-                else{
-                    progress.dismiss();
-                    Toast.makeText(mActivity, "Validation Error!!!", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        };
-    */
     AuthCallback authCallback = new AuthCallback() {
         @Override
         public void success(DigitsSession session, String phoneNumber) {
@@ -202,57 +146,79 @@ public class RegisterFragment extends BaseFragment {
                 showDialogError(RegisterConstants.phoneErrorTitle,RegisterConstants.phoneErrorText2 );
                 return;
             }
-            RegisterUser registerUser = setDataInModal(new RegisterUser());
-            mDatabase =  mDatabase.child("user_list");
-            String temp_key = mDatabase.push().getKey();
-            mDatabase.child(temp_key).setValue(registerUser);
-           /* final  String user_id = mobile+"@bloodfactory.com";
-            mFirebaseAuth = FirebaseAuth.getInstance();
-            mFirebaseAuth.createUserWithEmailAndPassword(user_id,password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+
+            progress.setMessage(RegisterConstants.registrationProgress);
+            progress.show();
+            final  String user_id = mobile+RegisterConstants.userIdDummyTail;
+            mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        setDataOnCloud();
                         progress.dismiss();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                        builder.setMessage(R.string.register_success_msg)
-                                .setTitle("Registration successful..thanks")
-                                .setIcon(R.drawable.success)
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        add(SigninFragment.newInstance());
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        showRegistrationSuccessDialog();
                     } else {
                         progress.dismiss();
-                        showDialogError("Registration Error", "Registration failed, Something went wrong.");
+                        showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
                     }
                 }
-            });*/
+            });
         }
 
         @Override
         public void failure(DigitsException exception) {
-            showDialogError("Verification Error", "Something went wrong!");
+            showDialogError(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
         }
     };
 
-    private boolean checkIfUserExist(final String user_id) {
-        final boolean[] userExistence = {false};
-        mFirebaseAuth = FirebaseAuth.getInstance();
+    private void setDataOnCloud() {
+        RegisterUser registerUser = setDataInModal(new RegisterUser());
+        mDatabase =  mDatabase.child(RegisterConstants.user_list_db);
+        String temp_key = mDatabase.push().getKey();
+        mDatabase.child(temp_key).setValue(registerUser);
+    }
+
+    private void showRegistrationSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage(R.string.register_success_msg)
+                .setTitle(R.string.register_success_title)
+                .setIcon(R.drawable.success)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        add(SigninFragment.newInstance());
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void checkIfUserExist(final String user_id) {
+        progress.setMessage(RegisterConstants.verificationProgress); progress.show();
         mFirebaseAuth.fetchProvidersForEmail(user_id).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
             @Override
             public void onComplete(@NonNull Task<ProviderQueryResult> task) {
                 if(task.isSuccessful()){
-                    userExistence[0] = true;
-                    task.getResult().getProviders();
-                    return;
+                    if(task.getResult().getProviders().size()>0){
+                        progress.dismiss();
+                        showDialogError(RegisterConstants.phoneErrorTitle, RegisterConstants.phoneErrorText);
+                        return;
+                    } else {
+                        progress.dismiss();
+                        authenticateUser();
+                    }
+                } else {
+                    progress.dismiss();
+                    showDialogError(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
                 }
             }
         });
-        return userExistence[0];
+    }
+
+    private void authenticateUser() {
+        Digits.logout();
+        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
+        Digits.authenticate(authConfigBuilder.build());
     }
 
     View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
@@ -261,18 +227,7 @@ public class RegisterFragment extends BaseFragment {
             if(isNetworkAvailable()){
                 resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
                 if(isAllFieldsValid){
-                    progress.setMessage("Verifing user..."); progress.show();
-                    Boolean isUserExist = checkIfUserExist(mobile+RegisterConstants.userIdDummyTail);
-                    if(isUserExist) {
-                        progress.dismiss();
-                        showDialogError(RegisterConstants.phoneErrorTitle, RegisterConstants.phoneErrorText);
-                        return;
-                    } else {
-                        progress.dismiss();
-                        Digits.logout();
-                        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
-                        Digits.authenticate(authConfigBuilder.build());
-                    }
+                    checkIfUserExist(mobile+RegisterConstants.userIdDummyTail);
                 }
             } else {
                 showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);

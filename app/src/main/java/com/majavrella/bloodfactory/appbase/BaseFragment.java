@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.register.RegisterConstants;
@@ -26,13 +27,16 @@ public abstract class BaseFragment extends Fragment {
     public MainActivity mActivity;
     private AddFragmentHandler fragmentHandler;
     protected ProgressDialog progress;
+	protected FirebaseAuth mFirebaseAuth;
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fragmentHandler = new AddFragmentHandler(getActivity().getSupportFragmentManager());
 		mActivity		=	(MainActivity) this.getActivity();
-		progress=new ProgressDialog(mActivity);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        progress=new ProgressDialog(mActivity);
 	}
 
 	@Override

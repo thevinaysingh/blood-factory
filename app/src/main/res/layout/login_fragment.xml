@@ -7,11 +7,14 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         android:orientation="vertical"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="#3b945c"
+        android:background="@drawable/background"
         android:gravity="start">
         <FrameLayout
             android:id="@+id/back"
@@ -19,7 +22,6 @@
             <ImageView
                 style="@style/back_button_image"/>
         </FrameLayout>
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +47,6 @@
                     android:textColor="@color/backgroundWhite"/>
             </LinearLayout>
         </FrameLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
             <EditText
                 android:hint="Mobile No"
                 android:id="@+id/user_mob"
-                style="@style/email_et"/>
+                style="@style/mob_et"/>
             <EditText
                 android:id="@+id/user_password"
                 android:hint="Password"
@@ -73,7 +74,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="center"
                 android:gravity="right"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="5dp">
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

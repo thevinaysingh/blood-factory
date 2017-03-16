@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BaseActivity;
@@ -35,6 +36,8 @@ public class UserActivity extends BaseActivity {
 
     @Bind(R.id.nav_view)
     LinearLayout navigationView;
+    static private FirebaseAuth mFirebaseAuth;
+
 
     @Bind(R.id.edit_profile) LinearLayout mEditProfile;
 
@@ -45,6 +48,7 @@ public class UserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
+        mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
         //navigationView.setNavigationItemSelectedListener(this);
@@ -141,7 +145,7 @@ public class UserActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.logout) {
-            //mFirebaseAuth.signOut();
+            mFirebaseAuth.signOut();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

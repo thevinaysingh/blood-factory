@@ -1,5 +1,6 @@
 package com.majavrella.bloodfactory.appbase;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
@@ -7,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.FirstFragment;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.user.UserActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,8 +24,7 @@ public class MainActivity extends BaseActivity {
         mFragmentManager = getSupportFragmentManager();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        loadLogInView();
-        /*if (mFirebaseUser == null) {
+        if (mFirebaseUser == null) {
             loadLogInView();
         }
         else {
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-        }*/
+        }
     }
 
     private void loadLogInView() {

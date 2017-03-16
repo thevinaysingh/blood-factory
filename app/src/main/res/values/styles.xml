@@ -175,7 +175,7 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_gravity">left</item>
-        <item name="android:src">@drawable/back_black</item>
+        <item name="android:src">@drawable/back_white_new</item>
     </style>
 
     <style name="header_layout">

@@ -11,8 +11,8 @@ public class RegisterConstants {
     public static final String user_list_db = "user_list";
 
     public static final String registrationProgress = "Registering user...";
-
     public static final String verificationProgress = "Verifying user...";
+    public static final String validationProgress = "Validating user...";
 
     public static final String phoneErrorTitle = "Phone error";
     public static final String phoneErrorText = "This Mobile no is already registered.";
@@ -26,4 +26,7 @@ public class RegisterConstants {
 
     public static final String verificationErrorTitle = "Verification Error";
     public static final String verificationErrorText = "Verification failed, Something went wrong.";
+
+    public static final String loginErrorTitle = "Login error";
+    public static final String loginErrorText = "Login failed, Something went wrong.";
 }

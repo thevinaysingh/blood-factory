@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/background"
+        android:background="@drawable/background_new"
         android:gravity="start">
         <FrameLayout
             android:id="@+id/back"
@@ -36,7 +36,7 @@
                 <ImageView
                     android:layout_width="@dimen/small_img_size"
                     android:layout_height="@dimen/small_img_size"
-                    android:src="@drawable/user_login"
+                    android:src="@drawable/user_icon_new"
                     android:clickable="false"/>
                 <TextView
                     android:layout_width="wrap_content"

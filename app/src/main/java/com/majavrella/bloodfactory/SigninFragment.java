@@ -65,6 +65,7 @@ public class SigninFragment extends BaseFragment {
         mTextRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(mActivity);
                 add(RegisterFragment.newInstance());}
         });
 
@@ -80,6 +81,7 @@ public class SigninFragment extends BaseFragment {
         });
         mLostPassword.setOnClickListener(mLostPasswordListener);
 
+        setStatusBarColor(Constants.colorLogin);
         return mSigninFragment;
     }
 
@@ -106,8 +108,14 @@ public class SigninFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(getActivity(), "Lost password cliked!!", Toast.LENGTH_SHORT).show();
+
+            getUserList(Constants.kUserList);
         }
     };
+
+    private void getUserList(String kUserList) {
+
+    }
 
     private void startUserActivity() {
         Intent intent = new Intent(mActivity, MainActivity.class);

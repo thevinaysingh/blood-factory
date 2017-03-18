@@ -8,6 +8,8 @@ public class Constants {
 
     public static final String kConsumerKey = "OcDNJGwlUg1XtfdGjmv4riYAC";
     public static final String kConsumerSecret = "KiCE5JBOsqkgOew9T9sCIfsFIs1w4A6MizjUtC4BTcU5raOiHT";
+    public static final String kBaseUrl = "https://blood-factory.firebaseio.com/";
+    public static final String kUserList = "user_list.json";
 
     public static final String nameRegex = "^[\\p{L}\\s]{1,}+$";
     public static final String emailRegex = "^[\\p{L}0-9!$'*+\\-_]+(\\.[\\p{L}0-9!$'*+\\-_]+)*@[\\p{L}0-9]+(\\-[\\p{L}0-9]+)*(\\.[\\p{L}0-9]+)*(\\.[\\p{L}]{2,})$";
@@ -41,4 +43,6 @@ public class Constants {
     public static final String commonErrorText = "It is not valid";
     public static final String stateErrorText = "Please, Select a state";
     public static final String cityErrorText = "Please, select a city";
+    public static final String colorGrey = "#848181";
+    public static final String colorLogin = "#730015";
 }

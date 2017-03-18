@@ -12,7 +12,7 @@
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         android:orientation="vertical"
-        android:background="#35586c"
+        android:background="@drawable/background_new"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="start">
@@ -22,7 +22,6 @@
             <ImageView
                 style="@style/back_button_image"/>
         </FrameLayout>
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +36,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/user_icon"
+                    android:src="@drawable/edit_profile"
                     android:clickable="false"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,7 +49,6 @@
             </LinearLayout>
 
         </FrameLayout>
-
         <EditText
             android:id="@+id/user_name"
             android:hint="Full name"
@@ -64,15 +62,6 @@
             android:id="@+id/user_password"
             android:hint="Password (6 to 16 chars)"
             style="@style/password_et"/>
-    <!--
-
-        <com.digits.sdk.android.DigitsAuthButton
-            android:id="@+id/auth_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    -->
-
         <CheckBox
             android:id="@+id/show_password"
             android:text="Show password"
@@ -81,7 +70,6 @@
             android:textColor="@color/backgroundWhite"
             android:textSize="14sp"
             android:layout_marginBottom="5dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +88,6 @@
                 android:gravity="center">
             </Button>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

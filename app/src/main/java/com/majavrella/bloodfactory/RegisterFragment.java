@@ -83,7 +83,9 @@ public class RegisterFragment extends BaseFragment {
         mRegister.setOnClickListener(mRegisterButtonListener);
         mTextSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { add(SigninFragment.newInstance()); }
+            public void onClick(View v) {
+                hideKeyboard(mActivity);
+                add(SigninFragment.newInstance()); }
         });
 
         mShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -96,6 +98,7 @@ public class RegisterFragment extends BaseFragment {
                 }
             }
         });
+        setStatusBarColor(Constants.colorLogin);
         return mRegisterFragment;
     }
 

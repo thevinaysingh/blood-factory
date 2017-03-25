@@ -10,6 +10,8 @@ public class Constants {
     public static final String kConsumerSecret = "KiCE5JBOsqkgOew9T9sCIfsFIs1w4A6MizjUtC4BTcU5raOiHT";
     public static final String kBaseUrl = "https://blood-factory.firebaseio.com/";
     public static final String kUserList = "user_list.json";
+    public static final String kMobileString = "mobile";
+    public static final String kPasswordString = "password";
 
     public static final String nameRegex = "^[\\p{L}\\s]{1,}+$";
     public static final String emailRegex = "^[\\p{L}0-9!$'*+\\-_]+(\\.[\\p{L}0-9!$'*+\\-_]+)*@[\\p{L}0-9]+(\\-[\\p{L}0-9]+)*(\\.[\\p{L}0-9]+)*(\\.[\\p{L}]{2,})$";

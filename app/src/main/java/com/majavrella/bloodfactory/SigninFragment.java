@@ -1,10 +1,13 @@
 package com.majavrella.bloodfactory;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -31,6 +34,7 @@ import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.register.RegisterConstants;
+import com.majavrella.bloodfactory.user.ForgotPassword;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,129 +132,39 @@ public class SigninFragment extends BaseFragment {
     View.OnClickListener mLostPasswordListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), "Lost password cliked!!", Toast.LENGTH_SHORT).show();
             if(isNetworkAvailable()){
-                getUserList(Constants.kUserList);
-                new JsonTask().execute(Constants.kBaseUrl+Constants.kUserList);
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                ForgotPassword forgotPassword = new ForgotPassword();
+                forgotPassword.show(manager, "password_layout");
             } else {
                 showDialogError(RegisterConstants.networkErrorTitle,RegisterConstants.networkErrorText);
             }
         }
     };
 
-    private class JsonTask extends AsyncTask<String, String, JSONObject> {
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progress.setMessage("Please wait...");
-            progress.setCancelable(false);
-            progress.show();
-        }
-
-        protected JSONObject doInBackground(String... params) {
-
-
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                    //JSONObject jObject = new JSONObject(line);
-
-                   /* if (jObject.has("name")) {
-
-                        String temp = jObject.getString("name");
-                        Log.e("name",temp);
-
-                    }
-                     */  //here u ll get whole response...... :-)
-                    Log.d("Response: ", "> " + line);
-                }
-
-                /*JsonParser parser = new JsonParser();
-                JsonElement tradeElement = parser.parse(buffer.toString());
-                JsonArray trade = tradeElement.getAsJsonArray();
-                Log.d("Response: ", "> " + trade);*/
-
-
-                JSONObject jsonObject = new JSONObject(buffer.toString());
-                return jsonObject;
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-            progress.dismiss();
-            ArrayList<HashMap<String, String>> contactList;
-            JSONObject jsonArray = new JSONObject();
-            JSONArray jsonArr= new JSONArray();
-            Iterator iterator = result.keys();
-            while (iterator.hasNext()){
-                String key = (String) iterator.next();
-                try {
-                    jsonArr.put(result.getJSONObject(key));
-                    jsonArray = result.getJSONObject(key);
-
-                    Log.d("User list ---", String.valueOf(jsonArray));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //jsonArray.put(key);
-            }
-
-            try {
-                Object object = jsonArr.get(0);
-                Log.d("Object -- ", String.valueOf(object));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            JSONArray jsonArray1 = result.names();
-            Log.d("no of users", String.valueOf(result.length()));
-            Log.d("no user", String.valueOf(jsonArray.length()));
-            Log.d("jsonArr -- ", String.valueOf(jsonArr));
-
-
-            //JSONObject jsonObject= new JSONObject(result);
-            //JsonArray jsonArray = new JsonArray();
-
-        }
-    }
 
     private void getUserList(String kUserList) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setTitle("Lost password ?");
+        alertDialogBuilder.setIcon(R.drawable.error);
+        alertDialogBuilder.setMessage("Enter your mobile no and select get my password");
 
+        alertDialogBuilder.setPositiveButton("Get my password", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void startUserActivity() {

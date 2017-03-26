@@ -16,7 +16,7 @@ public class RegisterConstants {
 
     public static final String phoneErrorTitle = "Phone error";
     public static final String phoneErrorText = "This Mobile no is already registered.";
-    public static final String registerErrorText = "You are not registered user.";
+    public static final String registerErrorText = "Oops, You are not registered user.";
     public static final String phoneErrorText2 = "Got different phone number.";
 
     public static final String networkErrorTitle = "Network Error";
@@ -30,4 +30,6 @@ public class RegisterConstants {
 
     public static final String loginErrorTitle = "Login error";
     public static final String loginErrorText = "Login failed, Something went wrong.";
+
+    public static final String ErrorText = "Something went wrong.";
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -137,35 +138,10 @@ public class SigninFragment extends BaseFragment {
                 ForgotPassword forgotPassword = new ForgotPassword();
                 forgotPassword.show(manager, "password_layout");
             } else {
-                showDialogError(RegisterConstants.networkErrorTitle,RegisterConstants.networkErrorText);
+                showSnackbar(RegisterConstants.networkErrorText);
             }
         }
     };
-
-
-    private void getUserList(String kUserList) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setTitle("Lost password ?");
-        alertDialogBuilder.setIcon(R.drawable.error);
-        alertDialogBuilder.setMessage("Enter your mobile no and select get my password");
-
-        alertDialogBuilder.setPositiveButton("Get my password", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
 
     private void startUserActivity() {
         Intent intent = new Intent(mActivity, MainActivity.class);
@@ -211,6 +187,15 @@ public class SigninFragment extends BaseFragment {
 
         }
     };
+
+    public void showSnackbar(String text) {
+        final Snackbar snackbar = Snackbar.make(mSigninFragment, text, Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {  }
+                });
+        snackbar.show();
+    }
 
     @Override
     protected String getTitle() {

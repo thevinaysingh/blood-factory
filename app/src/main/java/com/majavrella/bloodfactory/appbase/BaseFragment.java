@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
@@ -32,7 +34,7 @@ public abstract class BaseFragment extends Fragment {
     private AddFragmentHandler fragmentHandler;
     protected ProgressDialog progress;
 	protected FirebaseAuth mFirebaseAuth;
-
+	public CoordinatorLayout coordinatorLayout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,8 @@ public abstract class BaseFragment extends Fragment {
 		mActivity		=	(MainActivity) this.getActivity();
         mFirebaseAuth = FirebaseAuth.getInstance();
         progress=new ProgressDialog(mActivity);
-	}
+		coordinatorLayout = new CoordinatorLayout(mActivity);
+    }
 
 	@Override
 	public void onResume() {
@@ -49,7 +52,7 @@ public abstract class BaseFragment extends Fragment {
 		getActivity().setTitle(getTitle());
 	}
 
-    public static void hideKeyboard(Context ctx) {
+    public void hideKeyboard(Context ctx) {
         InputMethodManager inputManager = (InputMethodManager) ctx
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         // check if no view has focus:
@@ -132,5 +135,14 @@ public abstract class BaseFragment extends Fragment {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor(color));
         }
+	}
+
+	public void showSnackbar(String text) {
+		final Snackbar snackbar = Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_LONG)
+				.setAction("OK", new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {  }
+				});
+		snackbar.show();
 	}
 }

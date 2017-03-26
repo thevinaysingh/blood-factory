@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -24,6 +26,9 @@ import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.api.APIConstant;
+import com.majavrella.bloodfactory.api.APIManager;
+import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.register.RegisterConstants;
@@ -72,11 +77,8 @@ public class ForgotPassword extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mobile = mUserMobile.getText().toString().trim();
-                boolean isMobileFieldValid = mobile.matches(Constants.mobRegex);
                 if(mobile.matches(Constants.mobRegex)){
-                    BaseFragment.hideKeyboard(getContext());
-                    new FPJsonTask().execute(Constants.kBaseUrl+Constants.kUserList);
-                    dismiss();
+                    getJsonData(Constants.kBaseUrl+Constants.kUserList);
                 }else{
                     mUserMobile.setError(Constants.mobErrorText);
                 }
@@ -85,21 +87,14 @@ public class ForgotPassword extends DialogFragment {
         return mForgotPassword;
     }
 
-    private void authenticateUser(final String mobile) {
-        Digits.logout();
-        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
-        Digits.authenticate(authConfigBuilder.build());
-    }
-
     AuthCallback authCallback = new AuthCallback() {
         @Override
         public void success(DigitsSession session, String phoneNumber) {
-            successDialog();
-            /*if(!phoneNumber.equals(RegisterConstants.countryCode+mobile)){
+            if(!phoneNumber.equals(RegisterConstants.countryCode+mobile)){
                 showErrorDialog(RegisterConstants.phoneErrorTitle, RegisterConstants.phoneErrorText2);
             } else {
                 successDialog();
-            }*/
+            }
         }
 
         @Override
@@ -107,92 +102,6 @@ public class ForgotPassword extends DialogFragment {
             showErrorDialog(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
         }
     };
-
-    private void successDialog() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
-        alertDialogBuilder.setCancelable(true);
-        alertDialogBuilder.setTitle("My Password");
-        alertDialogBuilder.setIcon(R.drawable.success);
-        alertDialogBuilder.setMessage("Successfully verified. Your password is ["+userPassword+"]. can change password after login only.");
-        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
-                dismiss();
-            }
-        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    private class FPJsonTask extends AsyncTask<String, String, JSONObject> {
-        ProgressDialog progress;
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progress = new ProgressDialog(getActivity());
-            progress.setMessage("Please wait...");
-            progress.setCancelable(false);
-            progress.show();
-        }
-
-        protected JSONObject doInBackground(String... params) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream stream = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
-                }
-                JSONObject jsonObject = new JSONObject(buffer.toString());
-                return jsonObject;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject result) {
-            progress.dismiss();
-            Iterator iterator = result.keys();
-
-            while (iterator.hasNext()){
-                String key = (String) iterator.next();
-                try {
-                    if(result.getJSONObject(key).get(Constants.kMobileString).toString().equals(mobile)){
-                        userPassword = result.getJSONObject(key).get(Constants.kPasswordString).toString();
-                        authenticateUser(mobile);
-                    }
-                } catch (JSONException e) {
-                    dismiss();
-                    e.printStackTrace();
-                }
-            }
-            //showErrorDialog(RegisterConstants.phoneErrorTitle, RegisterConstants.registerErrorText);
-        }
-    }
 
     private void showErrorDialog(String title, String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
@@ -208,5 +117,66 @@ public class ForgotPassword extends DialogFragment {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void successDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setTitle("My Password");
+        alertDialogBuilder.setIcon(R.drawable.success);
+        alertDialogBuilder.setMessage("Successfully verified. Your password is ["+userPassword+"]. can change password after login only.");
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) { dismiss(); }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void getJsonData(final String url) {
+
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        verifyUser(json);
+                        break;
+                    case API_FAIL:
+                        break;
+                    case API_NETWORK_FAIL:
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+    }
+
+    private void authenticateUser(final String mobile) {
+        Digits.logout();
+        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
+        Digits.authenticate(authConfigBuilder.build());
+    }
+
+    private void verifyUser(JSONObject result) {
+        boolean isUserRegistered = false;
+        Iterator iterator = result.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(result.getJSONObject(key).get(Constants.kMobileString).toString().equals(mobile)){
+                    isUserRegistered = true;
+                    userPassword = result.getJSONObject(key).get(Constants.kPasswordString).toString();
+                    authenticateUser(mobile);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(!isUserRegistered){
+            showErrorDialog(RegisterConstants.registrationErrorTitle, RegisterConstants.registerErrorText);
+        }
     }
 }

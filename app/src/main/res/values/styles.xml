@@ -246,4 +246,12 @@
         <item name="android:layout_weight">1</item>
         <item name="android:padding">@dimen/very_small_distance</item>
     </style>
+
+    <style name="edit_image">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@drawable/edit_white</item>
+    </style>
+
 </resources>

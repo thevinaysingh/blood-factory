@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/common_page_color">
+        android:alpha="0.5"
+        android:background="@drawable/profile_background">
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,10 +79,7 @@
                     android:text="No Name set"/>
                 <ImageView
                     android:id="@+id/user_name_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:clickable="true"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/user_name_edit_text"
@@ -113,9 +111,7 @@
                     android:text="Mobile no is not set"/>
                 <ImageView
                     android:id="@+id/user_mob_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/user_mob_edit_text"
@@ -146,9 +142,7 @@
                     android:text="Gender not set"/>
                 <ImageView
                     android:id="@+id/user_gender_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/user_gender_edit_box"
@@ -217,9 +211,7 @@
                     android:text="No email id set"/>
                 <ImageView
                     android:id="@+id/user_email_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/user_email_edit_text"
@@ -250,9 +242,7 @@
                     android:text="No blood group selected"/>
                 <ImageView
                     android:id="@+id/user_blood_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <Spinner
                 android:id="@+id/user_blood_edit_box"
@@ -284,9 +274,7 @@
                     android:text="Date of birth is not set"/>
                 <ImageView
                     android:id="@+id/user_dob_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/user_dob_edit_text"
@@ -319,9 +307,7 @@
                     android:text="No Address set"/>
                 <ImageView
                     android:id="@+id/user_address_edit"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/edit"/>
+                    style="@style/edit_image"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/user_address_edit_box"

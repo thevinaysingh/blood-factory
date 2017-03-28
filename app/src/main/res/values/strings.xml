@@ -69,4 +69,5 @@
     <string name="availability_text">Please, confirm member availbility to donate</string>
     <string name="available">Available</string>
     <string name="unavailable">Unavailable</string>
+    <string name="guidance_tag_line">Blood is the most precious gift\nTake a look who can give you whom</string>
 </resources>

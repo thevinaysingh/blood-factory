@@ -144,13 +144,27 @@ public class UserActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.logout) {
-            mFirebaseAuth.signOut();
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            Toast.makeText(this, " Successfully logout!!!", Toast.LENGTH_SHORT).show();
+        switch(id){
+            case R.id.notification:
+                Toast.makeText(this, "Notification in WIP", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.guidance:
+                add(GuidanceFragment.newInstance());
+                break;
+            case R.id.about_us:
+                break;
+            case R.id.faqs:
+                break;
+            case R.id.logout:
+                mFirebaseAuth.signOut();
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                Toast.makeText(this, " Successfully logout!!!", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

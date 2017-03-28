@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:alpha="0.9"
+        android:background="@drawable/guidance_background">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/medium_distance"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/very_small_distance">
+                    <ImageView
+                        android:layout_width="@dimen/medium_img_size"
+                        android:layout_height="@dimen/medium_img_size"
+                        android:src="@drawable/guidance_icon"
+                        android:clickable="false"/>
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:text="@string/guidance_tag_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/backgroundWhite"
+                android:textSize="@dimen/medium_text"
+                android:gravity="center" />
+            <View
+                style="@style/black_separator"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="Blood Type"
+                android:textColor="@color/black"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="Donate to"
+                android:textColor="@color/black"
+                style="@style/guidanceText"
+                android:fontFamily="sans-serif"/>
+            <TextView
+                android:text="Recieve from"
+                android:textColor="@color/black"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="A+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="A+, AB+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="A+, A-\nO+, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="A-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="A+, A-\nAB+, AB-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="A-, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="B+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="B+, AB+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="B+, B-\n\O+, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="B-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="B+, B-\nAB+, AB-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="B-, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="AB+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="AB+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="Everyone"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="AB-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="AB+, AB-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="AB-, A-\nB-, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="O+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="O+, A+,\nB+, AB+"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="O+, O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_distance"
+            android:background="@drawable/rectangle_border"
+            android:orientation="horizontal">
+            <TextView
+                android:text="O-"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="Everyone"
+                style="@style/guidanceText"/>
+            <TextView
+                android:text="O-"
+                style="@style/guidanceText"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

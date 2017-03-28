@@ -47,4 +47,7 @@ public class Constants {
     public static final String cityErrorText = "Please, select a city";
     public static final String colorGrey = "#848181";
     public static final String colorLogin = "#730015";
+    public static final String colorUserHome = "#375270";
+    //public static final String colorStatusBar = "#2f635f";
+    public static final String colorStatusBar = "#35586c";
 }

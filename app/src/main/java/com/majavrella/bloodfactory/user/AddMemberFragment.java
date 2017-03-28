@@ -66,6 +66,7 @@ public class AddMemberFragment extends UserFragment {
         mAddMemberView = inflater.inflate(R.layout.fragment_add_member, container, false);
         ButterKnife.bind(this, mAddMemberView);
 
+        setStatusBarColor(Constants.colorStatusBar);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}

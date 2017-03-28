@@ -68,6 +68,7 @@ public class DonateFragment extends UserFragment {
         mDonateFragment = inflater.inflate(R.layout.fragment_donate, container, false);
         ButterKnife.bind(this, mDonateFragment);
 
+        setStatusBarColor(Constants.colorStatusBar);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) { hideIt(mGenderErrorLayout); }

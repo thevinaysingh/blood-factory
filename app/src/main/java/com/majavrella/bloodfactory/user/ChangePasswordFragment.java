@@ -44,6 +44,7 @@ public class ChangePasswordFragment extends UserFragment {
         mChangePasswordView = inflater.inflate(R.layout.fragment_change_password, container, false);
         ButterKnife.bind(this, mChangePasswordView);
 
+        setStatusBarColor(Constants.colorStatusBar);
         mChangePassword.setOnClickListener(mChangePasswordListener);
         return mChangePasswordView;
     }

@@ -71,6 +71,7 @@ public class BloodRequestFragment extends UserFragment {
         mBloodRequestView = inflater.inflate(R.layout.fragment_blood_request, container, false);
         ButterKnife.bind(this, mBloodRequestView);
 
+        setStatusBarColor(Constants.colorStatusBar);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}

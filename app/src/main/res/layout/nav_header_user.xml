@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/side_nav_bar"
+    android:background="@color/header_color"
     android:gravity="bottom"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -48,7 +48,7 @@
         android:layout_width="0dp"
         android:orientation="vertical"
         android:layout_height="match_parent"
-        android:gravity="bottom|end"
+        android:layout_marginTop="18dp"
         android:layout_weight="1">
         <LinearLayout
             android:id="@+id/edit_profile"
@@ -61,40 +61,17 @@
             android:background="@drawable/circle_transparent_drawable"
             android:weightSum="1">
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/edit_profile_view"/>
-            <TextView
+            <!--<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Edit\nProfile"
                 android:textStyle="bold"
-                android:textSize="@dimen/very_small_text"
-                android:textColor="@color/backgroundWhite" />
+                android:textSize="@dimen/very_very_small_text"
+                android:textColor="@color/backgroundWhite" />-->
         </LinearLayout>
-<!--
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/find_blood"
-            android:clickable="false"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Edit\nProfile"
-            android:textStyle="bold"
-            android:textSize="@dimen/small_text"
-            android:textColor="@color/backgroundWhite" />
-        <TextView
-            android:background="@drawable/circle_transparent_drawable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:text="Edit\nProfile"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
--->
     </LinearLayout>
 
 </LinearLayout>

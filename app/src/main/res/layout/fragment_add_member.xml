@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/backgroundWhite">
-
+        android:background="@color/common_page_color">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +43,6 @@
             <View
                 style="@style/white_separator"/>
         </LinearLayout>
-
         <EditText
             android:id="@+id/donar_name"
             android:hint="@string/placeholder_name"
@@ -52,7 +50,6 @@
             style="@style/username_et">
             <requestFocus />
         </EditText>
-
         <LinearLayout
             android:id="@+id/gender_error_layout"
             android:visibility="gone"
@@ -107,7 +104,6 @@
                     android:layout_weight="1"/>
             </RadioGroup>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/age_error_layout"
             android:visibility="gone"
@@ -163,7 +159,6 @@
                     android:layout_weight="1"/>
             </RadioGroup>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/blood_grp_error_layout"
             android:visibility="gone"
@@ -183,21 +178,18 @@
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
             android:background="@drawable/rectangle_border_edittext"/>
-
         <EditText
             android:id="@+id/donar_mob"
             android:hint="@string/placeholder_mob"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/mob_et">
         </EditText>
-
         <EditText
             android:id="@+id/donar_address"
             android:hint="Address"
             android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
         </EditText>
-
         <LinearLayout
             android:id="@+id/address_error_layout"
             android:visibility="gone"
@@ -234,7 +226,6 @@
                 style="@style/editText">
             </Spinner>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -290,8 +281,6 @@
             android:textSize="14sp"
             android:checked="true"
             android:layout_margin="5dp"/>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

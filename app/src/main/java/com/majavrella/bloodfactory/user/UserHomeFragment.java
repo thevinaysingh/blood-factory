@@ -40,6 +40,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                              Bundle savedInstanceState) {
         userHomeFragment = inflater.inflate(R.layout.fragment_user_home, container, false);
         ButterKnife.bind(this, userHomeFragment);
+        setStatusBarColor(Constants.colorUserHome);
         mDonateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,6 +11,7 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="very_small_text">14sp</dimen>
+    <dimen name="very_very_small_text">12sp</dimen>
     <dimen name="small_text">16sp</dimen>
     <dimen name="medium_text">18sp</dimen>
     <dimen name="big_text">20sp</dimen>

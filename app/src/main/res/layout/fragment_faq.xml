@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/small_distance"
+        android:background="@drawable/faq_background">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/medium_distance"
+            android:orientation="vertical">
+<!--
+            <TextView
+                android:id="@+id/ask_quest"
+                android:clickable="true"
+                android:text="@string/ask_quest_str"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/big_distance"
+                android:textColor="@color/backgroundWhite"
+                android:textSize="@dimen/big_text"
+                android:gravity="right" />
+-->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/very_small_distance">
+                    <ImageView
+                        android:layout_width="@dimen/small_img_size"
+                        android:layout_height="@dimen/small_img_size"
+                        android:src="@drawable/faq_logo"
+                        android:clickable="false"/>
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:id="@+id/ask_quest"
+                android:clickable="true"
+                android:text="@string/faq_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/big_distance"
+                android:textColor="@color/backgroundWhite"
+                android:textSize="@dimen/big_text"
+                android:gravity="center" />
+            <View
+                style="@style/white_separator"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear_card_view">
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

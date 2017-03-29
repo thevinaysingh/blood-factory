@@ -154,6 +154,7 @@ public class UserActivity extends BaseActivity {
             case R.id.about_us:
                 break;
             case R.id.faqs:
+                add(FAQFragment.newInstance());
                 break;
             case R.id.logout:
                 mFirebaseAuth.signOut();

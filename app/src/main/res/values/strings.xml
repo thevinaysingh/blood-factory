@@ -70,4 +70,6 @@
     <string name="available">Available</string>
     <string name="unavailable">Unavailable</string>
     <string name="guidance_tag_line">Blood is the most precious gift\nTake a look who can give you whom</string>
+    <string name="ask_quest_str">Ask</string>
+    <string name="faq_tag">Frequently asked questions</string>
 </resources>

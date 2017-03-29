@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/user_home_background">
+    android:background="@drawable/home_background">
 
     <LinearLayout
         android:layout_width="match_parent"

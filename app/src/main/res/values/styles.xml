@@ -254,4 +254,33 @@
         <item name="android:src">@drawable/edit_white</item>
     </style>
 
+    <style name="expand_quest">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@drawable/next_arrow</item>
+    </style>
+
+    <style name="faq_quest">
+        <item name="android:textColor">@color/quest_color</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingRight">@dimen/very_small_distance</item>
+        <item name="android:paddingTop">@dimen/very_small_distance</item>
+        <item name="android:paddingBottom">@dimen/very_small_distance</item>
+        <item name="android:textSize">@dimen/medium_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">start|center_horizontal</item>
+    </style>
+
+    <style name="faq_answer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/backgroundWhite</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">start|center_horizontal</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

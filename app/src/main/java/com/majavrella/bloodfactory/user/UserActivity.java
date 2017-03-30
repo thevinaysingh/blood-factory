@@ -51,7 +51,6 @@ public class UserActivity extends BaseActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
-        //navigationView.setNavigationItemSelectedListener(this);
         add(UserHomeFragment.newInstance());
         mEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,6 +151,7 @@ public class UserActivity extends BaseActivity {
                 add(GuidanceFragment.newInstance());
                 break;
             case R.id.about_us:
+                add(AboutUs.newInstance());
                 break;
             case R.id.faqs:
                 add(FAQFragment.newInstance());

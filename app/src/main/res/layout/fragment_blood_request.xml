@@ -12,20 +12,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:background="@color/common_page_color">
+            android:paddingTop="@dimen/medium_distance"
+            android:paddingRight="@dimen/medium_distance"
+            android:paddingLeft="@dimen/medium_distance">
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/medium_img_size"
+                    android:layout_height="@dimen/medium_img_size"
                     android:src="@drawable/blood_request"
                     android:clickable="false"/>
             </FrameLayout>
             <TextView
-                android:text="Your request is most valuable"
+                android:text="@string/blood_request_tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/backgroundWhite"
@@ -37,8 +38,8 @@
 
         <EditText
             android:id="@+id/patient_name"
-            android:hint="Patient name"
-            android:background="@drawable/rectangle_border_edittext"
+            android:hint="@string/placeholder_patient_name"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/username_et">
             <requestFocus />
         </EditText>
@@ -48,7 +49,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/gender_error"
@@ -60,14 +61,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="5dp"
-            android:layout_margin="5dp"
-            android:paddingLeft="5dp">
+            android:paddingTop="@dimen/very_small_distance"
+            android:layout_margin="@dimen/very_small_distance"
+            android:paddingLeft="@dimen/very_small_distance">
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
-                android:text="Gender"
-                android:textColor="@color/black"
+                android:text="@string/gender"
+                android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -81,18 +82,18 @@
                     android:id="@+id/genderFemale"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Female"
+                    android:text="@string/gender_female"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
                 <RadioButton
                     android:id="@+id/genderMale"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="@string/gender_male"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -103,7 +104,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/age_error"
@@ -115,14 +116,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="5dp"
-            android:layout_margin="5dp"
-            android:paddingLeft="5dp">
+            android:paddingTop="@dimen/very_small_distance"
+            android:layout_margin="@dimen/very_small_distance"
+            android:paddingLeft="@dimen/very_small_distance">
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
-                android:text="Age group"
-                android:textColor="@color/black"
+                android:text="@string/age_group_text"
+                android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -136,9 +137,9 @@
                     android:id="@+id/above18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="18+"
+                    android:text="@string/age_group_text_18"
                     android:checked="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
 
@@ -146,9 +147,9 @@
                     android:id="@+id/below18"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="35+"
+                    android:text="@string/age_group_text_35"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -159,7 +160,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/blood_grp_error"
@@ -169,15 +170,15 @@
         <Spinner
             android:id="@+id/patient_blood_group"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
-            android:background="@drawable/rectangle_border_edittext"/>
+            android:background="@drawable/rectangle_box_with_color"/>
 
         <EditText
             android:id="@+id/patient_mob"
-            android:hint="Mob no (10 digits)"
-            android:background="@drawable/rectangle_border_edittext"
+            android:hint="@string/placeholder_mob"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/mob_et">
         </EditText>
 
@@ -186,7 +187,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/address_error"
@@ -201,19 +202,19 @@
             <Spinner
                 android:id="@+id/patient_state"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_states"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_border_edittext"
+                android:background="@drawable/rectangle_box_with_color"
                 style="@style/editText">
             </Spinner>
             <Spinner
                 android:id="@+id/patient_city"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_cities"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_border_edittext"
+                android:background="@drawable/rectangle_box_with_color"
                 style="@style/editText">
             </Spinner>
         </LinearLayout>
@@ -221,25 +222,25 @@
         <EditText
             android:id="@+id/last_date_need"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:lines="1"
             android:inputType="date"
             android:maxLength="10"
             android:maxLines="1"
-            android:hint="Last date of need (dd/mm/yyyy)"
-            android:background="@drawable/rectangle_border_edittext"
+            android:hint="@string/placeholder_last_date"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/editText">
         </EditText>
 
         <EditText
             android:id="@+id/purpose_of_request"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="@dimen/medium_img_size"
             android:gravity="start"
             android:lines="3"
             android:maxLines="3"
-            android:hint="Purpose of request (optional)"
-            android:background="@drawable/rectangle_border_edittext"
+            android:hint="@string/placeholder_purpose"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/editText">
         </EditText>
 
@@ -254,8 +255,8 @@
                 android:id="@+id/post_blood_request"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Post request"
-                android:background="@drawable/roundend_border"
+                android:text="@string/post_req_btn_text"
+                android:background="@color/new_btn_color"
                 android:layout_weight="1"
                 style="@style/CommonButton"
                 android:gravity="center" />

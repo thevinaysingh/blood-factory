@@ -350,7 +350,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Update My Profile"
-                android:background="@drawable/roundend_border"
+                android:background="@color/new_btn_color"
                 android:layout_weight="1"
                 style="@style/CommonButton"
                 android:gravity="center" />

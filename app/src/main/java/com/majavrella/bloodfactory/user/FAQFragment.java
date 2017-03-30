@@ -37,7 +37,7 @@ public class FAQFragment extends UserFragment {
         ButterKnife.bind(this, mEditProfileView);
         
         createQandA(FaqQandA.faqQuestions, FaqQandA.faqAnswers);
-        setStatusBarColor(Constants.colorStatusBar);
+        setStatusBarColor(Constants.colorStatusBarSecondary);
         return mEditProfileView;
     }
 

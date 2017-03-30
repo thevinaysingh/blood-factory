@@ -51,6 +51,8 @@ public class GuidanceFragment extends UserFragment {
                              Bundle savedInstanceState) {
         mGuidanceView = inflater.inflate(R.layout.fragment_guidance, container, false);
         ButterKnife.bind(this, mGuidanceView);
+
+        setStatusBarColor(Constants.colorStatusBarSecondary);
         return mGuidanceView;
     }
 

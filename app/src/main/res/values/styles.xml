@@ -260,8 +260,14 @@
         <item name="android:src">@drawable/next_arrow</item>
     </style>
 
+    <style name="expand_quest_down">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:padding">@dimen/very_small_distance</item>
+    </style>
+
     <style name="faq_quest">
-        <item name="android:textColor">@color/quest_color</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>

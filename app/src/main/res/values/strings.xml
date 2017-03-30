@@ -42,8 +42,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="password_hint">Password</string>
-    <string name="email_hint">Email</string>
     <string name="sign_up_button_label">Sign Up</string>
     <string name="signup_error_message">Please make sure you enter an email address and password!</string>
     <string name="signup_error_title">Error!</string>
@@ -57,7 +55,19 @@
     <string name="action_logout">Logout</string>
     <string name="register_success_msg">Click ok to login in app! Please update your information to donate blood and be a hero.</string>
     <string name="register_success_title">"Registration successful..."</string>
+    <string name="ask_quest_str">Ask</string>
+    <string name="availability_text">Please, confirm availbility to donate</string>
+    <string name="available">Available</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="authorization_text">I authorize the app to display details, So that the nearby could contact me.</string>
+
     <string name="add_member_tagline">It\'s a step to help needy people</string>
+    <string name="guidance_tag_line">Blood is the most precious gift\nTake a look who can give you whom</string>
+    <string name="faq_tag">Frequently asked questions</string>
+    <string name="donate_page_tagline">Every blood donar is a Hero</string>
+
+
+    <string name="star_text">*</string>
     <string name="placeholder_name">Full name</string>
     <string name="gender">Gender</string>
     <string name="gender_female">Female</string>
@@ -66,10 +76,20 @@
     <string name="age_group_text_18">18+</string>
     <string name="age_group_text_35">35+</string>
     <string name="placeholder_mob">Mob no (10 digits)</string>
-    <string name="availability_text">Please, confirm member availbility to donate</string>
-    <string name="available">Available</string>
-    <string name="unavailable">Unavailable</string>
-    <string name="guidance_tag_line">Blood is the most precious gift\nTake a look who can give you whom</string>
-    <string name="ask_quest_str">Ask</string>
-    <string name="faq_tag">Frequently asked questions</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="address_hit">Address</string>
+    <string name="donate_btn_text">Donate now</string>
+    <string name="search_page_tagline">We will keep you happy</string>
+    <string name="search_btn_text">Search now</string>
+    <string name="blood_request_tagline">Your request is most valuable</string>
+    <string name="placeholder_patient_name">Patient name</string>
+    <string name="placeholder_last_date">Last date of need (dd/mm/yyyy)</string>
+    <string name="post_req_btn_text">Post request</string>
+    <string name="placeholder_purpose">Purpose of request</string>
+    <string name="change_pwd_tagline">It\'s key of Security</string>
+    <string name="placeholder_old_pwd">Old password</string>
+    <string name="placeholder_new_pwd">New passoword</string>
+    <string name="update_pwd_btn_text">Update Password</string>
+
 </resources>

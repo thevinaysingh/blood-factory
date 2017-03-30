@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/home_background">
-
+    android:background="@color/new_btn_color">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,7 +18,7 @@
             android:textStyle="bold"
             android:textSize="24sp"
             android:textColor="@color/backgroundWhite"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/medium_distance"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:text=" Donate\n  Blood"
                         android:textStyle="bold"
-                        android:textSize="@dimen/small_text"
+                        android:textSize="@dimen/very_small_text"
                         android:textColor="@color/backgroundWhite" />
                 </LinearLayout>
             </FrameLayout>
@@ -107,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:text=" Find\nBlood"
                         android:textStyle="bold"
-                        android:textSize="@dimen/small_text"
+                        android:textSize="@dimen/very_small_text"
                         android:textColor="@color/backgroundWhite" />
                 </LinearLayout>
             </FrameLayout>

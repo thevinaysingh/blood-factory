@@ -136,7 +136,7 @@ public class EditProfileFragment extends UserFragment {
             }
         });
         mUpdateProfile.setOnClickListener(mUpdateProfileButtonListener);
-        setStatusBarColor(Constants.colorStatusBar);
+        setStatusBarColor(Constants.colorStatusBarDark);
         return mEditProfileView;
     }
 

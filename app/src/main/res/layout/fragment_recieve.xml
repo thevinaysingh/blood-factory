@@ -7,25 +7,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/common_page_color"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/header_color"
-            android:paddingTop="10dp"
+            android:paddingTop="@dimen/medium_distance"
+            android:paddingRight="@dimen/medium_distance"
+            android:paddingLeft="@dimen/medium_distance"
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/medium_img_size"
+                    android:layout_height="@dimen/medium_img_size"
                     android:src="@drawable/find_blood"
                     android:clickable="false"/>
             </FrameLayout>
             <TextView
-                android:text="We will keep you happy"
+                android:text="@string/search_page_tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/backgroundWhite"
@@ -40,7 +42,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/blood_grp_error"
@@ -50,16 +52,16 @@
         <Spinner
             android:id="@+id/blood_group"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
-            android:background="@drawable/rectangle_border_edittext"/>
+            android:background="@drawable/rectangle_box_with_color"/>
         <LinearLayout
             android:id="@+id/state_error_layout"
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/state_error"
@@ -69,16 +71,16 @@
         <Spinner
             android:id="@+id/state"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_states"
-            android:background="@drawable/rectangle_border_edittext"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/editText"/>
         <LinearLayout
             android:id="@+id/city_error_layout"
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/city_error"
@@ -88,9 +90,9 @@
         <Spinner
             android:id="@+id/city"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_cities"
-            android:background="@drawable/rectangle_border_edittext"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/editText"/>
 
         <LinearLayout
@@ -98,14 +100,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginTop="@dimen/medium_distance"
+            android:layout_marginBottom="@dimen/medium_distance">
             <Button
                 android:id="@+id/find_blood"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/roundend_border"
-                android:text="Search now"
+                android:background="@color/new_btn_color"
+                android:text="@string/search_btn_text"
                 android:layout_weight="1"
                 style="@style/CommonButton"
                 android:gravity="center" />

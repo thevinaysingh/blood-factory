@@ -9,21 +9,21 @@
     tools:openDrawer="start"
     tools:context="com.majavrella.bloodfactory.user.UserActivity">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/toolbar_color"/>
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/main_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#d7dadf"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/frag_container">
-            </FrameLayout>
-        </LinearLayout>
+            android:background="@drawable/bye_bye"
+            android:id="@+id/frag_container">
+        </FrameLayout>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/nav_view"
         android:layout_height="match_parent"

@@ -13,8 +13,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/medium_distance"
-            android:orientation="vertical"
-            android:background="@color/header_color">
+            android:paddingRight="@dimen/medium_distance"
+            android:paddingLeft="@dimen/medium_distance"
+            android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +47,7 @@
         <EditText
             android:id="@+id/donar_name"
             android:hint="@string/placeholder_name"
-            android:background="@drawable/rectangle_border_edittext"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/username_et">
             <requestFocus />
         </EditText>
@@ -55,7 +56,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/gender_error"
@@ -71,10 +72,10 @@
             android:layout_margin="@dimen/very_small_distance"
             android:paddingLeft="@dimen/very_small_distance">
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
                 android:text="@string/gender"
-                android:textColor="@color/black"
+                android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -90,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gender_female"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
                 <RadioButton
@@ -99,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gender_male"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -109,7 +110,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/age_error"
@@ -121,14 +122,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="5dp"
-            android:layout_margin="5dp"
-            android:paddingLeft="5dp">
+            android:paddingTop="@dimen/very_small_distance"
+            android:layout_margin="@dimen/very_small_distance"
+            android:paddingLeft="@dimen/very_small_distance">
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
                 android:text="@string/age_group_text"
-                android:textColor="@color/black"
+                android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -144,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/age_group_text_18"
                     android:checked="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
 
@@ -154,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/age_group_text_35"
                     android:checked="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -164,7 +165,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/blood_grp_error"
@@ -174,20 +175,20 @@
         <Spinner
             android:id="@+id/donar_blood_group"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
-            android:background="@drawable/rectangle_border_edittext"/>
+            android:background="@drawable/rectangle_box_with_color"/>
         <EditText
             android:id="@+id/donar_mob"
             android:hint="@string/placeholder_mob"
-            android:background="@drawable/rectangle_border_edittext"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/mob_et">
         </EditText>
         <EditText
             android:id="@+id/donar_address"
-            android:hint="Address"
-            android:background="@drawable/rectangle_border_edittext"
+            android:hint="@string/address_hit"
+            android:background="@drawable/rectangle_box_with_color"
             style="@style/username_et">
         </EditText>
         <LinearLayout
@@ -195,7 +196,7 @@
             android:visibility="gone"
             style="@style/errorLayout">
             <TextView
-                android:text="* "
+                android:text="@string/star_text"
                 style="@style/redStar"/>
             <TextView
                 android:id="@+id/address_error"
@@ -210,19 +211,19 @@
             <Spinner
                 android:id="@+id/donar_state"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_states"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_border_edittext"
+                android:background="@drawable/rectangle_box_with_color"
                 style="@style/editText">
             </Spinner>
             <Spinner
                 android:id="@+id/donar_city"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_cities"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_border_edittext"
+                android:background="@drawable/rectangle_box_with_color"
                 style="@style/editText">
             </Spinner>
         </LinearLayout>
@@ -237,7 +238,7 @@
                 android:layout_height="wrap_content"
                 style="@style/editText"
                 android:layout_margin="0dp"
-                android:textColor="#000000"/>
+                android:textColor="@color/backgroundWhite"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -257,7 +258,7 @@
                         android:text="@string/available"
                         android:checked="true"
                         android:textSize="@dimen/very_small_text"
-                        android:textColor="@color/black"
+                        android:textColor="@color/backgroundWhite"
                         android:layout_weight="1"/>
 
                     <RadioButton
@@ -265,7 +266,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unavailable"
-                        android:textColor="@color/black"
+                        android:textColor="@color/backgroundWhite"
                         android:checked="false"
                         android:textSize="@dimen/very_small_text"
                         android:layout_weight="1"/>
@@ -274,13 +275,13 @@
         </LinearLayout>
         <CheckBox
             android:id="@+id/donar_authorization"
-            android:text="I authorize the app to display details, So that the nearby could contact me."
+            android:text="@string/authorization_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textColor="@color/backgroundWhite"
+            android:textSize="@dimen/very_small_text"
             android:checked="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="@dimen/very_small_distance"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -292,8 +293,8 @@
                 android:id="@+id/add_member"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/new_btn_color"
                 android:text="Add Member"
-                android:background="@drawable/roundend_border"
                 android:layout_weight="1"
                 style="@style/CommonButton"
                 android:gravity="center" />

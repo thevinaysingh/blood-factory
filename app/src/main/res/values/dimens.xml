@@ -21,6 +21,7 @@
     <dimen name="big_distance">12dp</dimen>
     <dimen name="very_small_img_size">25dp</dimen>
     <dimen name="small_img_size">50dp</dimen>
+    <dimen name="small_medium_img_size">40dp</dimen>
     <dimen name="medium_img_size">60dp</dimen>
     <dimen name="big_img_size">80dp</dimen>
 </resources>

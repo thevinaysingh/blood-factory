@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,24 +8,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="@dimen/small_distance"
-        android:background="@drawable/faq_background">
+        android:background="@color/common_page_color">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/medium_distance"
             android:orientation="vertical">
-<!--
-            <TextView
-                android:id="@+id/ask_quest"
-                android:clickable="true"
-                android:text="@string/ask_quest_str"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingRight="@dimen/big_distance"
-                android:textColor="@color/backgroundWhite"
-                android:textSize="@dimen/big_text"
-                android:gravity="right" />
--->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

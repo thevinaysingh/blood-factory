@@ -9,7 +9,9 @@
     <color name="backgroundWhite">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="header_color">#185349</color>
-    <color name="common_page_color">#35586c</color>
+    <color name="common_page_color">#009488</color>
     <color name="red_color">#e65252</color>
     <color name="quest_color">#d73b3b</color>
+    <color name="toolbar_color">#028c7f</color>
+    <color name="new_btn_color">#00796a</color>
 </resources>

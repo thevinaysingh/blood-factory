@@ -22,7 +22,7 @@
             android:visibility="gone"
             android:src="@drawable/down_arrow"
             android:id="@+id/down_image"
-            style="@style/expand_quest"/>
+            style="@style/expand_quest_down"/>
         <TextView
             android:id="@+id/question"
             style="@style/faq_quest"

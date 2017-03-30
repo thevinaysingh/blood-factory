@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/common_page_color"/>
+        android:color="@color/new_btn_color"/>
     <size
         android:width="@dimen/big_img_size"
         android:height="@dimen/big_img_size"/>

@@ -53,7 +53,7 @@ public class RecieveFragment extends UserFragment {
         mRecieveFragment = inflater.inflate(R.layout.fragment_recieve, container, false);
         ButterKnife.bind(this,mRecieveFragment);
 
-        setStatusBarColor(Constants.colorStatusBar);
+        setStatusBarColor(Constants.colorStatusBarSecondary);
         mBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

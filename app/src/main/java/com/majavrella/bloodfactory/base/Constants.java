@@ -25,7 +25,7 @@ public class Constants {
     public static final String kAddMemberFragment = "Add Member";
     public static final String kDonateBloodFragment = "Donate Blood";
     public static final String kSearchBloodFragment = "Search Blood";
-    public static final String kBloodRequestFragment = "Post Blood request";
+    public static final String kBloodRequestFragment = "Blood request";
     public static final String kPeopleInNeedFragment = "People in need";
     public static final String kChangePasswordFragment = "Change Password";
     public static final String kExtraSettingsFragment = "Extra Settings";

@@ -62,7 +62,7 @@
     <string name="authorization_text">I authorize the app to display details, So that the nearby could contact me.</string>
 
     <string name="add_member_tagline">It\'s a step to help needy people</string>
-    <string name="guidance_tag_line">Blood is the most precious gift\nTake a look who can give you whom</string>
+    <string name="guidance_tag_line">Let people help each other\nby giving life</string>
     <string name="faq_tag">Frequently asked questions</string>
     <string name="donate_page_tagline">Every blood donar is a Hero</string>
 
@@ -91,5 +91,20 @@
     <string name="placeholder_old_pwd">Old password</string>
     <string name="placeholder_new_pwd">New passoword</string>
     <string name="update_pwd_btn_text">Update Password</string>
+    <string name="user_info_title">Personal Information</string>
+    <string name="user_info_attr1">Change Mobile Number</string>
+    <string name="user_info_attr1_sub">Change your mobile no carefully</string>
+    <string name="user_info_attr2">Edit Profile</string>
+    <string name="sync_info_attr1">Enable Auto sync</string>
+    <string name="sync_info_attr2">Sync interval</string>
+    <string name="sync_info_title">Sync Information</string>
+    <string name="notification_info_title">Notification</string>
+    <string name="notification_info_attr1">Push notification</string>
+    <string name="notification_info_attr2">Notification Ringtone</string>
+    <string name="app_info_title">App Information</string>
+    <string name="app_info_attr1">Version</string>
+    <string name="app_info_attr2" >Developer</string>
+    <string name="app_info_attr3">Purpose</string>
+    <string name="user_info_attr3">Change Password</string>
 
 </resources>

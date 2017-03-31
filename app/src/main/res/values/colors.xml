@@ -14,4 +14,7 @@
     <color name="quest_color">#d73b3b</color>
     <color name="toolbar_color">#028c7f</color>
     <color name="new_btn_color">#00796a</color>
+    <color name="text_color">#000000</color>
+    <color name="background_color">#ffffff</color>
+    <color name="settins_separator_color">#c2c2c2</color>
 </resources>

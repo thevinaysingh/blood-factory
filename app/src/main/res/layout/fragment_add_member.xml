@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/common_page_color">
+        android:background="@color/backgroundWhite"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,6 +24,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="@drawable/circle_with_new_color"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="@dimen/very_small_distance">
@@ -38,16 +39,16 @@
                 android:text="@string/add_member_tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/backgroundWhite"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/medium_text"
                 android:gravity="center" />
             <View
-                style="@style/white_separator"/>
+                style="@style/black_separator"/>
         </LinearLayout>
         <EditText
             android:id="@+id/donar_name"
             android:hint="@string/placeholder_name"
-            android:background="@drawable/rectangle_box_with_color"
+            android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
             <requestFocus />
         </EditText>
@@ -75,7 +76,7 @@
                 android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
                 android:text="@string/gender"
-                android:textColor="@color/backgroundWhite"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -91,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gender_female"
                     android:checked="false"
-                    android:textColor="@color/backgroundWhite"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
                 <RadioButton
@@ -100,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gender_male"
                     android:checked="false"
-                    android:textColor="@color/backgroundWhite"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -129,7 +130,7 @@
                 android:layout_width="@dimen/big_img_size"
                 android:layout_height="wrap_content"
                 android:text="@string/age_group_text"
-                android:textColor="@color/backgroundWhite"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/small_text" />
 
             <RadioGroup
@@ -145,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/age_group_text_18"
                     android:checked="true"
-                    android:textColor="@color/backgroundWhite"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
 
@@ -155,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/age_group_text_35"
                     android:checked="false"
-                    android:textColor="@color/backgroundWhite"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -178,17 +179,17 @@
             android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
-            android:background="@drawable/rectangle_box_with_color"/>
+            android:background="@drawable/rectangle_border_edittext"/>
         <EditText
             android:id="@+id/donar_mob"
             android:hint="@string/placeholder_mob"
-            android:background="@drawable/rectangle_box_with_color"
+            android:background="@drawable/rectangle_border_edittext"
             style="@style/mob_et">
         </EditText>
         <EditText
             android:id="@+id/donar_address"
             android:hint="@string/address_hit"
-            android:background="@drawable/rectangle_box_with_color"
+            android:background="@drawable/rectangle_border_edittext"
             style="@style/username_et">
         </EditText>
         <LinearLayout
@@ -214,7 +215,7 @@
                 android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_states"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_box_with_color"
+                android:background="@drawable/rectangle_border_edittext"
                 style="@style/editText">
             </Spinner>
             <Spinner
@@ -223,7 +224,7 @@
                 android:layout_height="@dimen/small_medium_img_size"
                 android:entries="@array/list_of_cities"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_box_with_color"
+                android:background="@drawable/rectangle_border_edittext"
                 style="@style/editText">
             </Spinner>
         </LinearLayout>
@@ -238,7 +239,7 @@
                 android:layout_height="wrap_content"
                 style="@style/editText"
                 android:layout_margin="0dp"
-                android:textColor="@color/backgroundWhite"/>
+                android:textColor="@color/text_color"/>
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -258,7 +259,7 @@
                         android:text="@string/available"
                         android:checked="true"
                         android:textSize="@dimen/very_small_text"
-                        android:textColor="@color/backgroundWhite"
+                        android:textColor="@color/text_color"
                         android:layout_weight="1"/>
 
                     <RadioButton
@@ -266,7 +267,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/unavailable"
-                        android:textColor="@color/backgroundWhite"
+                        android:textColor="@color/text_color"
                         android:checked="false"
                         android:textSize="@dimen/very_small_text"
                         android:layout_weight="1"/>
@@ -278,7 +279,7 @@
             android:text="@string/authorization_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/backgroundWhite"
+            android:textColor="@color/text_color"
             android:textSize="@dimen/very_small_text"
             android:checked="true"
             android:layout_margin="@dimen/very_small_distance"/>

@@ -24,4 +24,5 @@
     <dimen name="small_medium_img_size">40dp</dimen>
     <dimen name="medium_img_size">60dp</dimen>
     <dimen name="big_img_size">80dp</dimen>
+    <dimen name="settings_block_padding">10dp</dimen>
 </resources>

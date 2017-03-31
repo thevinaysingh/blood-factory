@@ -29,7 +29,7 @@ public class AboutUs extends UserFragment {
         mAboutUsView = inflater.inflate(R.layout.fragment_about_us, container, false);
         ButterKnife.bind(this, mAboutUsView);
 
-        setStatusBarColor(Constants.colorStatusBarSecondary);
+        setStatusBarColor(Constants.colorStatusBar);
         return mAboutUsView;
     }
 

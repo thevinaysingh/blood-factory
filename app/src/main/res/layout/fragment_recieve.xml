@@ -7,7 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/common_page_color"
+        android:background="@color/background_color"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,20 +17,29 @@
             android:paddingLeft="@dimen/medium_distance"
             android:orientation="vertical">
             <FrameLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
-                <ImageView
-                    android:layout_width="@dimen/medium_img_size"
-                    android:layout_height="@dimen/medium_img_size"
-                    android:src="@drawable/find_blood"
-                    android:clickable="false"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/circle_with_new_color"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/very_small_distance">
+                    <ImageView
+                        android:layout_width="@dimen/small_img_size"
+                        android:layout_height="@dimen/small_img_size"
+                        android:src="@drawable/find_blood"
+                        android:clickable="false"/>
+                </LinearLayout>
             </FrameLayout>
             <TextView
                 android:text="@string/search_page_tagline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/backgroundWhite"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/medium_text"
                 android:gravity="center" />
             <View
@@ -55,7 +64,7 @@
             android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_blood_group"
             style="@style/editText"
-            android:background="@drawable/rectangle_box_with_color"/>
+            android:background="@drawable/rectangle_border_edittext"/>
         <LinearLayout
             android:id="@+id/state_error_layout"
             android:visibility="gone"
@@ -73,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_states"
-            android:background="@drawable/rectangle_box_with_color"
+            android:background="@drawable/rectangle_border_edittext"
             style="@style/editText"/>
         <LinearLayout
             android:id="@+id/city_error_layout"
@@ -92,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/small_medium_img_size"
             android:entries="@array/list_of_cities"
-            android:background="@drawable/rectangle_box_with_color"
+            android:background="@drawable/rectangle_border_edittext"
             style="@style/editText"/>
 
         <LinearLayout

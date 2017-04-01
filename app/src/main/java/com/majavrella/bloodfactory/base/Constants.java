@@ -28,7 +28,7 @@ public class Constants {
     public static final String kBloodRequestFragment = "Blood request";
     public static final String kPeopleInNeedFragment = "People in need";
     public static final String kChangePasswordFragment = "Change Password";
-    public static final String kExtraSettingsFragment = "Extra Settings";
+    public static final String kExtraSettingsFragment = "Settings";
     public static final String kEditProfileFragment = "Edit Profile";
     public static final String kNotificationFragment = "Notification";
     public static final String kGuidanceFragment = "Guidance";
@@ -51,4 +51,6 @@ public class Constants {
     public static final String colorStatusBarDark = "#6b6b6b";
     public static final String colorStatusBar = "#35586c";
     public static final String colorStatusBarSecondary = "#00796a";
+    public static final String changeMobiletitle = "Change Mobile No";
+    public static final String changeMobileMsg = "Your mobile number is treated as user id for blood factory application. This version of app does not allow to change your mobile number. We are sorry to keep it messy!";
 }

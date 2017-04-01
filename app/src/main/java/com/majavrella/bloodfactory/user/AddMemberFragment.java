@@ -69,26 +69,33 @@ public class AddMemberFragment extends UserFragment {
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard(getActivity());
+                hideIt(mGenderErrorLayout);}
         });
         mAgeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mAgeErrorLayout);}
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard(getActivity());
+                hideIt(mAgeErrorLayout);}
         });
         mDonarBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mBloodGrpErrorLayout);
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
             }
         });
         mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -96,12 +103,13 @@ public class AddMemberFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mDonarCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -109,11 +117,17 @@ public class AddMemberFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mAddMember.setOnClickListener(mAddMemberButtonListener);
         return mAddMemberView;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private boolean dataValidation() {
@@ -157,6 +171,7 @@ public class AddMemberFragment extends UserFragment {
     private View.OnClickListener mAddMemberButtonListener    =   new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             resetData();
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();

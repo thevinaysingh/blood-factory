@@ -106,5 +106,6 @@
     <string name="app_info_attr2" >Developer</string>
     <string name="app_info_attr3">Purpose</string>
     <string name="user_info_attr3">Change Password</string>
+    <string name="guidance_note">Note:- \nThis information is collected from different resources. Please authenticate from a registered/ experienced/ certified DOCTOR before touching any end conclusion.</string>
 
 </resources>

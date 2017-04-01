@@ -54,26 +54,13 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                 add(RecieveFragment.newInstance());
             }
         });
-        /*donate = (Button) userHomeFragment.findViewById(R.id.donateBtn);
-        donate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DonateFragment donateFragment = new DonateFragment();
-               // mFragmentTransaction.replace(R.id.frag_container,donateFragment).addToBackStack(null).commit();
-
-
-            }
-        });*/
-       /* recieve = (Button) userHomeFragment.findViewById(R.id.recieveBtn);
-        recieve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RecieveFragment recieveFragment = new RecieveFragment();
-                //mFragmentTransaction.replace(R.id.frag_container,recieveFragment).addToBackStack(null).commit();
-
-            }
-        });*/
         return userHomeFragment;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     @Override

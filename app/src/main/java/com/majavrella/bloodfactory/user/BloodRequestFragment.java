@@ -74,26 +74,33 @@ public class BloodRequestFragment extends UserFragment {
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mGenderErrorLayout);}
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard(getActivity());
+                hideIt(mGenderErrorLayout);}
         });
         mAgeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {hideIt(mAgeErrorLayout);}
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard(getActivity());
+                hideIt(mAgeErrorLayout);}
         });
         mPatientBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mBloodGrpErrorLayout);
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
             }
         });
         mPatientState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -101,12 +108,13 @@ public class BloodRequestFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mPatientCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -114,12 +122,18 @@ public class BloodRequestFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
 
         mPostBloodRequest.setOnClickListener(mPostBloodRequestListener);
         return mBloodRequestView;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private void setData() {
@@ -170,6 +184,7 @@ public class BloodRequestFragment extends UserFragment {
     View.OnClickListener mPostBloodRequestListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             resetModalData();
             setDataInStringFormat();
             boolean isAllFieldsValid =  dataValidation();

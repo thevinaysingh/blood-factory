@@ -23,21 +23,55 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:orientation="vertical">
-                 <TextView
+                 <LinearLayout
+                     android:clickable="true"
+                     android:id="@+id/change_mob"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     style="@style/settings_text"
-                     android:text="@string/user_info_attr1"/>
-                 <TextView
+                     android:orientation="horizontal">
+                     <TextView
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:layout_height="wrap_content"
+                         style="@style/settings_text"
+                         android:text="@string/user_info_attr1"/>
+                     <ImageView
+                         android:visibility="visible"
+                         style="@style/expand_quest"/>
+                 </LinearLayout>
+                 <LinearLayout
+                     android:clickable="true"
+                     android:id="@+id/edit_profile"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     style="@style/settings_text"
-                     android:text="@string/user_info_attr2"/>
-                 <TextView
+                     android:orientation="horizontal">
+                     <TextView
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:layout_height="wrap_content"
+                         style="@style/settings_text"
+                         android:text="@string/user_info_attr2"/>
+                     <ImageView
+                         android:visibility="visible"
+                         style="@style/expand_quest"/>
+                 </LinearLayout>
+                 <LinearLayout
+                     android:clickable="true"
+                     android:id="@+id/change_password"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     style="@style/settings_text"
-                     android:text="@string/user_info_attr3"/>
+                     android:orientation="horizontal">
+                     <TextView
+                         android:layout_width="0dp"
+                         android:layout_weight="1"
+                         android:layout_height="wrap_content"
+                         style="@style/settings_text"
+                         android:text="@string/user_info_attr3"/>
+                     <ImageView
+                         android:visibility="visible"
+                         style="@style/expand_quest"/>
+                 </LinearLayout>
+
             </LinearLayout>
             <View
                 android:background="@color/settins_separator_color"

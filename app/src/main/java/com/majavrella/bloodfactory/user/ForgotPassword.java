@@ -87,6 +87,7 @@ public class ForgotPassword extends DialogFragment {
         return mForgotPassword;
     }
 
+
     AuthCallback authCallback = new AuthCallback() {
         @Override
         public void success(DigitsSession session, String phoneNumber) {

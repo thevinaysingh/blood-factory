@@ -37,8 +37,14 @@ public class FAQFragment extends UserFragment {
         ButterKnife.bind(this, mEditProfileView);
         
         createQandA(FaqQandA.faqQuestions, FaqQandA.faqAnswers);
-        setStatusBarColor(Constants.colorStatusBarSecondary);
+        setStatusBarColor(Constants.colorStatusBarDark);
         return mEditProfileView;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private void createQandA(String[] faqQuestions, String[] faqAnswers) {

@@ -49,9 +49,16 @@ public class ChangePasswordFragment extends UserFragment {
         return mChangePasswordView;
     }
 
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
+    }
+
     View.OnClickListener mChangePasswordListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             reset();
             setDataInStringFormat();
             boolean isBothFields = dataValidation();

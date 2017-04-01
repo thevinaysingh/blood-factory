@@ -57,17 +57,20 @@ public class RecieveFragment extends UserFragment {
         mBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mBloodGrpErrorLayout);
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
             }
         });
         mState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mStateErrorLayout);
                 }
@@ -75,12 +78,13 @@ public class RecieveFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mCityErrorLayout);
                 }
@@ -88,13 +92,14 @@ public class RecieveFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
 
         mFindBlood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 resetData();
                 setDataInStringFormat();
                 boolean isAllFieldsValid = dataValidation();
@@ -112,6 +117,12 @@ public class RecieveFragment extends UserFragment {
             }
         });
         return mRecieveFragment;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private boolean dataValidation() {

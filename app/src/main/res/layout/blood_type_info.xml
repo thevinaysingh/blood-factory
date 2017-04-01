@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="@dimen/small_distance"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_border"
+        android:orientation="horizontal">
+        <TextView
+            android:clickable="true"
+            android:id="@+id/blood_type"
+            android:text=""
+            style="@style/guidanceText"/>
+        <TextView
+            android:id="@+id/donate_to"
+            android:text=""
+            style="@style/guidanceText"/>
+        <TextView
+            android:id="@+id/receive_from"
+            android:text=""
+            style="@style/guidanceText"/>
+    </LinearLayout>
+</LinearLayout>

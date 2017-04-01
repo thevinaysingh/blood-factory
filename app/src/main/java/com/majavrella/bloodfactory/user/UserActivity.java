@@ -38,9 +38,6 @@ public class UserActivity extends BaseActivity {
     LinearLayout navigationView;
     static private FirebaseAuth mFirebaseAuth;
 
-
-    @Bind(R.id.edit_profile) LinearLayout mEditProfile;
-
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -52,13 +49,6 @@ public class UserActivity extends BaseActivity {
         setupNavigationItems();
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
-        mEditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add(EditProfileFragment.newInstance());
-                drawerLayout.closeDrawer(navigationView);
-            }
-        });
     }
 
     private void setupDrawerAndToggle() {
@@ -84,7 +74,7 @@ public class UserActivity extends BaseActivity {
 
     private void setupNavigationItems() {
         String[] navigationItems = {Constants.kAddMemberFragment, Constants.kDonateBloodFragment, Constants.kSearchBloodFragment,
-                Constants.kBloodRequestFragment, Constants.kPeopleInNeedFragment, Constants.kChangePasswordFragment, Constants.kExtraSettingsFragment};
+                Constants.kBloodRequestFragment, Constants.kPeopleInNeedFragment, Constants.kExtraSettingsFragment};
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navigationItems);
         drawerList.setAdapter(mAdapter);
     }
@@ -108,9 +98,6 @@ public class UserActivity extends BaseActivity {
                 add(PeopleNeedFragment.newInstance());
                 break;
             case 5:
-                add(ChangePasswordFragment.newInstance());
-                break;
-            case 6:
                 add(ExtraSettingsFragment.newInstance());
                 break;
             default:
@@ -169,33 +156,5 @@ public class UserActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-/*
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.add_member) {
-            add(AddMemberFragment.newInstance());
-        } else if (id == R.id.donate_blood) {
-            add(DonateFragment.newInstance());
-        } else if (id == R.id.search_blood) {
-            add(RecieveFragment.newInstance());
-        } else if (id == R.id.post_blood_request) {
-            BloodRequestFragment fragment = new BloodRequestFragment();
-            add(BloodRequestFragment.newInstance());
-        } else if (id == R.id.people_in_need) {
-            PeopleNeedFragment fragment = new PeopleNeedFragment();
-            add(PeopleNeedFragment.newInstance());
-        }  else if (id == R.id.change_password) {
-            ChangePasswordFragment fragment = new ChangePasswordFragment();
-            add(ChangePasswordFragment.newInstance());
-        } else if (id == R.id.extra_settings) {
-            ExtraSettingsFragment fragment = new ExtraSettingsFragment();
-            add(ExtraSettingsFragment.newInstance());
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }*/
 }
 

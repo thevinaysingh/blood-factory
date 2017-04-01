@@ -34,6 +34,12 @@ public class AboutUs extends UserFragment {
     }
 
     @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
+    }
+
+    @Override
     protected String getTitle() {
         return Constants.kGuidanceFragment;
     }

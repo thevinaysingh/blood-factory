@@ -44,6 +44,7 @@
 
     </LinearLayout>
 
+<!--
     <LinearLayout
         android:layout_width="0dp"
         android:orientation="vertical"
@@ -64,14 +65,15 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/edit_profile_view"/>
-            <!--<TextView
+            &lt;!&ndash;<TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  Edit\nProfile"
                 android:textStyle="bold"
                 android:textSize="@dimen/very_very_small_text"
-                android:textColor="@color/backgroundWhite" />-->
+                android:textColor="@color/backgroundWhite" />&ndash;&gt;
         </LinearLayout>
     </LinearLayout>
+-->
 
 </LinearLayout>

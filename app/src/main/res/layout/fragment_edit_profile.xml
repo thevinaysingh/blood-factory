@@ -102,37 +102,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/user_mob"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    style="@style/small_white_text"
-                    android:layout_height="wrap_content"
-                    android:text="Mobile no is not set"/>
-                <ImageView
-                    android:id="@+id/user_mob_edit"
-                    style="@style/edit_image"/>
-            </LinearLayout>
-            <EditText
-                android:id="@+id/user_mob_edit_text"
-                android:visibility="gone"
-                android:hint="Mob no (10 digits)"
-                android:background="@drawable/roundend_border_edittext"
-                style="@style/mob_et">
-            </EditText>
-            <View
-                style="@style/white_separator"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <TextView
                     android:id="@+id/user_gender"
                     android:layout_width="0dp"
                     android:layout_weight="1"

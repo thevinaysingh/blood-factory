@@ -71,22 +71,27 @@ public class DonateFragment extends UserFragment {
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) { hideIt(mGenderErrorLayout); }
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                hideKeyboard(getActivity());
+                hideIt(mGenderErrorLayout); }
         });
         mDonarBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mBloodGrpErrorLayout);
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
             }
         });
         mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -94,12 +99,13 @@ public class DonateFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mDonarCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
                 }
@@ -107,11 +113,17 @@ public class DonateFragment extends UserFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                hideKeyboard(getActivity());
             }
         });
         mDonateButton.setOnClickListener(mDonateButtonListener);
         return mDonateFragment;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private Donar setDataInModal(Donar donar) {
@@ -186,6 +198,7 @@ public class DonateFragment extends UserFragment {
     View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             resetModalData();
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();

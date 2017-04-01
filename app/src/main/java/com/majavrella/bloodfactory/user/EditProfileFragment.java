@@ -42,7 +42,7 @@ import butterknife.OnClick;
 public class EditProfileFragment extends UserFragment {
 
     private static View mEditProfileView;
-    private static String name, mob, gender, email, bloodGroup, dob, state, city;
+    private static String name, gender, email, bloodGroup, dob, state, city;
 
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -55,10 +55,6 @@ public class EditProfileFragment extends UserFragment {
     @Bind(R.id.user_name) TextView mUsername;
     @Bind(R.id.user_name_edit) ImageView mUsernameEdit;
     @Bind(R.id.user_name_edit_text) EditText mUsernameEditText;
-
-    @Bind(R.id.user_mob) TextView mUserMob;
-    @Bind(R.id.user_mob_edit) ImageView mUserMobEdit;
-    @Bind(R.id.user_mob_edit_text) EditText mUserMobEditText;
 
     @Bind(R.id.user_gender) TextView mUserGender;
     @Bind(R.id.user_gender_edit) ImageView mUserGenderEdit;
@@ -105,11 +101,6 @@ public class EditProfileFragment extends UserFragment {
             public void onClick(View v) { playWithVisibilty(mUsernameEditText);
             }
         });
-        mUserMobEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { playWithVisibilty(mUserMobEditText);
-            }
-        });
         mUserGenderEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { playWithVisibilty(mUserGenderEditBox);
@@ -138,6 +129,12 @@ public class EditProfileFragment extends UserFragment {
         mUpdateProfile.setOnClickListener(mUpdateProfileButtonListener);
         setStatusBarColor(Constants.colorStatusBarDark);
         return mEditProfileView;
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     private void selectImage() {
@@ -236,6 +233,7 @@ public class EditProfileFragment extends UserFragment {
     private View.OnClickListener mAddImageListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             selectImage();
         }
     };
@@ -243,6 +241,7 @@ public class EditProfileFragment extends UserFragment {
     View.OnClickListener mUpdateProfileButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             if(isNetworkAvailable()){
                 resetData();
                 setData();
@@ -257,7 +256,7 @@ public class EditProfileFragment extends UserFragment {
     }
 
     private void resetData() {
-        name = mob = gender = email = dob = bloodGroup = state = city = null;
+        name = gender = email = dob = bloodGroup = state = city = null;
     }
 
     @Override

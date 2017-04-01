@@ -3,6 +3,7 @@ package com.majavrella.bloodfactory.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -11,10 +12,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -22,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.user.UserActivity;
 
 public abstract class UserFragment extends Fragment {
@@ -116,5 +121,27 @@ public abstract class UserFragment extends Fragment {
 			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 			window.setStatusBarColor(Color.parseColor(color));
 		}
+	}
+
+	public void showDialogForBloodGroup(String title, String msg) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setCancelable(true);
+		builder.setTitle(title);
+		builder.setIcon(R.drawable.blood_drop);
+		builder.setMessage(msg);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		});
+
+		final AlertDialog dialog = builder.create();
+		dialog.show(); //show() should be called before dialog.getButton().
+
+		final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+		LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+		positiveButtonLL.gravity = Gravity.CENTER;
+		positiveButton.setLayoutParams(positiveButtonLL);
 	}
 }

@@ -18,6 +18,9 @@ import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BaseActivity;
 import com.majavrella.bloodfactory.base.Constants;
+import com.majavrella.bloodfactory.register.RegisterConstants;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -145,6 +148,7 @@ public class UserActivity extends BaseActivity {
                 break;
             case R.id.logout:
                 mFirebaseAuth.signOut();
+                deleteSharedPreferences();
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -155,6 +159,13 @@ public class UserActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteSharedPreferences() {
+        File f = new File("/data/data/"+getPackageName()+"/shared_prefs/"+RegisterConstants.userPrefs+".xml");
+        if(f.exists()){
+            f.delete();
+        }
     }
 }
 

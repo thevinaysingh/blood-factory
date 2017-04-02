@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -117,6 +118,10 @@ public class SigninFragment extends BaseFragment {
 
         setStatusBarColor(Constants.colorLogin);
         return mSigninFragment;
+    }
+
+    private String getPackageName() {
+        return "com.majavrella.bloodfactory";
     }
 
     private boolean dataValidation() {

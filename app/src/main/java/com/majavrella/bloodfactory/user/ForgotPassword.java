@@ -1,6 +1,8 @@
 package com.majavrella.bloodfactory.user;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -62,12 +65,14 @@ public class ForgotPassword extends DialogFragment {
     @Bind(R.id.user_mob) EditText mUserMobile;
     @Bind(R.id.get_my_password) Button mGetMyPassword;
     private static String userPassword = null;
+    protected ProgressDialog progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mForgotPassword = inflater.inflate(R.layout.fragment_forgot_password, container);
         ButterKnife.bind(this, mForgotPassword);
+        progress=new ProgressDialog(getActivity());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.kConsumerKey, Constants.kConsumerSecret);
         Fabric.with(getActivity(), new TwitterCore(authConfig), new Digits.Builder().build());
         mUserMobile.requestFocus();
@@ -76,15 +81,27 @@ public class ForgotPassword extends DialogFragment {
         mGetMyPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard();
+                progress.setMessage(RegisterConstants.waitProgress);
+                progress.show();
                 mobile = mUserMobile.getText().toString().trim();
                 if(mobile.matches(Constants.mobRegex)){
                     getJsonData(Constants.kBaseUrl+Constants.kUserList);
                 }else{
+                    progress.dismiss();
                     mUserMobile.setError(Constants.mobErrorText);
                 }
             }
         });
         return mForgotPassword;
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View v = ((Activity) getActivity()).getCurrentFocus();
+        if (v == null)
+            return;
+        inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
 
@@ -135,7 +152,7 @@ public class ForgotPassword extends DialogFragment {
     }
 
     private void getJsonData(final String url) {
-
+        progress.dismiss();
         APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
             @Override
             public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {

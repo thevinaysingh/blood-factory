@@ -14,6 +14,7 @@ public class RegisterConstants {
     public static final String registrationProgress = "Registering user...";
     public static final String verificationProgress = "Verifying user...";
     public static final String validationProgress = "Validating user...";
+    public static final String waitProgress = "Please wait...";
 
     public static final String phoneErrorTitle = "Phone error";
     public static final String phoneErrorText = "This Mobile no is already registered.";

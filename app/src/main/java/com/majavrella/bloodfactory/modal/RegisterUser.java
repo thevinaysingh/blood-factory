@@ -5,10 +5,26 @@ package com.majavrella.bloodfactory.modal;
  */
 
 public class RegisterUser {
-    private static String name, mobile, password;
+    private static String refKey, userId, name, mobile, password;
 
     public RegisterUser() {
       /*Blank default constructor essential for Firebase*/
+    }
+
+    //Getters and setters for user Id
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    //Getters and setters for ref key
+    public String getRefKey() {
+        return refKey;
+    }
+    public void setRefKey(String refKey) {
+        this.refKey = refKey;
     }
 
     //Getters and setters for mobile
@@ -17,14 +33,6 @@ public class RegisterUser {
     }
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    //Getters and setters for name
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
 
     //Getters and setters for password

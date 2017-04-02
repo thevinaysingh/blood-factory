@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
@@ -67,13 +68,17 @@ public class ChangePasswordFragment extends UserFragment {
             } else {
                 if(oldPassword.equals(newPassowrd)){
                     mPasswordError.setTextColor(Color.parseColor("#228327"));
-                    mPasswordError.setText("Password is successfully updated!!!");
+                    updatePasswordOnCloud();
                 }else{
                     mPasswordError.setText("Got difference between passwords!");
                 }
             }
         }
     };
+
+    private void updatePasswordOnCloud() {
+
+    }
 
     private boolean dataValidation() {
         boolean validation = true;

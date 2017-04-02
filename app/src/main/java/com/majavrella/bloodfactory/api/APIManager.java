@@ -34,14 +34,9 @@ public class APIManager {
     }
 
     private class JsonTask extends AsyncTask<String, String, JSONObject> {
-        ProgressDialog progress;
 
         protected void onPreExecute() {
             super.onPreExecute();
-            progress = new ProgressDialog(ctx);
-            progress.setMessage("Please wait...");
-            progress.setCancelable(false);
-            progress.show();
         }
 
         protected JSONObject doInBackground(String... params) {
@@ -87,7 +82,6 @@ public class APIManager {
 
         @Override
         protected void onPostExecute(JSONObject result) {
-            progress.dismiss();
             responseHandler.resultWithJSON(APIConstant.ApiLoginResponse.API_SUCCESS, result );
         }
     }

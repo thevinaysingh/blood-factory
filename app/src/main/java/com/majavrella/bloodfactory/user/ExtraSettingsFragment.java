@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
@@ -49,7 +50,10 @@ public class ExtraSettingsFragment extends UserFragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard(getActivity());
-                showDialogForChangeMobileNo();
+                FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                user.updateEmail("7400897116@bloodfactory.com");
+                Toast.makeText(mActivity, "Mobile no updateed", Toast.LENGTH_SHORT).show();
+                //showDialogForChangeMobileNo();
             }
         });
         mEditProfile.setOnClickListener(new View.OnClickListener() {

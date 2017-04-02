@@ -9,6 +9,7 @@ public class RegisterConstants {
     public static final String countryCode = "+91";
 
     public static final String user_list_db = "user_list";
+    public static final String user_Data_db = "users";
 
     public static final String registrationProgress = "Registering user...";
     public static final String verificationProgress = "Verifying user...";
@@ -28,8 +29,15 @@ public class RegisterConstants {
     public static final String verificationErrorTitle = "Verification Error";
     public static final String verificationErrorText = "Verification failed, Something went wrong.";
 
+    public static final String serverErrorTitle = "Server Error";
+    public static final String serverErrorText = "Server is not responding properly or url is incorrect";
+
     public static final String loginErrorTitle = "Login error";
     public static final String loginErrorText = "Login failed, Something went wrong.";
 
     public static final String ErrorText = "Something went wrong.";
+
+    public static final String userPrefs = "UserPrefs" ;
+    public static final String userListRefKey = "UserListRefKey";
+    public static final String usersDataRefKey = "UserListRefKey";
 }

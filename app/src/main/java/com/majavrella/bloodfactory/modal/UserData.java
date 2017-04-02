@@ -9,14 +9,29 @@ import com.majavrella.bloodfactory.R;
  * Created by Administrator on 2/26/2017.
  */
 
-public class User {
-    private static String identity ="", name="", mobile="", password="", emailId="", gender="", bloodGroup="", ageGroup="", dob="", address="", city="", state="", country="";
-    private static String availibility="", authorizedToApp="", occupation="", dor="", tor="", currentLoc="", lastLoc="";
-    private static Bitmap profilePic = null;
-    private static Object listOfBloodReq = new Object(), listOfAddedMembers = new Object();
+public class UserData {
+    private static String userId= "null", refKey="null", identity ="null", name="null", emailId="null", gender="null", bloodGroup="null", ageGroup="null", dob="null", address="null", city="null", state="null", country="null";
+    private static String availibility="null", authorizedToApp="null", occupation="null", dor="null", tor="null", currentLoc="null", lastLoc="null";
+    private static String profilePic = "null";
 
-    public User() {
+    public UserData() {
       /*Blank default constructor essential for Firebase*/
+    }
+
+    //Getters and setters for user Id
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    //Getters and setters for ref key
+    public String getRefKey() {
+        return refKey;
+    }
+    public void setRefKey(String refKey) {
+        this.refKey = refKey;
     }
 
     //Getters and setters for identity
@@ -33,18 +48,6 @@ public class User {
     }
     public void setName(String name) {
         this.name = name;
-    }
-
-    //Getters and setters for mobile
-    public String getMobile() { return mobile; }
-    public void setMobile(String mobile) { this.mobile = mobile; }
-
-    //Getters and setters for password
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     //Getters and setters for email id
@@ -134,10 +137,10 @@ public class User {
     }
 
     //Getters and setters for profile pic
-    public Bitmap getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
-    public void setProfilePic(Bitmap profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 
@@ -179,22 +182,5 @@ public class User {
     }
     public void setLastLoc(String lastLoc) {
         this.lastLoc = lastLoc;
-    }
-
-
-    //Getters and setters for list of blood request
-    public Object getListOfBloodReq() {
-        return listOfBloodReq;
-    }
-    public void setListOfBloodReq(String listOfBloodReq) {
-        this.listOfBloodReq = listOfBloodReq;
-    }
-
-    //Getters and setters for last location
-    public Object getListOfAddedMembers() {
-        return listOfAddedMembers;
-    }
-    public void setListOfAddedMembers(String listOfAddedMembers) {
-        this.listOfAddedMembers = listOfAddedMembers;
     }
 }

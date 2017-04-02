@@ -28,15 +28,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.modal.RegisterUser;
+import com.majavrella.bloodfactory.modal.UserData;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -126,10 +129,14 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private RegisterUser setDataInModal(RegisterUser registerUser) {
-        registerUser.setName(name);
         registerUser.setMobile(mobile);
         registerUser.setPassword(password);
         return registerUser;
+    }
+
+    private UserData setUserDataInModal(UserData user) {
+        user.setName(name);
+        return user;
     }
 
     private void setDataInStringFormat() {
@@ -157,9 +164,17 @@ public class RegisterFragment extends BaseFragment {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        setDataOnCloud();
-                        progress.dismiss();
-                        showRegistrationSuccessDialog();
+                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                        try{
+                            setDataOnCloud(user.getUid().toString());
+                            progress.dismiss();
+                            showRegistrationSuccessDialog();
+                        } catch(Exception e){
+                            e.printStackTrace();
+                            progress.dismiss();
+                            user.delete();
+                            showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
+                        }
                     } else {
                         progress.dismiss();
                         showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
@@ -174,11 +189,23 @@ public class RegisterFragment extends BaseFragment {
         }
     };
 
-    private void setDataOnCloud() {
+    private void setDataOnCloud(String userId) {
+        DatabaseReference mUserListDatabase = mDatabase.child(RegisterConstants.user_list_db);
+        String temp_key = mUserListDatabase.push().getKey();
+
+        DatabaseReference mUserDataDatabase = mDatabase.child(RegisterConstants.user_Data_db);
+        String ref_key = mUserDataDatabase.push().getKey();
+
         RegisterUser registerUser = setDataInModal(new RegisterUser());
-        mDatabase =  mDatabase.child(RegisterConstants.user_list_db);
-        String temp_key = mDatabase.push().getKey();
-        mDatabase.child(temp_key).setValue(registerUser);
+        registerUser.setUserId(userId);
+        registerUser.setRefKey(ref_key);
+
+        UserData userData = setUserDataInModal(new UserData());
+        userData.setUserId(userId);
+        userData.setRefKey(temp_key);
+
+        mUserListDatabase.child(temp_key).setValue(registerUser);
+        mUserDataDatabase.child(ref_key).setValue(userData);
     }
 
     private void showRegistrationSuccessDialog() {
@@ -227,6 +254,7 @@ public class RegisterFragment extends BaseFragment {
     View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            hideKeyboard(getActivity());
             if(isNetworkAvailable()){
                 resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
                 if(isAllFieldsValid){

@@ -144,8 +144,10 @@ public class ForgotPassword extends DialogFragment {
                         verifyUser(json);
                         break;
                     case API_FAIL:
+                        showErrorDialog(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
                         break;
                     case API_NETWORK_FAIL:
+                        showErrorDialog(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
                         break;
                     default : {
                     }

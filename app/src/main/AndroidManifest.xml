@@ -35,7 +35,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 
-        <!-- User activity -->
+        <!-- User home activity -->
         <activity
             android:name=".user.UserActivity"
             android:screenOrientation="portrait"

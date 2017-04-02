@@ -10,8 +10,11 @@ public class Constants {
     public static final String kConsumerSecret = "KiCE5JBOsqkgOew9T9sCIfsFIs1w4A6MizjUtC4BTcU5raOiHT";
     public static final String kBaseUrl = "https://blood-factory.firebaseio.com/";
     public static final String kUserList = "user_list.json";
+    public static final String kUsersData = "users.json";
     public static final String kMobileString = "mobile";
     public static final String kPasswordString = "password";
+    public static final String kRefKey = "refKey";
+    public static final String kUserId = "userId";
 
     public static final String nameRegex = "^[\\p{L}\\s]{1,}+$";
     public static final String emailRegex = "^[\\p{L}0-9!$'*+\\-_]+(\\.[\\p{L}0-9!$'*+\\-_]+)*@[\\p{L}0-9]+(\\-[\\p{L}0-9]+)*(\\.[\\p{L}0-9]+)*(\\.[\\p{L}]{2,})$";
@@ -52,5 +55,6 @@ public class Constants {
     public static final String colorStatusBar = "#35586c";
     public static final String colorStatusBarSecondary = "#00796a";
     public static final String changeMobiletitle = "Change Mobile No";
-    public static final String changeMobileMsg = "Your mobile number is treated as user id for blood factory application. This version of app does not allow to change your mobile number. We are sorry to keep it messy!";
+    public static final String changeMobileMsg = "Your mobile number is treated as user id for blood factory application."
+    + " This version of app does not allow to change your mobile number. We are sorry to keep it messy!";
 }

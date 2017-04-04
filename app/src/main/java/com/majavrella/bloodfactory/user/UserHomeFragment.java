@@ -1,6 +1,7 @@
 package com.majavrella.bloodfactory.user;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.api.APIConstant;
+import com.majavrella.bloodfactory.api.APIManager;
+import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,7 +66,18 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     @Override
     public void onResume() {
         hideKeyboard(getActivity());
+        fetchDataFromCloud();
         super.onResume();
+    }
+
+    private void fetchDataFromCloud() {
+        String url = Constants.kBaseUrl+Constants.kUsers+"-Kgjp6M1hCcV7A_y1iYM.json";
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                Log.d("User data", "resultWithJSON: "+json);
+            }
+        });
     }
 
     @Override

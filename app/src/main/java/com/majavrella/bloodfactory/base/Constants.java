@@ -11,6 +11,7 @@ public class Constants {
     public static final String kBaseUrl = "https://blood-factory.firebaseio.com/";
     public static final String kUserList = "user_list.json";
     public static final String kUsersData = "users.json";
+    public static final String kUsers = "users/";
     public static final String kMobileString = "mobile";
     public static final String kPasswordString = "password";
     public static final String kRefKey = "refKey";

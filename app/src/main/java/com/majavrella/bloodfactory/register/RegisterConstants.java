@@ -40,5 +40,5 @@ public class RegisterConstants {
 
     public static final String userPrefs = "UserPrefs" ;
     public static final String userListRefKey = "UserListRefKey";
-    public static final String usersDataRefKey = "UserListRefKey";
+    public static final String usersDataRefKey = "UsersDataRefKey";
 }

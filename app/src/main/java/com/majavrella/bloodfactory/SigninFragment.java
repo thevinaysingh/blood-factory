@@ -228,7 +228,6 @@ public class SigninFragment extends BaseFragment {
 
     private void setUsersDBRefKey(JSONObject json) {
         final String ref_key = extractRefKey(json);
-        Log.d("----------", "setUsersDBRefKey: "+ref_key);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(RegisterConstants.usersDataRefKey, ref_key);
         editor.commit();
@@ -259,7 +258,6 @@ public class SigninFragment extends BaseFragment {
 
     private void setUserListDBRefKey(JSONObject json) {
         final String ref_key = extractRefKey(json);
-        Log.d("----------", "setUserListDBRefKey: "+ref_key);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(RegisterConstants.userListRefKey, ref_key);
         editor.commit();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Build;
@@ -26,15 +27,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 public abstract class UserFragment extends Fragment {
 	public UserActivity mActivity;
     private AddFragmentHandler fragmentHandler;
 	protected FirebaseAuth mFirebaseAuth;
 	protected ProgressDialog progress;
-
+	protected SharedPreferences mSharedpreferences;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,25 @@ public abstract class UserFragment extends Fragment {
 		super.onResume();
 		getActivity().setTitle(getTitle());
 	}
+
+
+/*	private String extractRefKey(JSONObject json) {
+		String ref_key = null;
+		FirebaseUser user = mFirebaseAuth.getCurrentUser();
+		Iterator iterator = json.keys();
+		while (iterator.hasNext()){
+			String key = (String) iterator.next();
+			try {
+				if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+					ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
+					return ref_key;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return ref_key;
+	}*/
 
 	public void hideKeyboard(Context ctx) {
 		InputMethodManager inputManager = (InputMethodManager) ctx

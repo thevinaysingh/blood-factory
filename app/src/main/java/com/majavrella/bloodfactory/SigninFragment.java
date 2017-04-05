@@ -2,16 +2,13 @@ package com.majavrella.bloodfactory;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -30,33 +27,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
 import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.appbase.BaseFragment;
 import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.base.Constants;
+import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.ForgotPassword;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 import butterknife.Bind;
@@ -66,6 +49,7 @@ public class SigninFragment extends BaseFragment {
 
     private static View mSigninFragment;
     private String mobile, password;
+    protected SharedPreferences sharedpreferences;
     @Bind(R.id.user_mob) EditText mUserMobile;
     @Bind(R.id.user_password) EditText mUserPassword;
     @Bind(R.id.show_password) CheckBox mShowPassword;
@@ -88,6 +72,7 @@ public class SigninFragment extends BaseFragment {
         mSigninFragment = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, mSigninFragment);
 
+       sharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,11 +136,23 @@ public class SigninFragment extends BaseFragment {
     };
 
     private void startUserActivity() {
-        Intent intent = new Intent(mActivity, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(mActivity, " Successfully login!!!", Toast.LENGTH_SHORT).show();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try{
+                    Toast.makeText(mActivity, "Login success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    progress.dismiss();
+                }catch (Exception e){
+                    progress.dismiss();
+                }
+            }
+        }, 2000);
+
+
     }
 
     private void setDataInStringFormat() {
@@ -180,12 +177,13 @@ public class SigninFragment extends BaseFragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    progress.dismiss();
-                                    startUserActivity();
+                                    setUsersDBRefKeyForCurrentUser();
+                                    setUserListDBRefKeyForCurrentUser();
                                 } else {
-                                    progress.dismiss();
                                     showDialogError(RegisterConstants.loginErrorTitle,RegisterConstants.loginErrorText);
                                 }
+                                progress.dismiss();
+                                startUserActivity();
                             }
                         });
                 }
@@ -196,6 +194,84 @@ public class SigninFragment extends BaseFragment {
         }
     };
 
+    private void setUsersDBRefKeyForCurrentUser() {
+        final String url = Constants.kBaseUrl+Constants.kUserList;
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        setUsersDBRefKey(json);
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+    }
+
+    private void setUsersDBRefKey(JSONObject json) {
+        final String ref_key = extractRefKey(json);
+        UserProfileManager.setUserDbRefKey(ref_key);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(RegisterConstants.usersDataRefKey, ref_key);
+        editor.commit();
+    }
+
+    private void setUserListDBRefKeyForCurrentUser() {
+        final String url = Constants.kBaseUrl+Constants.kUsersData;
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        setUserListDBRefKey(json);
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setUserListDBRefKey(JSONObject json) {
+        final String ref_key = extractRefKey(json);
+        UserProfileManager.setUserListDbRefKey(ref_key);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(RegisterConstants.userListRefKey, ref_key);
+        editor.commit();
+    }
+
+    private String extractRefKey(JSONObject json) {
+        String ref_key = null;
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+                    ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
+                    return ref_key;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return ref_key;
+    }
 
     public void showSnackbar(String text) {
         final Snackbar snackbar = Snackbar.make(mSigninFragment, text, Snackbar.LENGTH_LONG)

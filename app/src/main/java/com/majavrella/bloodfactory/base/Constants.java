@@ -17,6 +17,7 @@ public class Constants {
     public static final String kPasswordString = "password";
     public static final String kRefKey = "refKey";
     public static final String kUserId = "userId";
+    public static final String jsonTail = ".json";
 
     public static final String nameRegex = "^[\\p{L}\\s]{1,}+$";
     public static final String emailRegex = "^[\\p{L}0-9!$'*+\\-_]+(\\.[\\p{L}0-9!$'*+\\-_]+)*@[\\p{L}0-9]+(\\-[\\p{L}0-9]+)*(\\.[\\p{L}0-9]+)*(\\.[\\p{L}]{2,})$";

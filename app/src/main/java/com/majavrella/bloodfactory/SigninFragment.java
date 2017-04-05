@@ -73,7 +73,6 @@ public class SigninFragment extends BaseFragment {
     @Bind(R.id.textRegister) TextView mTextRegister;
     @Bind(R.id.lostPassword) TextView mLostPassword;
     @Bind(R.id.back) FrameLayout mBack;
-    private SharedPreferences sharedpreferences;
 
     public static SigninFragment newInstance() {
         return new SigninFragment();
@@ -89,7 +88,6 @@ public class SigninFragment extends BaseFragment {
         mSigninFragment = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, mSigninFragment);
 
-        sharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,10 +116,6 @@ public class SigninFragment extends BaseFragment {
 
         setStatusBarColor(Constants.colorLogin);
         return mSigninFragment;
-    }
-
-    private String getPackageName() {
-        return "com.majavrella.bloodfactory";
     }
 
     private boolean dataValidation() {
@@ -187,8 +181,6 @@ public class SigninFragment extends BaseFragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     progress.dismiss();
-                                    setUserListDBRefKeyForCurrentUser();
-                                    setUsersDBRefKeyForCurrentUser();
                                     startUserActivity();
                                 } else {
                                     progress.dismiss();
@@ -204,82 +196,6 @@ public class SigninFragment extends BaseFragment {
         }
     };
 
-    private void setUsersDBRefKeyForCurrentUser() {
-        final String url = Constants.kBaseUrl+Constants.kUsersData;
-        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
-            @Override
-            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                switch (code) {
-                    case API_SUCCESS:
-                        setUsersDBRefKey(json);
-                        break;
-                    case API_FAIL:
-                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
-                        break;
-                    case API_NETWORK_FAIL:
-                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-                        break;
-                    default : {
-                    }
-                }
-            }
-        });
-    }
-
-    private void setUsersDBRefKey(JSONObject json) {
-        final String ref_key = extractRefKey(json);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(RegisterConstants.usersDataRefKey, ref_key);
-        editor.commit();
-    }
-
-    private void setUserListDBRefKeyForCurrentUser() {
-        final String url = Constants.kBaseUrl+Constants.kUserList;
-        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
-            @Override
-            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                switch (code) {
-                    case API_SUCCESS:
-                        setUserListDBRefKey(json);
-                        break;
-                    case API_FAIL:
-                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
-                        break;
-                    case API_NETWORK_FAIL:
-                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-                        break;
-                    default : {
-                    }
-                }
-            }
-        });
-
-    }
-
-    private void setUserListDBRefKey(JSONObject json) {
-        final String ref_key = extractRefKey(json);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString(RegisterConstants.userListRefKey, ref_key);
-        editor.commit();
-    }
-
-    private String extractRefKey(JSONObject json) {
-        String ref_key = null;
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        Iterator iterator = json.keys();
-        while (iterator.hasNext()){
-            String key = (String) iterator.next();
-            try {
-                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
-                    ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
-                    return ref_key;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return ref_key;
-    }
 
     public void showSnackbar(String text) {
         final Snackbar snackbar = Snackbar.make(mSigninFragment, text, Snackbar.LENGTH_LONG)

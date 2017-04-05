@@ -59,8 +59,7 @@ public abstract class UserFragment extends Fragment {
 		getActivity().setTitle(getTitle());
 	}
 
-
-/*	private String extractRefKey(JSONObject json) {
+	protected String extractRefKey(JSONObject json) {
 		String ref_key = null;
 		FirebaseUser user = mFirebaseAuth.getCurrentUser();
 		Iterator iterator = json.keys();
@@ -76,7 +75,7 @@ public abstract class UserFragment extends Fragment {
 			}
 		}
 		return ref_key;
-	}*/
+	}
 
 	public void hideKeyboard(Context ctx) {
 		InputMethodManager inputManager = (InputMethodManager) ctx
@@ -155,6 +154,28 @@ public abstract class UserFragment extends Fragment {
 		builder.setCancelable(true);
 		builder.setTitle(title);
 		builder.setIcon(R.drawable.blood_drop);
+		builder.setMessage(msg);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		});
+
+		final AlertDialog dialog = builder.create();
+		dialog.show(); //show() should be called before dialog.getButton().
+
+		final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+		LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+		positiveButtonLL.gravity = Gravity.CENTER;
+		positiveButton.setLayoutParams(positiveButtonLL);
+	}
+
+	public void showDialogError(String title, String msg) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setCancelable(true);
+		builder.setTitle(title);
+		builder.setIcon(R.drawable.error);
 		builder.setMessage(msg);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override

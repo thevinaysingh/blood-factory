@@ -1,6 +1,7 @@
 package com.majavrella.bloodfactory.user;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
@@ -19,7 +21,10 @@ import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,33 +71,114 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
         return userHomeFragment;
     }
 
-    private void getUserDataFromCloud() {
-        String userListRefKey = mSharedpreferences.getString(RegisterConstants.userListRefKey,"");
-        String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"");
+    private void setUsersDBRefKeyForCurrentUser() {
+        final String url = Constants.kBaseUrl+Constants.kUsersData;
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        setUsersDBRefKey(json);
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+    }
 
-        Log.d("----------", "userListRefKey: "+userListRefKey);
-        Log.d("----------", "usersDataRefKey: "+usersDataRefKey);
+    private void setUsersDBRefKey(JSONObject json) {
+        final String ref_key = extractRefKey(json);
+        SharedPreferences.Editor editor = mSharedpreferences.edit();
+        editor.putString(RegisterConstants.usersDataRefKey, ref_key);
+        editor.commit();
+    }
 
-        Toast.makeText(mActivity, "Ref key"+userListRefKey+"\nand"+usersDataRefKey, Toast.LENGTH_SHORT).show();
+    private void setUserListDBRefKeyForCurrentUser() {
+        final String url = Constants.kBaseUrl+Constants.kUserList;
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        setUserListDBRefKey(json);
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setUserListDBRefKey(JSONObject json) {
+        final String ref_key = extractRefKey(json);
+        final String url = Constants.kBaseUrl+Constants.kUserList+ref_key+".json";
+        getUserDataFromCloud(url);
+        SharedPreferences.Editor editor = mSharedpreferences.edit();
+        editor.putString(RegisterConstants.userListRefKey, ref_key);
+        editor.commit();
+    }
+
+
+    private void getUserDataFromCloud(final String url) {
+        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                Log.d("User List", "resultWithJSON: "+json);
+            }
+        });
     }
 
     @Override
     public void onResume() {
+        progress.setMessage("Logging in...");
+        progress.show();
         hideKeyboard(getActivity());
-        getUserDataFromCloud();
         fetchDataFromCloud();
-
         super.onResume();
     }
 
     private void fetchDataFromCloud() {
-        String url = Constants.kBaseUrl+Constants.kUsers+"-Kgjp6M1hCcV7A_y1iYM.json";
-        APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
-            @Override
-            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                Log.d("User data", "resultWithJSON: "+json);
+        try{
+            if(mSharedpreferences.getString(RegisterConstants.userListRefKey,"DEFAULT_VALUE").equals("DEFAULT_VALUE")) {
+                setUserListDBRefKeyForCurrentUser();
+            } else {
+                String userListRefKey = mSharedpreferences.getString(RegisterConstants.userListRefKey,"DEFAULT_VALUE");
+                final String url = Constants.kBaseUrl+Constants.kUserList+userListRefKey+".json";
+                getUserDataFromCloud(url);
             }
-        });
+
+            if(mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"DEFAULT_VALUE").equals("DEFAULT_VALUE")) {
+                setUsersDBRefKeyForCurrentUser();
+            } else {
+                final String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"DEFAULT_VALUE");
+                final String url = Constants.kBaseUrl+Constants.kUsers+usersDataRefKey+".json";
+                APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
+                    @Override
+                    public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                        Log.d("User data", "resultWithJSON: "+json);
+                    }
+                });
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            progress.dismiss();
+        }
+
     }
 
     @Override

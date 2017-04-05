@@ -41,4 +41,6 @@ public class RegisterConstants {
     public static final String userPrefs = "UserPrefs" ;
     public static final String userListRefKey = "UserListRefKey";
     public static final String usersDataRefKey = "UsersDataRefKey";
+    public static final String defaultSharedPrefsValue = "DEFAULT_VALUE";
+    public static final String defaultVarType= "null";
 }

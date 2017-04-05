@@ -7,24 +7,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
 import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.base.BackButtonSupportFragment;
 import com.majavrella.bloodfactory.base.Constants;
+import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.base.UserFragment;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +30,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     private static View userHomeFragment;
     private boolean consumingBackPress = true;
     private Toast toast;
+    protected SharedPreferences mSharedpreferences;
 
     @Bind(R.id.donate_blood) LinearLayout mDonateButton;
 
@@ -53,6 +50,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                              Bundle savedInstanceState) {
         userHomeFragment = inflater.inflate(R.layout.fragment_user_home, container, false);
         ButterKnife.bind(this, userHomeFragment);
+
         mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         setStatusBarColor(Constants.colorStatusBar);
         mDonateButton.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +91,26 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
         });
     }
 
+    private void getUserDataFromCloud() {
+       /* try {
+            progress.setMessage("Logging in ...");
+            progress.show();
+            Thread.sleep(5000);
+            progress.dismiss();
+        } catch (Exception e) {
+            progress.dismiss();
+            e.printStackTrace();
+        }*/
+        String userListRefKey = getUserListRefkey();
+        String usersDataRefKey = getUsersRefkey();
+    }
+
     private void setUsersDBRefKey(JSONObject json) {
         final String ref_key = extractRefKey(json);
         SharedPreferences.Editor editor = mSharedpreferences.edit();
         editor.putString(RegisterConstants.usersDataRefKey, ref_key);
         editor.commit();
     }
-
     private void setUserListDBRefKeyForCurrentUser() {
         final String url = Constants.kBaseUrl+Constants.kUserList;
         APIManager.getInstance().callApiListener(url, getContext(), new APIResponse() {
@@ -140,14 +151,25 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                 Log.d("User List", "resultWithJSON: "+json);
             }
         });
+        Toast.makeText(mActivity, "Ref key"+ UserProfileManager.getUserListDbRefKey()+"\nand"+ UserProfileManager.getUserDbRefKey(), Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private String getUserListRefkey() {
+        return mSharedpreferences.getString(RegisterConstants.userListRefKey, RegisterConstants.defaultSharedPrefsValue);
+    }
+
+    private String getUsersRefkey() {
+        return mSharedpreferences.getString(RegisterConstants.usersDataRefKey,RegisterConstants.defaultSharedPrefsValue);
     }
 
     @Override
     public void onResume() {
-        progress.setMessage("Logging in...");
-        progress.show();
         hideKeyboard(getActivity());
-        fetchDataFromCloud();
+        //fetchDataFromCloud();
+        //getUserDataFromCloud();
+        //fetchDataFromCloud();
         super.onResume();
     }
 
@@ -176,7 +198,6 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
         } catch (Exception e){
             e.printStackTrace();
         } finally {
-            progress.dismiss();
         }
 
     }

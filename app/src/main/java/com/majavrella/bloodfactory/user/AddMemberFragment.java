@@ -1,6 +1,8 @@
 package com.majavrella.bloodfactory.user;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
 import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.modal.Member;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +55,8 @@ public class AddMemberFragment extends UserFragment {
     @Bind(R.id.donar_authorization) CheckBox mDonarAuthorization;
     @Bind(R.id.add_member) Button mAddMember;
 
+    protected SharedPreferences mSharedpreferences;
+
     public static AddMemberFragment newInstance() {
         return new AddMemberFragment();
     }
@@ -66,6 +71,7 @@ public class AddMemberFragment extends UserFragment {
         mAddMemberView = inflater.inflate(R.layout.fragment_add_member, container, false);
         ButterKnife.bind(this, mAddMemberView);
 
+        mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -121,7 +127,21 @@ public class AddMemberFragment extends UserFragment {
             }
         });
         mAddMember.setOnClickListener(mAddMemberButtonListener);
+        getUserDataFromCloud();
         return mAddMemberView;
+    }
+
+
+    private void getUserDataFromCloud() {
+        String userListRefKey = mSharedpreferences.getString(RegisterConstants.userListRefKey,"");
+        String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"");
+
+        if(userListRefKey.length()>0){
+            Log.d("----------", "userListRefKey: "+userListRefKey.length());
+            Log.d("----------", "usersDataRefKey: "+usersDataRefKey);
+        }
+
+        Toast.makeText(mActivity, "Ref key"+usersDataRefKey+"\nand"+userListRefKey.length(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

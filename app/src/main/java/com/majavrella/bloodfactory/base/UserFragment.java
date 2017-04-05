@@ -42,7 +42,6 @@ public abstract class UserFragment extends Fragment {
     private AddFragmentHandler fragmentHandler;
 	protected FirebaseAuth mFirebaseAuth;
 	protected ProgressDialog progress;
-	protected SharedPreferences mSharedpreferences;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -28,6 +28,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
@@ -41,7 +43,8 @@ public abstract class UserFragment extends Fragment {
 	public UserActivity mActivity;
     private AddFragmentHandler fragmentHandler;
 	protected FirebaseAuth mFirebaseAuth;
-	protected ProgressDialog progress;
+    protected DatabaseReference mDatabase;
+    protected ProgressDialog progress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,23 @@ public abstract class UserFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		getActivity().setTitle(getTitle());
+	}
+
+    public String capitalizeFirstLetter(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
+
+    public DatabaseReference getRootReference(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        return mDatabase;
+    }
+
+	public String getCurrentUserId() {
+		FirebaseUser user = mFirebaseAuth.getCurrentUser();
+		return user.getUid().toString();
 	}
 
 	protected String extractRefKey(JSONObject json) {

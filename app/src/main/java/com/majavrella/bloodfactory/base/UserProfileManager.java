@@ -51,7 +51,14 @@ public class UserProfileManager {
         }
         return mInstance;
     }
-    
+
+    public static void deleteInstance(){
+        if(mInstance != null)
+        {
+            mInstance = null;
+        }
+    }
+
     // set user id
     public void setUserId(final String userId) {
         this.userId = userId;
@@ -115,12 +122,12 @@ public class UserProfileManager {
     }
 
     //Getters for name
-    public  String getName() {
+    public String getName() {
         return name;
     }
 
     //Getters for email id
-    public  String getEmailId() {
+    public String getEmailId() {
         return emailId;
     }
 

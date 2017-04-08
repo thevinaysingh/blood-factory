@@ -10,7 +10,7 @@ import com.majavrella.bloodfactory.R;
  */
 
 public class UserData {
-    private static String userId= "null", refKey="null", identity ="null", name="null", emailId="null", gender="null", bloodGroup="null", ageGroup="null", dob="null", address="null", city="null", state="null", country="null";
+    private static String userId= "null", refKey="null", identity ="User", name="null", emailId="null", gender="null", bloodGroup="null", ageGroup="null", dob="null", address="null", city="null", state="null", country="null";
     private static String availibility="null", authorizedToApp="null", occupation="null", dor="null", tor="null", currentLoc="null", lastLoc="null";
     private static String profilePic = "null";
 

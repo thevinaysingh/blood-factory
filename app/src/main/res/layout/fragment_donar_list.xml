@@ -1,18 +1,15 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.majavrella.bloodfactory.user.DonarList">
-    <ListView
-        android:id="@+id/list_view_all"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true">
+    <LinearLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="#D34836"
-        android:dividerHeight="1dp"
-        android:padding="5dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.majavrella.bloodfactory.user.DonarList">
 
-    </ListView>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

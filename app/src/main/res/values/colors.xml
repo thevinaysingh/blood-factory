@@ -18,4 +18,7 @@
     <color name="background_color">#ffffff</color>
     <color name="settins_separator_color">#c2c2c2</color>
     <color name="toolbar_color_new">#f5f2f2</color>
+    <color name="border_color">#FFFFFF</color>
+    <color name="available_color">#B41C2B</color>
+    <color name="not_available_color">#209a85</color>
 </resources>

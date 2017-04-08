@@ -16,9 +16,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.api.APIConstant;
+import com.majavrella.bloodfactory.api.APIManager;
+import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.register.RegisterConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,29 +111,66 @@ public class RecieveFragment extends UserFragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard(getActivity());
-                resetData();
-                setDataInStringFormat();
-                boolean isAllFieldsValid = dataValidation();
-                if(isAllFieldsValid){
-                    DonarList donarList = new DonarList();
-                    if(donarList!=null) {
-                        FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.frag_container, donarList).addToBackStack(null).commit();
-                    }
-                    Toast.makeText(mActivity, "Searching ... !!!", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(mActivity, "Please fill all fields!", Toast.LENGTH_SHORT).show();
+                if(isNetworkAvailable()) {
+                    resetModalData();
+                    setDataInStringFormat();
+                    if(dataValidation()){
+                        progress.setMessage(RegisterConstants.waitProgress);
+                        progress.show();
+                        final String url = Constants.kBaseUrl+Constants.kDonars;
+                        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+                            @Override
+                            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                                switch (code) {
+                                    case API_SUCCESS:
+                                        JSONArray jsonArray = searchResultInJson(json);
+                                        break;
+                                    case API_FAIL:
+                                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                                        break;
+                                    case API_NETWORK_FAIL:
+                                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                                        break;
+                                    default : {
+                                    }
+                                }
+                                progress.dismiss();
+                            }
+                        });
+                    }else{
+                        Toast.makeText(mActivity, "Please fill all fields", Toast.LENGTH_SHORT).show();
 
+                    }
+                } else {
+                    showSnackbar(mRecieveFragment, RegisterConstants.networkErrorText);
                 }
             }
         });
         return mRecieveFragment;
     }
 
-    @Override
-    public void onResume() {
-        hideKeyboard(getActivity());
-        super.onResume();
+    private JSONArray searchResultInJson(JSONObject json) {
+        JSONArray requiredJson = new JSONArray();
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get("bloodGroup").toString().equals(bloodGroup)
+                        &&json.getJSONObject(key).get("state").toString().equals(state)
+                        &&json.getJSONObject(key).get("city").toString().equals(city)){
+                    requiredJson.put(json.getJSONObject(key));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return requiredJson;
+    }
+
+    private void setDataInStringFormat() {
+        bloodGroup = getStringDataFromSpinner(mBloodGroup);
+        state = getStringDataFromSpinner(mState);
+        city = getStringDataFromSpinner(mCity);
     }
 
     private boolean dataValidation() {
@@ -131,25 +179,25 @@ public class RecieveFragment extends UserFragment {
             setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, Constants.bloodGroupErrorText);
             validation = false;
         }
-        if(state.equals("--select state--")){
+        if(state.equals("--Select state--")){
             setErrorMsg(mStateErrorLayout, mStateError, Constants.stateErrorText);
             validation = false;
         }
-        if(city.equals("--select city--")){
+        if(city.equals("--Select city--")){
             setErrorMsg(mCityErrorLayout, mCityError, Constants.cityErrorText);
             validation = false;
         }
         return validation;
     }
 
-    private void resetData() {
+    private void resetModalData() {
         bloodGroup = state = city = null;
     }
 
-    private void setDataInStringFormat() {
-        bloodGroup = getStringDataFromSpinner(mBloodGroup);
-        state = getStringDataFromSpinner(mState);
-        city = getStringDataFromSpinner(mCity);
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     @Override

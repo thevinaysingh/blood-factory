@@ -3,9 +3,11 @@ package com.majavrella.bloodfactory.user;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,6 +66,8 @@ public class RecieveFragment extends UserFragment {
         mRecieveFragment = inflater.inflate(R.layout.fragment_recieve, container, false);
         ButterKnife.bind(this,mRecieveFragment);
 
+        getActivity().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mBloodGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -124,6 +128,7 @@ public class RecieveFragment extends UserFragment {
                                 switch (code) {
                                     case API_SUCCESS:
                                         JSONArray jsonArray = searchResultInJson(json);
+                                        add(DonarList.newInstance(jsonArray));
                                         break;
                                     case API_FAIL:
                                         showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);

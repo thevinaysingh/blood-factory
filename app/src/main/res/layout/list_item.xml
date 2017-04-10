@@ -6,6 +6,7 @@
     android:padding="@dimen/very_small_distance"
     android:background="@drawable/rectangle_border">
     <LinearLayout
+        android:id="@+id/donar_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,14 +91,14 @@
                     android:text="City"
                     android:textSize="@dimen/very_small_text"
                     android:textColor="@color/backgroundWhite"
-                    android:layout_marginBottom="@dimen/small_distance"/>
+                    android:layout_marginBottom="@dimen/very_small_distance"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=", "
                     android:textSize="@dimen/very_small_text"
                     android:textColor="@color/backgroundWhite"
-                    android:layout_marginBottom="@dimen/small_distance"/>
+                    android:layout_marginBottom="@dimen/very_small_distance"/>
                 <TextView
                     android:id="@+id/state"
                     android:layout_width="wrap_content"
@@ -105,7 +106,7 @@
                     android:text="State"
                     android:textSize="@dimen/very_small_text"
                     android:textColor="@color/backgroundWhite"
-                    android:layout_marginBottom="@dimen/small_distance"/>
+                    android:layout_marginBottom="@dimen/very_small_distance"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

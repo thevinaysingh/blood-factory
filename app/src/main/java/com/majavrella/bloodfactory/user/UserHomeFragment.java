@@ -151,9 +151,6 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                 Log.d("User List", "resultWithJSON: "+json);
             }
         });
-        Toast.makeText(mActivity, "Ref key"+ UserProfileManager.getUserListDbRefKey()+"\nand"+ UserProfileManager.getUserDbRefKey(), Toast.LENGTH_SHORT).show();
-
-
     }
 
     private String getUserListRefkey() {

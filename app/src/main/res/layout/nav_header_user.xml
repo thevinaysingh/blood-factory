@@ -32,48 +32,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_name"
-            android:text="User name"
+            android:id="@+id/mUsername"
+            android:text="No Name"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/user_email"
+            android:id="@+id/mUserMob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="user@email.com" />
+            android:text="XXXXXXXXXX" />
 
     </LinearLayout>
-
-<!--
-    <LinearLayout
-        android:layout_width="0dp"
-        android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_marginTop="18dp"
-        android:layout_weight="1">
-        <LinearLayout
-            android:id="@+id/edit_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="end"
-            android:gravity="center"
-            android:clickable="true"
-            android:background="@drawable/circle_transparent_drawable"
-            android:weightSum="1">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/edit_profile_view"/>
-            &lt;!&ndash;<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  Edit\nProfile"
-                android:textStyle="bold"
-                android:textSize="@dimen/very_very_small_text"
-                android:textColor="@color/backgroundWhite" />&ndash;&gt;
-        </LinearLayout>
-    </LinearLayout>
--->
-
 </LinearLayout>

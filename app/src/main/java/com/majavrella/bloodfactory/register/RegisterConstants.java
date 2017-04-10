@@ -10,6 +10,8 @@ public class RegisterConstants {
 
     public static final String user_list_db = "user_list";
     public static final String user_Data_db = "users";
+    public static final String donars_db = "donars";
+    public static final String patients_db = "patients";
 
     public static final String registrationProgress = "Registering user...";
     public static final String verificationProgress = "Verifying user...";
@@ -45,4 +47,6 @@ public class RegisterConstants {
     public static final String defaultVarType= "null";
     public static final String usersListData = "usersListData";
     public static final String userData = "userData";
+    public static final String kTrue = "True";
+    public static final String kFalse = "False";
 }

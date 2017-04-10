@@ -135,7 +135,7 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private UserData setUserDataInModal(UserData user) {
-        user.setName(name);
+        user.setName(capitalizeFirstLetter(name));
         return user;
     }
 
@@ -265,6 +265,13 @@ public class RegisterFragment extends BaseFragment {
             }
         }
     };
+
+    protected String capitalizeFirstLetter(String original) {
+        if (original == null || original.length() == 0) {
+            return original;
+        }
+        return original.substring(0, 1).toUpperCase() + original.substring(1);
+    }
 
     @Override
     protected String getTitle() {

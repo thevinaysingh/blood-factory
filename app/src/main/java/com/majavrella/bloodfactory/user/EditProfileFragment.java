@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.base.Utility;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
@@ -48,6 +49,7 @@ public class EditProfileFragment extends UserFragment {
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static Bitmap bitmapImg = null;
+    UserProfileManager user;
 
     @Bind(R.id.add_image) LinearLayout mAddImage;
     @Bind(R.id.dummy_pic_container) LinearLayout mDummyPicContainer;
@@ -96,6 +98,7 @@ public class EditProfileFragment extends UserFragment {
         mEditProfileView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         ButterKnife.bind(this, mEditProfileView);
 
+        user= UserProfileManager.getInstance();
         mAddImage.setOnClickListener(mAddImageListener);
         mUsernameEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +138,21 @@ public class EditProfileFragment extends UserFragment {
     @Override
     public void onResume() {
         hideKeyboard(getActivity());
+        setDataFromDataBase();
         super.onResume();
+    }
+
+    private void setDataFromDataBase() {
+        if(isNetworkAvailable()){
+
+        } else {
+            mUsername.setText(user.getName());
+            mUserGender.setText(user.getGender().equals(RegisterConstants.defaultVarType)? "Gender not set" :user.getGender());
+            mUserGender.setText(user.getEmailId().equals(RegisterConstants.defaultVarType)? "Email not set" :user.getEmailId());
+            mUserGender.setText(user.getBloodGroup().equals(RegisterConstants.defaultVarType)? "No blood group selected" :user.getBloodGroup());
+            mUserGender.setText(user.getDob().equals(RegisterConstants.defaultVarType)? "DOB not set" :user.getDob());
+            mUserGender.setText(user.getAddress().equals(RegisterConstants.defaultVarType)? "Address not set" :user.getAddress());
+        }
     }
 
     private void selectImage() {

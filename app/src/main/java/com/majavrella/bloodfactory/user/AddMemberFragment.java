@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
@@ -33,7 +34,7 @@ import butterknife.OnItemClick;
 public class AddMemberFragment extends UserFragment {
 
     private static View mAddMemberView;
-    private static String name, gender, age, bloodGroup, mob, address, state, city, availability, authorization;
+    private static String name, gender, age, bloodGroup, mob, address,country, state, city, availability, authorization;
     @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
     @Bind(R.id.blood_grp_error_layout) LinearLayout mBloodGrpErrorLayout;
     @Bind(R.id.address_error) TextView mAddressError;
@@ -133,15 +134,15 @@ public class AddMemberFragment extends UserFragment {
 
 
     private void getUserDataFromCloud() {
-        String userListRefKey = mSharedpreferences.getString(RegisterConstants.userListRefKey,"");
-        String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"");
+        String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData,"");
+        //String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"");
+        Log.d("----------", "usersListData: "+usersListData);
 
-        if(userListRefKey.length()>0){
-            Log.d("----------", "userListRefKey: "+userListRefKey.length());
-            Log.d("----------", "usersDataRefKey: "+usersDataRefKey);
-        }
+        /*if(userListRefKey.length()>0){
 
-        Toast.makeText(mActivity, "Ref key"+usersDataRefKey+"\nand"+userListRefKey.length(), Toast.LENGTH_SHORT).show();
+        }*/
+
+        //Toast.makeText(mActivity, "Ref key"+usersDataRefKey+"\nand"+userListRefKey.length(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -192,9 +193,31 @@ public class AddMemberFragment extends UserFragment {
         @Override
         public void onClick(View v) {
             hideKeyboard(getActivity());
-            resetData();
+            resetModalData();
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();
+
+
+            if(isAllFieldsValid){
+                if(isNetworkAvailable()) {
+                    progress.setMessage("Saving member...");
+                    progress.show();
+                    try {
+                        setDataOnCloud();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                    }
+                } else {
+                    showSnackbar(mAddMemberView, RegisterConstants.networkErrorText);
+                }
+
+            }else {
+                Toast.makeText(mActivity, "Fill all fields", Toast.LENGTH_SHORT).show();
+            }
+
+
             if (isAllFieldsValid){
                 Donar Donar = setDataInModal(new Donar());
                 Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
@@ -202,22 +225,33 @@ public class AddMemberFragment extends UserFragment {
         }
     };
 
+    private void setDataOnCloud() {
+        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+        String temp_key = mDonarsDatabase.push().getKey();
+        Donar donar = setDataInModal(new Donar());
+        mDonarsDatabase.child(temp_key).setValue(donar);
+        Toast.makeText(mActivity, "Successfully added", Toast.LENGTH_SHORT).show();
+        progress.dismiss();
+    }
+
     private Donar setDataInModal(Donar donar) {
         donar.setName(name);
         donar.setGender(gender);
-        donar.setAgeGroup(age);
         donar.setBloodGroup(bloodGroup);
+        donar.setAgeGroup(age);
         donar.setMobile(mob);
         donar.setAddress(address);
+        donar.setCountry(country);
         donar.setState(state);
         donar.setCity(city);
         donar.setAvailability(availability);
         donar.setAuthorization(authorization);
+        donar.setUserId(getCurrentUserId());
         return donar;
     }
 
-    private void resetData() {
-        name = gender = age = bloodGroup = mob = address = state = city = availability = authorization = null;
+    private void resetModalData() {
+        name = gender = age = bloodGroup = mob = address = state = city = country = availability = authorization = null;
     }
 
     private void setDataInStringFormat() {
@@ -235,6 +269,7 @@ public class AddMemberFragment extends UserFragment {
         city = getStringDataFromSpinner(mDonarCity);
         availability = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
         authorization = mDonarAuthorization.isChecked()? "True" : "False";
+        country = "India";
     }
 
     @Override

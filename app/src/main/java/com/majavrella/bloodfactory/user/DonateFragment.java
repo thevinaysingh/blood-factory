@@ -1,9 +1,13 @@
 package com.majavrella.bloodfactory.user;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +22,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.api.APIConstant;
+import com.majavrella.bloodfactory.api.APIManager;
+import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.modal.Donar;
+import com.majavrella.bloodfactory.register.RegisterConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +50,10 @@ import butterknife.ButterKnife;
 public class DonateFragment extends UserFragment {
 
     private static View mDonateFragment;
-    private static String name, gender, age, bloodGroup, mob, address, state, city, availability, authorization;
+    private static String name, gender, age, bloodGroup, mob, address,country, state, city, availability, authorization;
+    private SharedPreferences mSharedpreferences;
+    private String ref_key;
+    private boolean isUserDonated = false;
 
     @Bind(R.id.gender_error) TextView mGenderError;
     @Bind(R.id.gender_error_layout) LinearLayout mGenderErrorLayout;
@@ -68,6 +88,7 @@ public class DonateFragment extends UserFragment {
         mDonateFragment = inflater.inflate(R.layout.fragment_donate, container, false);
         ButterKnife.bind(this, mDonateFragment);
 
+        mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         setStatusBarColor(Constants.colorStatusBarSecondary);
         mGenderStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -120,24 +141,59 @@ public class DonateFragment extends UserFragment {
         return mDonateFragment;
     }
 
-    @Override
-    public void onResume() {
-        hideKeyboard(getActivity());
-        super.onResume();
+    View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(getActivity());
+            resetModalData();
+            setDataInStringFormat();
+            boolean isAllFieldsValid = dataValidation();
+            if(isAllFieldsValid){
+                if(isNetworkAvailable()) {
+                    progress.setMessage("Saving donar...");
+                    progress.show();
+                    try {
+                        checkIfUserHasDonatedAlready();
+                        if(!isUserDonated) {
+                            setDataOnCloud();
+                        } else {
+                            showSnackbar(mDonateFragment, "Already donated");
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                    }
+                } else {
+                    showSnackbar(mDonateFragment, RegisterConstants.networkErrorText);
+                }
+
+            }else {
+                Toast.makeText(mActivity, "Fill all fields", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    private void resetModalData() {
+        name = gender = age = bloodGroup = mob = address = state = city = country = availability = authorization = null;
     }
 
-    private Donar setDataInModal(Donar donar) {
-        donar.setName(name);
-        donar.setGender(gender);
-        donar.setBloodGroup(bloodGroup);
-        donar.setAgeGroup(age);
-        donar.setMobile(mob);
-        donar.setAddress(address);
-        donar.setState(state);
-        donar.setCity(city);
-        donar.setAvailability(availability);
-        donar.setAuthorization(authorization);
-        return donar;
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mDonarName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            age = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
+        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
+        mob = getStringDataFromEditText(mDonarMob);
+        address = getStringDataFromEditText(mDonarAddress);
+        state = getStringDataFromSpinner(mDonarState);
+        city = getStringDataFromSpinner(mDonarCity);
+        availability = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
+        authorization = mDonarAuthorization.isChecked()? "True" : "False";
+        country = "India";
     }
 
     private boolean dataValidation() {
@@ -174,57 +230,132 @@ public class DonateFragment extends UserFragment {
         return validation;
     }
 
-    private void resetModalData() {
-        name = gender = age = bloodGroup = mob = address = state = city = availability = authorization = null;
+    private void setDataOnCloud() {
+        updateUserListDatabase();
+        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+        String temp_key = mDonarsDatabase.push().getKey();
+        Donar donar = setDataInModal(new Donar());
+        mDonarsDatabase.child(temp_key).setValue(donar);
+        Toast.makeText(mActivity, "Now, You're able to donate", Toast.LENGTH_SHORT).show();
+        progress.dismiss();
     }
 
-    private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mDonarName);
-        if(mGenderStatus.getCheckedRadioButtonId()>=0){
-            gender = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mGenderStatus.getCheckedRadioButtonId()));
-        }
-        if(mAgeGroup.getCheckedRadioButtonId()>=0){
-            age = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAgeGroup.getCheckedRadioButtonId()));
-        }
-        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
-        mob = getStringDataFromEditText(mDonarMob);
-        address = getStringDataFromEditText(mDonarAddress);
-        state = getStringDataFromSpinner(mDonarState);
-        city = getStringDataFromSpinner(mDonarCity);
-        availability = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
-        authorization = mDonarAuthorization.isChecked()? "True" : "False";
+    private void updateUserListDatabase() {
+        DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
+        mDonarListDatabase.child(ref_key).setValue("donar", RegisterConstants.kTrue );
     }
 
-    View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(getActivity());
-            resetModalData();
-            setDataInStringFormat();
-            boolean isAllFieldsValid = dataValidation();
-            if(isAllFieldsValid){
-                progress.setMessage("Saving donar...");
-                progress.show();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        try{
-                            Donar donar = setDataInModal(new Donar());
-                            Toast.makeText(mActivity, "Now, You're able to donate!!!", Toast.LENGTH_SHORT).show();
-                            progress.dismiss();
-                        }catch (Exception e){
-                            e.printStackTrace();
-                            Toast.makeText(mActivity, "Operation failed!!!", Toast.LENGTH_SHORT).show();
-                            progress.dismiss();
+    private Donar setDataInModal(Donar donar) {
+        donar.setName(name);
+        donar.setGender(gender);
+        donar.setBloodGroup(bloodGroup);
+        donar.setAgeGroup(age);
+        donar.setMobile(mob);
+        donar.setAddress(address);
+        donar.setCountry(country);
+        donar.setState(state);
+        donar.setCity(city);
+        donar.setAvailability(availability);
+        donar.setAuthorization(authorization);
+        donar.setUserId(getCurrentUserId());
+        return donar;
+    }
+
+    @Override
+    public void onResume() {
+        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
+        hideKeyboard(getActivity());
+        checkIfUserHasDonatedAlready();
+        super.onResume();
+    }
+
+    private void checkIfUserHasDonatedAlready() {
+        if(!ref_key.toString().equals(RegisterConstants.defaultSharedPrefsValue)) {
+            String url = Constants.kBaseUrl+Constants.kUserListUrl+ref_key+Constants.jsonTail;
+            APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+                @Override
+                public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                    switch (code) {
+                        case API_SUCCESS:
+                            if (verifyDonation(json)){
+                                isUserDonated = true;
+                                showSnackbar(mDonateFragment, "Already donated");
+                            }
+                            break;
+                        case API_FAIL:
+                            showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                            break;
+                        case API_NETWORK_FAIL:
+                            showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                            break;
+                        default : {
                         }
                     }
-                }, 2000);
+                    progress.dismiss();
+                }
+            });
+        } else {
+            String url = Constants.kBaseUrl+Constants.kUserList;
+            APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+                @Override
+                public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        if (verifyUserDonation(json)){
+                            isUserDonated = true;
+                            showSnackbar(mDonateFragment, "Already donated");
+                        }
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+                progress.dismiss();
+                }
+            });
+        }
+    }
 
-            }else {
-                Toast.makeText(mActivity, "Something went wrong !!!", Toast.LENGTH_SHORT).show();
+    private boolean verifyUserDonation(JSONObject json) {
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+                    return verifyDonation(json.getJSONObject(key));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
-    };
+        return false;
+    }
+
+    private boolean verifyDonation(JSONObject json) {
+        try {
+            if(json.get("donar").toString().equals(RegisterConstants.kTrue)){
+               return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void showSnackbar(View view, String text) {
+        final Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {  }
+                });
+        snackbar.show();
+    }
 
     @Override
     protected String getTitle() {

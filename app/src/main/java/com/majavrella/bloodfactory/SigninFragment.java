@@ -50,6 +50,7 @@ public class SigninFragment extends BaseFragment {
     private static View mSigninFragment;
     private String mobile, password;
     protected SharedPreferences sharedpreferences;
+    protected SharedPreferences.Editor editor;
     @Bind(R.id.user_mob) EditText mUserMobile;
     @Bind(R.id.user_password) EditText mUserPassword;
     @Bind(R.id.show_password) CheckBox mShowPassword;
@@ -72,7 +73,8 @@ public class SigninFragment extends BaseFragment {
         mSigninFragment = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, mSigninFragment);
 
-       sharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
+        sharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
+        editor = sharedpreferences.edit();
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,8 +184,8 @@ public class SigninFragment extends BaseFragment {
                                 } else {
                                     showDialogError(RegisterConstants.loginErrorTitle,RegisterConstants.loginErrorText);
                                 }
-                                progress.dismiss();
                                 startUserActivity();
+                                progress.dismiss();
                             }
                         });
                 }
@@ -217,9 +219,7 @@ public class SigninFragment extends BaseFragment {
     }
 
     private void setUsersDBRefKey(JSONObject json) {
-        final String ref_key = extractRefKey(json);
-        UserProfileManager.setUserDbRefKey(ref_key);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final String ref_key = extractRefKeyForUsers(json);
         editor.putString(RegisterConstants.usersDataRefKey, ref_key);
         editor.commit();
     }
@@ -248,14 +248,12 @@ public class SigninFragment extends BaseFragment {
     }
 
     private void setUserListDBRefKey(JSONObject json) {
-        final String ref_key = extractRefKey(json);
-        UserProfileManager.setUserListDbRefKey(ref_key);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+        final String ref_key = extractRefKeyForUsersList(json);
         editor.putString(RegisterConstants.userListRefKey, ref_key);
         editor.commit();
     }
 
-    private String extractRefKey(JSONObject json) {
+    private String extractRefKeyForUsersList(JSONObject json) {
         String ref_key = null;
         FirebaseUser user = mFirebaseAuth.getCurrentUser();
         Iterator iterator = json.keys();
@@ -263,7 +261,10 @@ public class SigninFragment extends BaseFragment {
             String key = (String) iterator.next();
             try {
                 if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+                    editor.putString(RegisterConstants.userData, json.getJSONObject(key).toString());
+                    editor.commit();
                     ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
+                    UserProfileManager.getInstance().setUserData(json.getJSONObject(key));
                     return ref_key;
                 }
             } catch (JSONException e) {
@@ -272,6 +273,28 @@ public class SigninFragment extends BaseFragment {
         }
         return ref_key;
     }
+
+    private String extractRefKeyForUsers(JSONObject json) {
+        String ref_key = null;
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+                    editor.putString(RegisterConstants.usersListData, json.getJSONObject(key).toString());
+                    editor.commit();
+                    ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
+                    UserProfileManager.getInstance().setUserListData(json.getJSONObject(key));
+                    return ref_key;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return ref_key;
+    }
+
 
     public void showSnackbar(String text) {
         final Snackbar snackbar = Snackbar.make(mSigninFragment, text, Snackbar.LENGTH_LONG)

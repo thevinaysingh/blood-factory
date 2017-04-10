@@ -2,6 +2,8 @@ package com.majavrella.bloodfactory.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -9,16 +11,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.majavrella.bloodfactory.api.APIConstant;
+import com.majavrella.bloodfactory.api.APIManager;
+import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.appbase.MainActivity;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.BaseActivity;
 import com.majavrella.bloodfactory.base.Constants;
+import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.register.RegisterConstants;
+
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -39,6 +49,16 @@ public class UserActivity extends BaseActivity {
 
     @Bind(R.id.nav_view)
     LinearLayout navigationView;
+
+    @Bind(R.id.mUsername)
+    TextView mUsername;
+
+    @Bind(R.id.mUserMob)
+    TextView mUserMob;
+
+    @Bind(R.id.imageView)
+    ImageView mImageView;
+
     static private FirebaseAuth mFirebaseAuth;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -52,6 +72,17 @@ public class UserActivity extends BaseActivity {
         setupNavigationItems();
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
+    }
+
+    @Override
+    protected void onResume() {
+        mUsername.setText(UserProfileManager.getInstance().getName());
+        mUserMob.setText(UserProfileManager.getInstance().getMobile());
+        if(!UserProfileManager.getInstance().getProfilePic().equals(RegisterConstants.defaultVarType)){
+
+        }
+
+        super.onResume();
     }
 
     private void setupDrawerAndToggle() {

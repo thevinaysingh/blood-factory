@@ -29,11 +29,11 @@
         <item>India</item>
     </string-array>
     <string-array name="list_of_states">
-        <item>--select state--</item>
+        <item>--Select state--</item>
         <item>Madhya pradesh</item>
     </string-array>
     <string-array name="list_of_cities">
-        <item>--select city--</item>
+        <item>--Select city--</item>
         <item>Indore</item>
     </string-array>
     <string name="title_activity_user">UserActivity</string>

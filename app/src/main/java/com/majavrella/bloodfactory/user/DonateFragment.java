@@ -153,15 +153,12 @@ public class DonateFragment extends UserFragment {
                     progress.setMessage("Saving donar...");
                     progress.show();
                     try {
-                        checkIfUserHasDonatedAlready();
-                        if(!isUserDonated) {
-                            setDataOnCloud();
-                        } else {
-                            showSnackbar(mDonateFragment, "Already donated");
-                        }
+                        //checkIfUserHasDonatedAlready();
+                        setDataOnCloud();
                     } catch (Exception e){
                         e.printStackTrace();
                         Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
+                    } finally {
                         progress.dismiss();
                     }
                 } else {
@@ -231,18 +228,17 @@ public class DonateFragment extends UserFragment {
     }
 
     private void setDataOnCloud() {
-        updateUserListDatabase();
+        DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
+        mDonarListDatabase.child("-KhYuMltgAeJ7t0GK_q3").child("donar").setValue(RegisterConstants.kTrue);
+        Toast.makeText(mActivity, "Donar value updated", Toast.LENGTH_SHORT).show();
         DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
         String temp_key = mDonarsDatabase.push().getKey();
         Donar donar = setDataInModal(new Donar());
         mDonarsDatabase.child(temp_key).setValue(donar);
-        Toast.makeText(mActivity, "Now, You're able to donate", Toast.LENGTH_SHORT).show();
-        progress.dismiss();
     }
 
     private void updateUserListDatabase() {
-        DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
-        mDonarListDatabase.child(ref_key).setValue("donar", RegisterConstants.kTrue );
+
     }
 
     private Donar setDataInModal(Donar donar) {
@@ -261,39 +257,9 @@ public class DonateFragment extends UserFragment {
         return donar;
     }
 
-    @Override
-    public void onResume() {
-        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
-        hideKeyboard(getActivity());
-        checkIfUserHasDonatedAlready();
-        super.onResume();
-    }
-
     private void checkIfUserHasDonatedAlready() {
-        if(!ref_key.toString().equals(RegisterConstants.defaultSharedPrefsValue)) {
-            String url = Constants.kBaseUrl+Constants.kUserListUrl+ref_key+Constants.jsonTail;
-            APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
-                @Override
-                public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                    switch (code) {
-                        case API_SUCCESS:
-                            if (verifyDonation(json)){
-                                isUserDonated = true;
-                                showSnackbar(mDonateFragment, "Already donated");
-                            }
-                            break;
-                        case API_FAIL:
-                            showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
-                            break;
-                        case API_NETWORK_FAIL:
-                            showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-                            break;
-                        default : {
-                        }
-                    }
-                    progress.dismiss();
-                }
-            });
+        if(!ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
+            isUserDonatedAlready(ref_key);
         } else {
             String url = Constants.kBaseUrl+Constants.kUserList;
             APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
@@ -302,8 +268,9 @@ public class DonateFragment extends UserFragment {
                 switch (code) {
                     case API_SUCCESS:
                         if (verifyUserDonation(json)){
-                            isUserDonated = true;
                             showSnackbar(mDonateFragment, "Already donated");
+                        } else {
+                            setDataOnCloud();
                         }
                         break;
                     case API_FAIL:
@@ -339,7 +306,8 @@ public class DonateFragment extends UserFragment {
 
     private boolean verifyDonation(JSONObject json) {
         try {
-            if(json.get("donar").toString().equals(RegisterConstants.kTrue)){
+            if(json.getString("donar").equals(RegisterConstants.kTrue)){
+                Log.d("----------", "verifyDonation: "+json.getString("donar"));
                return true;
             }
         } catch (JSONException e) {
@@ -348,11 +316,50 @@ public class DonateFragment extends UserFragment {
         return false;
     }
 
+    @Override
+    public void onResume() {
+        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
+        hideKeyboard(getActivity());
+        if(!ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
+            isUserDonatedAlready(ref_key);
+        }
+
+        super.onResume();
+    }
+
+    private void isUserDonatedAlready(final String refKey) {
+        String url = Constants.kBaseUrl+Constants.kUserListUrl+refKey+Constants.jsonTail;
+        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        if (verifyDonation(json)){
+                            isUserDonated = true;
+                            showSnackbar(mDonateFragment, "Already donated");
+                        }
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+                progress.dismiss();
+            }
+        });
+    }
+
     public void showSnackbar(View view, String text) {
         final Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
                 .setAction("OK", new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {  }
+                    public void onClick(View view) {
+                        mDonateButton.setClickable(false);
+                    }
                 });
         snackbar.show();
     }

@@ -14,6 +14,7 @@ public class Constants {
     public static final String kUserListUrl = "user_list/";
     public static final String kUsersData = "users.json";
     public static final String kDonars = "donars.json";
+    public static final String kPatients = "patients.json";
     public static final String kUsers = "users/";
     public static final String kMobileString = "mobile";
     public static final String kPasswordString = "password";

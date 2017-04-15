@@ -9,44 +9,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/small_distance"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/small_distance"
-                android:orientation="horizontal">
-                <FrameLayout
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@color/available_color"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Availavle"
-                    android:layout_marginLeft="@dimen/small_distance"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <FrameLayout
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@color/not_available_color"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Unavailable"
-                    android:layout_marginLeft="@dimen/small_distance"
-                    android:textColor="@color/black"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

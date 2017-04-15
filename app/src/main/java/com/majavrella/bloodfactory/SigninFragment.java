@@ -105,38 +105,6 @@ public class SigninFragment extends BaseFragment {
         return mSigninFragment;
     }
 
-    private boolean dataValidation() {
-        boolean validation = true;
-        if(!isPhoneValid(mobile)){
-            validation = false;
-            mUserMobile.setError(Constants.mobErrorText);
-        }
-        if(password.length()<6){
-            validation = false;
-            mUserPassword.setError("Enter 6 characters!");
-        }
-        return validation;
-    }
-
-    @Override
-    public void onResume() {
-        hideKeyboard(mActivity);
-        super.onResume();
-    }
-
-    View.OnClickListener mLostPasswordListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(isNetworkAvailable()){
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                ForgotPassword forgotPassword = new ForgotPassword();
-                forgotPassword.show(manager, "password_layout");
-            } else {
-                showSnackbar(RegisterConstants.networkErrorText);
-            }
-        }
-    };
-
     private void startUserActivity() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -157,6 +125,19 @@ public class SigninFragment extends BaseFragment {
 
     }
 
+    private boolean dataValidation() {
+        boolean validation = true;
+        if(!isPhoneValid(mobile)){
+            validation = false;
+            mUserMobile.setError(Constants.mobErrorText);
+        }
+        if(password.length()<6){
+            validation = false;
+            mUserPassword.setError("Enter 6 characters!");
+        }
+        return validation;
+    }
+
     private void setDataInStringFormat() {
         mobile = getStringDataFromEditText(mUserMobile);
         password = getStringDataFromEditText(mUserPassword);
@@ -165,36 +146,6 @@ public class SigninFragment extends BaseFragment {
     private void resetData() {
         mobile = password = null;
     }
-
-    View.OnClickListener mSigninListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(getActivity());
-            if(isNetworkAvailable()){
-                resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
-                if (isAllFieldsValid){
-                    progress.setMessage(RegisterConstants.validationProgress); progress.show();
-                    final  String user_id = mobile+RegisterConstants.userIdDummyTail;
-                    mFirebaseAuth.signInWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    setUsersDBRefKeyForCurrentUser();
-                                    setUserListDBRefKeyForCurrentUser();
-                                } else {
-                                    showDialogError(RegisterConstants.loginErrorTitle,RegisterConstants.loginErrorText);
-                                }
-                                startUserActivity();
-                                progress.dismiss();
-                            }
-                        });
-                }
-            } else {
-                showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-            }
-
-        }
-    };
 
     private void setUsersDBRefKeyForCurrentUser() {
         final String url = Constants.kBaseUrl+Constants.kUserList;
@@ -295,7 +246,6 @@ public class SigninFragment extends BaseFragment {
         return ref_key;
     }
 
-
     public void showSnackbar(String text) {
         final Snackbar snackbar = Snackbar.make(mSigninFragment, text, Snackbar.LENGTH_LONG)
                 .setAction("OK", new View.OnClickListener() {
@@ -303,6 +253,68 @@ public class SigninFragment extends BaseFragment {
                     public void onClick(View view) {  }
                 });
         snackbar.show();
+    }
+
+    View.OnClickListener mSigninListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(getActivity());
+            if(isNetworkAvailable()){
+                resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
+                if (isAllFieldsValid){
+                    progress.setMessage(RegisterConstants.validationProgress); progress.show();
+                    final  String user_id = mobile+RegisterConstants.userIdDummyTail;
+                    mFirebaseAuth.signInWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                setUsersDBRefKeyForCurrentUser();
+                                setUserListDBRefKeyForCurrentUser();
+                                startUserActivity();
+                            } else {
+                                showLoginFailedSnackbar();
+                                showDialogError(RegisterConstants.loginErrorTitle,RegisterConstants.loginErrorText);
+                            }
+                            progress.dismiss();
+                        }
+                    });
+                }
+            } else {
+                showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+            }
+
+        }
+    };
+
+    private void showLoginFailedSnackbar() {
+        final Snackbar snackbar = Snackbar.make(mSigninFragment, "Go to register page", Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        add(RegisterFragment.newInstance());
+                    }
+                });
+        snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+        snackbar.show();
+    }
+
+    View.OnClickListener mLostPasswordListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(isNetworkAvailable()){
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                ForgotPassword forgotPassword = new ForgotPassword();
+                forgotPassword.show(manager, "password_layout");
+            } else {
+                showSnackbar(RegisterConstants.networkErrorText);
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        hideKeyboard(mActivity);
+        super.onResume();
     }
 
     @Override

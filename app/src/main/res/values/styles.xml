@@ -13,13 +13,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
-  <!--  <style name="appLogoText">
-        <item name="android:textColor">#000</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:textAllCaps">true</item>
-    </style>-->
+    <!--theme for progress dialog on fullscreen-->
+    <style name="custom_progress_dialog" >
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name ="android:background">#afafaf</item>
+        <item name="android:layout_margin">@dimen/big_distance</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name = "android:textColor">@color/backgroundWhite</item>
+    </style>
 
     <style name="frontButton">
         <item name="android:layout_margin">4dp</item>

@@ -69,7 +69,7 @@ public class FirstFragment extends BaseFragment implements BackButtonSupportFrag
     @Override
     public boolean onBackPressed() {
         if (consumingBackPress) {
-            toast = Toast.makeText(getActivity(), "Press back again to exit !!!", Toast.LENGTH_LONG);
+            toast = Toast.makeText(getActivity(), "Press back again to exit", Toast.LENGTH_LONG);
             toast.show();
             consumingBackPress = false;
             return true;

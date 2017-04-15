@@ -18,12 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
 import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.modal.Member;
 import com.majavrella.bloodfactory.modal.Patient;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -125,19 +127,53 @@ public class BloodRequestFragment extends UserFragment {
                 hideKeyboard(getActivity());
             }
         });
-
         mPostBloodRequest.setOnClickListener(mPostBloodRequestListener);
         return mBloodRequestView;
     }
 
-    @Override
-    public void onResume() {
-        hideKeyboard(getActivity());
-        super.onResume();
+    View.OnClickListener mPostBloodRequestListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(getActivity());
+            if(isNetworkAvailable()){
+                resetModalData();
+                setDataInStringFormat();
+                if(dataValidation()){
+                    progress.setMessage(RegisterConstants.waitProgress);
+                    progress.show();
+                    try{
+                        setDataOnCloud();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        progress.dismiss();
+                    }
+                } else {
+                    Toast.makeText(mActivity, "Required data entry", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                showSnackbar(mBloodRequestView, RegisterConstants.networkErrorText);
+            }
+        }
+    };
+
+    private void resetModalData() {
+        name = gender = ageGroup = bloodGroup = mob = state = city = lastDate = purpose = null;
     }
 
-    private void setData() {
-        Patient patient = new Patient();
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mPatientName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            ageGroup = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
+        bloodGroup = getStringDataFromSpinner(mPatientBloodGroup);
+        mob = getStringDataFromEditText(mPatientMob);
+        state = getStringDataFromSpinner(mPatientState);
+        city = getStringDataFromSpinner(mPatientCity);
+        lastDate= getStringDataFromEditText(mLastDateNeed);
+        purpose = getStringDataFromEditText(mPurposeOfRequest);
     }
 
     private boolean dataValidation() {
@@ -181,20 +217,14 @@ public class BloodRequestFragment extends UserFragment {
         return validation;
     }
 
-    View.OnClickListener mPostBloodRequestListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(getActivity());
-            resetModalData();
-            setDataInStringFormat();
-            boolean isAllFieldsValid =  dataValidation();
-            if (isAllFieldsValid){
-                Patient patient = setDataInModal(new Patient());
-                Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
-                setData();
-            }
-        }
-    };
+    private void setDataOnCloud() {
+        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+        String temp_key = mDonarsDatabase.push().getKey();
+        Patient patient = setDataInModal(new Patient());
+        patient.setSelfRefKey(temp_key);
+        mDonarsDatabase.child(temp_key).setValue(patient);
+        progress.dismiss();
+    }
 
     private Patient setDataInModal(Patient patient) {
         patient.setName(name);
@@ -206,27 +236,14 @@ public class BloodRequestFragment extends UserFragment {
         patient.setCity(city);
         patient.setDate(lastDate);
         patient.setPurpose(purpose);
+        patient.setUserId(getCurrentUserId());
         return patient;
     }
 
-    private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mPatientName);
-        if(mGenderStatus.getCheckedRadioButtonId()>=0){
-            gender = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
-        }
-        if(mAgeGroup.getCheckedRadioButtonId()>=0){
-            ageGroup = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
-        }
-        bloodGroup = getStringDataFromSpinner(mPatientBloodGroup);
-        mob = getStringDataFromEditText(mPatientMob);
-        state = getStringDataFromSpinner(mPatientState);
-        city = getStringDataFromSpinner(mPatientCity);
-        lastDate= getStringDataFromEditText(mLastDateNeed);
-        purpose = getStringDataFromEditText(mPurposeOfRequest);
-    }
-
-    private void resetModalData() {
-        name = gender = ageGroup = bloodGroup = mob = state = city = lastDate = purpose = null;
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
     }
 
     @Override

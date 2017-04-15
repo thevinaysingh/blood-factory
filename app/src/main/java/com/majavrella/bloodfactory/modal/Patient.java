@@ -7,6 +7,7 @@ package com.majavrella.bloodfactory.modal;
 public class Patient {
 
     private String name;
+    private String userId;
     private String gender;
     private String ageGroup;
     private String bloodGroup;
@@ -15,10 +16,28 @@ public class Patient {
     private String city;
     private String date;
     private String purpose;
+    private String selfRefKey;
 
     public Patient() {
       /*Blank default constructor essential for Firebase*/
     }
+
+    //Getters and setters for user id
+    public String getSelfRefKey() {
+        return selfRefKey;
+    }
+    public void setSelfRefKey(String selfRefKey) {
+        this.selfRefKey = selfRefKey;
+    }
+
+    //Getters and setters for user id
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     //Getters and setters for name
     public String getName() {
         return name;

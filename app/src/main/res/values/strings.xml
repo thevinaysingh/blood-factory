@@ -108,4 +108,9 @@
     <string name="user_info_attr3">Change Password</string>
     <string name="guidance_note">Note:- \nThis information is collected from different resources. Please authenticate from a registered/ experienced/ certified DOCTOR before touching any end conclusion.</string>
 
+    <string name="call_msg">This person is needed to take your help.\n Click ok to reply through the CALL.\n\n Be a life giver:)</string>
+    <string name="sms_msg">This person is needed to take your help.\n Click ok to reply through the SMS.\n\n Be a life giver:)</string>
+    <string name="share_msg">Suggest to others to give help.\n Just click ok.\n\n Be a life giver:)</string>
+    <string name="one_tap_msg">Click ok and we will send response to this person and make him aware about you as a life giver angel.</string>
+
 </resources>

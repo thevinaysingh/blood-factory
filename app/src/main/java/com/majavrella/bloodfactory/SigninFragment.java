@@ -36,6 +36,7 @@ import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.ForgotPassword;
+import com.majavrella.bloodfactory.user.UserActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,7 +112,7 @@ public class SigninFragment extends BaseFragment {
             public void run() {
                 try{
                     Toast.makeText(mActivity, "Login success", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    Intent intent = new Intent(mActivity, UserActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

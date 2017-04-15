@@ -43,7 +43,6 @@ public class PeopleNeedFragment extends UserFragment {
 
     private static View mPeopleInNeed;
     private static JSONArray mPeopleInNeedArray;
-    private ProgressDialog progressDialog;
     @Bind(R.id.list_container) LinearLayout mListContainer;
 
     public static PeopleNeedFragment newInstance() {
@@ -59,7 +58,6 @@ public class PeopleNeedFragment extends UserFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mPeopleInNeed = inflater.inflate(R.layout.fragment_people_need, container, false);
-        progressDialog = new ProgressDialog(getContext(), R.style.custom_progress_dialog);
         progressDialog.setMessage(RegisterConstants.waitProgress);
         progressDialog.show();
         mPeopleInNeedArray = new JSONArray();

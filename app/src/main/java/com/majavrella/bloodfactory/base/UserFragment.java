@@ -45,6 +45,7 @@ public abstract class UserFragment extends Fragment {
 	protected FirebaseAuth mFirebaseAuth;
     protected DatabaseReference mDatabase;
     protected ProgressDialog progress;
+	protected ProgressDialog progressDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,8 @@ public abstract class UserFragment extends Fragment {
         mActivity		=	(UserActivity) this.getActivity();
         mFirebaseAuth = FirebaseAuth.getInstance();
         progress=new ProgressDialog(mActivity);
-	}
+        progressDialog = new ProgressDialog(getContext(), R.style.custom_progress_dialog);
+    }
 
 	@Override
 	public void onResume() {

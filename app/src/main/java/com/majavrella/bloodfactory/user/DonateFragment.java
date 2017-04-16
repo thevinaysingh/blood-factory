@@ -241,6 +241,7 @@ public class DonateFragment extends UserFragment {
         DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
         String temp_key = mDonarsDatabase.push().getKey();
         Donar donar = setDataInModal(new Donar());
+        donar.setSelfRefKey(temp_key);
         mDonarsDatabase.child(temp_key).setValue(donar);
     }
 
@@ -379,6 +380,7 @@ public class DonateFragment extends UserFragment {
                         mDonateButton.setClickable(false);
                     }
                 });
+        snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
     }
 

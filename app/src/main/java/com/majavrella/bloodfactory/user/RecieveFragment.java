@@ -119,8 +119,8 @@ public class RecieveFragment extends UserFragment {
                     resetModalData();
                     setDataInStringFormat();
                     if(dataValidation()){
-                        progress.setMessage(RegisterConstants.waitProgress);
-                        progress.show();
+                        progressDialog.setMessage(RegisterConstants.waitProgress);
+                        progressDialog.show();
                         final String url = Constants.kBaseUrl+Constants.kDonars;
                         APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
                             @Override
@@ -139,7 +139,7 @@ public class RecieveFragment extends UserFragment {
                                     default : {
                                     }
                                 }
-                                progress.dismiss();
+                                progressDialog.dismiss();
                             }
                         });
                     }else{

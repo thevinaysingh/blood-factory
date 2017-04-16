@@ -4,18 +4,39 @@ import android.graphics.Bitmap;
 import android.media.Image;
 
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 /**
- * Created by Administrator on 2/26/2017.
+ * Created by Vinay on 2/26/2017.
  */
 
 public class UserData {
-    private static String userId= "null", refKey="null", identity ="User", name="null", emailId="null", gender="null", bloodGroup="null", ageGroup="null", dob="null", address="null", city="null", state="null", country="null";
-    private static String availibility="null", authorizedToApp="null", occupation="null", dor="null", tor="null", currentLoc="null", lastLoc="null";
-    private static String profilePic = "null";
+    private static String userId= RegisterConstants.defaultVarType;
+    private static String refKey= RegisterConstants.defaultVarType;
+    private static String identity= "User";
+    private static String name= RegisterConstants.defaultVarType;
+    private static String emailId= RegisterConstants.defaultVarType;
+    private static String gender= RegisterConstants.defaultVarType;
+    private static String bloodGroup= RegisterConstants.defaultVarType;
+    private static String ageGroup= RegisterConstants.defaultVarType;
+    private static String dob= RegisterConstants.defaultVarType;
+    private static String address= RegisterConstants.defaultVarType;
+    private static String city= RegisterConstants.defaultVarType;
+    private static String state= RegisterConstants.defaultVarType;
+    private static String country= RegisterConstants.defaultVarType;
+    private static String profilePic = RegisterConstants.defaultVarType;
+    private static String selfRefKey;
 
     public UserData() {
       /*Blank default constructor essential for Firebase*/
+    }
+
+    //Getters and setters for selfRefKey
+    public String getSelfRefKey() {
+        return selfRefKey;
+    }
+    public void setSelfRefKey(String selfRefKey) {
+        this.selfRefKey = selfRefKey;
     }
 
     //Getters and setters for user Id
@@ -120,67 +141,11 @@ public class UserData {
         this.country = country;
     }
 
-    //Getters and setters for availibility
-    public String getAvailibility() {
-        return availibility;
-    }
-    public void setAvailibility(String availibility) {
-        this.availibility = availibility;
-    }
-
-    //Getters and setters for authorizedToApp
-    public String getAuthorizedToApp() {
-        return authorizedToApp;
-    }
-    public void setAuthorizedToApp(String authorizedToApp) {
-        this.authorizedToApp = authorizedToApp;
-    }
-
     //Getters and setters for profile pic
     public String getProfilePic() {
         return profilePic;
     }
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
-    }
-
-    //Getters and setters for occupation
-    public String getOccupation() {
-        return occupation;
-    }
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    //Getters and setters for date of registration
-    public String getDor() {
-        return dor;
-    }
-    public void setDor(String dor) {
-        this.dor = dor;
-    }
-
-    //Getters and setters for time of registration
-    public String getTor() {
-        return tor;
-    }
-    public void setTor(String tor) {
-        this.tor = tor;
-    }
-
-    //Getters and setters for current location
-    public String getCurrentLoc() {
-        return currentLoc;
-    }
-    public void setCurrentLoc(String currentLoc) {
-        this.currentLoc = currentLoc;
-    }
-
-    //Getters and setters for last location
-    public String getLastLoc() {
-        return lastLoc;
-    }
-    public void setLastLoc(String lastLoc) {
-        this.lastLoc = lastLoc;
     }
 }

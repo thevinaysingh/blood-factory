@@ -128,21 +128,7 @@ public class AddMemberFragment extends UserFragment {
             }
         });
         mAddMember.setOnClickListener(mAddMemberButtonListener);
-        getUserDataFromCloud();
         return mAddMemberView;
-    }
-
-
-    private void getUserDataFromCloud() {
-        String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData,"");
-        //String usersDataRefKey = mSharedpreferences.getString(RegisterConstants.usersDataRefKey,"");
-        Log.d("----------", "usersListData: "+usersListData);
-
-        /*if(userListRefKey.length()>0){
-
-        }*/
-
-        //Toast.makeText(mActivity, "Ref key"+usersDataRefKey+"\nand"+userListRefKey.length(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

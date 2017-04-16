@@ -131,10 +131,26 @@ public class DonarList extends UserFragment {
                 call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent callIntent = new Intent(Intent.ACTION_VIEW);
-                        callIntent.setData(Uri.parse("tel:"+finalMobileNo));
-                        startActivity(callIntent);
-
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                        builder.setMessage("If you want to call directly,\n Click ok and start processing...")
+                                .setTitle("Contact by phone")
+                                .setIcon(R.drawable.phone)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent callIntent = new Intent(Intent.ACTION_VIEW);
+                                        callIntent.setData(Uri.parse("tel:"+finalMobileNo));
+                                        startActivity(callIntent);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
 
@@ -143,21 +159,54 @@ public class DonarList extends UserFragment {
                 sms.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-                        sendIntent.setData(Uri.parse("sms:"));
-                        sendIntent.putExtra("sms_body", finalMessage1);
-                        startActivity(sendIntent);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                        builder.setMessage("If you want to sms this information to others,\n Click ok and start processing...")
+                                .setTitle("SMS")
+                                .setIcon(R.drawable.sms)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                                        sendIntent.setData(Uri.parse("sms:"));
+                                        sendIntent.putExtra("sms_body", finalMessage1);
+                                        startActivity(sendIntent);                                    }
+                                })
+                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
 
                 share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent shareIntent = new Intent();
-                        shareIntent.setAction(Intent.ACTION_SEND);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, finalMessage1);
-                        shareIntent.setType("text/plain");
-                        startActivity(shareIntent);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                        builder.setMessage("If you want to share this information to others,\nClick ok and start processing...")
+                                .setTitle("Suggest to others")
+                                .setIcon(R.drawable.share)
+                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent shareIntent = new Intent();
+                                        shareIntent.setAction(Intent.ACTION_SEND);
+                                        shareIntent.putExtra(Intent.EXTRA_TEXT, finalMessage1);
+                                        shareIntent.setType("text/plain");
+                                        startActivity(shareIntent);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
 

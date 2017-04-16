@@ -2,8 +2,10 @@ package com.majavrella.bloodfactory.user;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +33,9 @@ import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.base.Utility;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,7 +54,10 @@ public class EditProfileFragment extends UserFragment {
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static Bitmap bitmapImg = null;
-    UserProfileManager user;
+    private UserProfileManager user;
+    private JSONObject userListObj=null ;
+    private JSONObject userObj = null;
+    protected SharedPreferences mSharedpreferences;
 
     @Bind(R.id.add_image) LinearLayout mAddImage;
     @Bind(R.id.dummy_pic_container) LinearLayout mDummyPicContainer;
@@ -57,32 +65,46 @@ public class EditProfileFragment extends UserFragment {
 
     @Bind(R.id.user_name) TextView mUsername;
     @Bind(R.id.user_name_edit) ImageView mUsernameEdit;
+    @Bind(R.id.user_name_edit_box) LinearLayout mUsernameEditBox;
     @Bind(R.id.user_name_edit_text) EditText mUsernameEditText;
+    @Bind(R.id.change_name) Button mChangeName;
 
     @Bind(R.id.user_gender) TextView mUserGender;
     @Bind(R.id.user_gender_edit) ImageView mUserGenderEdit;
     @Bind(R.id.user_gender_edit_box) LinearLayout mUserGenderEditBox;
     @Bind(R.id.genderStatus) RadioGroup mGender;
+    @Bind(R.id.change_gender) Button mChangeGender;
 
     @Bind(R.id.user_email) TextView mUserEmail;
     @Bind(R.id.user_email_edit) ImageView mUserEmailEdit;
+    @Bind(R.id.email_edit_box) LinearLayout mEmailEditBox;
     @Bind(R.id.user_email_edit_text) EditText mUserEmailEditText;
+    @Bind(R.id.change_email) Button mChangeEmail;
 
     @Bind(R.id.user_blood) TextView mUserBlood;
     @Bind(R.id.user_blood_edit) ImageView mUserBloodEdit;
-    @Bind(R.id.user_blood_edit_box) Spinner mUserBloodEditBox;
+    @Bind(R.id.user_blood_edit_box) LinearLayout mUserBloodEditBox;
+    @Bind(R.id.user_blood_edit_spinner) Spinner mUserBloodEditSpinner;
+    @Bind(R.id.change_blood_group) Button mChangeBloodGroup;
 
     @Bind(R.id.user_dob) TextView mUserDob;
     @Bind(R.id.user_dob_edit) ImageView mUserDobEdit;
+    @Bind(R.id.user_dob_edit_box) LinearLayout mUserDobEditBox;
     @Bind(R.id.user_dob_edit_text) EditText mUserDobEditText;
+    @Bind(R.id.change_dob) Button mChangeDob;
 
     @Bind(R.id.user_address) TextView mUserAddress;
     @Bind(R.id.user_address_edit) ImageView mUserAddressEdit;
     @Bind(R.id.user_address_edit_box) LinearLayout mUserAddressEditBox;
+    @Bind(R.id.user_address_edit_text) EditText mUserAddressEditText;
+    @Bind(R.id.change_address) Button mChangeAddress;
+
+    @Bind(R.id.user_location) TextView mUserLocation;
+    @Bind(R.id.user_location_edit) ImageView mUserLocationEdit;
+    @Bind(R.id.user_location_edit_box) LinearLayout mUserLocationEditBox;
     @Bind(R.id.user_city) Spinner mUserCity;
     @Bind(R.id.user_state) Spinner mUserState;
-
-    @Bind(R.id.update_profile) Button mUpdateProfile;
+    @Bind(R.id.change_location) Button mChangeLocation;
 
     public static EditProfileFragment newInstance() {
         return new EditProfileFragment();
@@ -98,41 +120,283 @@ public class EditProfileFragment extends UserFragment {
         mEditProfileView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         ButterKnife.bind(this, mEditProfileView);
 
+        progressDialog.setMessage(RegisterConstants.waitProgress);
+        progressDialog.show();
+        mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         user= UserProfileManager.getInstance();
         mAddImage.setOnClickListener(mAddImageListener);
+
         mUsernameEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { playWithVisibilty(mUsernameEditText);
+            public void onClick(View v) { playWithVisibilty(mUsernameEditBox);
             }
         });
+        mChangeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&&isNameValid(getStringDataFromEditText(mUsernameEditText))){
+                    changeUsername(getStringDataFromEditText(mUsernameEditText));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
+            }
+        });
+
         mUserGenderEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { playWithVisibilty(mUserGenderEditBox);
             }
         });
-        mUserEmailEdit.setOnClickListener(new View.OnClickListener() {
+        mChangeGender.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { playWithVisibilty(mUserEmailEditText);
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&&mGender.getCheckedRadioButtonId()>=0){
+                    setGender(getStringDataFromRadioButton((RadioButton) mEditProfileView.findViewById(mGender.getCheckedRadioButtonId())));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
             }
         });
+
+        mUserEmailEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { playWithVisibilty(mEmailEditBox);}
+        });
+        mChangeEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&&isEmailValid(getStringDataFromEditText(mUserEmailEditText))){
+                    changeEmail(getStringDataFromEditText(mUserEmailEditText));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
+            }
+        });
+
+
         mUserBloodEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { playWithVisibilty(mUserBloodEditBox);
             }
         });
-        mUserDobEdit.setOnClickListener(new View.OnClickListener() {
+        mChangeBloodGroup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { playWithVisibilty(mUserDobEditText);
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&& !getStringDataFromSpinner(mUserBloodEditSpinner).equals("--Select blood group--")){
+                    changeBloodGroup(getStringDataFromSpinner(mUserBloodEditSpinner));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
             }
         });
+
+        mUserDobEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { playWithVisibilty(mUserDobEditBox);
+            }
+        });
+        mChangeDob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&& isDateValid(getStringDataFromEditText(mUserDobEditText))){
+                    changeDob(getStringDataFromEditText(mUserDobEditText));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
+            }
+        });
+
+
         mUserAddressEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { playWithVisibilty(mUserAddressEditBox);
             }
         });
-        mUpdateProfile.setOnClickListener(mUpdateProfileButtonListener);
+        mChangeAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&& !getStringDataFromEditText(mUserAddressEditText).equals("")){
+                    changeAddress(getStringDataFromEditText(mUserAddressEditText));
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
+            }
+        });
+
+        mUserLocationEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playWithVisibilty(mUserLocationEditBox);
+            }
+        });
+        mChangeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(getActivity());
+                if(isNetworkAvailable()&& !getStringDataFromSpinner(mUserCity).equals("--Select city--")
+                        &&!getStringDataFromSpinner(mUserState).equals("--Select state--")){
+                    changeLocation(getStringDataFromSpinner(mUserCity), getStringDataFromSpinner(mUserState) );
+                } else {
+                    showSnackbar(mEditProfileView, RegisterConstants.editBoxError);
+                }
+            }
+        });
+
         setStatusBarColor(Constants.colorStatusBarDark);
         return mEditProfileView;
+    }
+
+    private void changeLocation(final String city, final String state) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set city and state, If yes click ok to start processing...")
+                .setTitle("Change location")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+city+state , Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeAddress(final String address) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set Address, If yes click ok to start processing...")
+                .setTitle("Change address")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+address, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeDob(final String dob) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set DOB, If yes click ok to start processing...")
+                .setTitle("Change DOB")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+dob, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeBloodGroup(final String bloodGroup) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set blood group, If yes click ok to start processing...")
+                .setTitle("Change blood group")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+bloodGroup, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeEmail(final String email) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set email, If yes click ok to start processing...")
+                .setTitle("Change email")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+email, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void setGender(final String gender) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set identity, If yes click ok to start processing...")
+                .setTitle("Change Identity")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+gender, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void changeUsername(final String name) {
+       AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You are trying to change/set name field, If yes click ok to start processing...")
+                .setTitle("Change name")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(), ""+name, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -143,15 +407,19 @@ public class EditProfileFragment extends UserFragment {
     }
 
     private void setDataFromDataBase() {
-        if(isNetworkAvailable()){
-
-        } else {
-            mUsername.setText(user.getName());
-            mUserGender.setText(user.getGender().equals(RegisterConstants.defaultVarType)? "Gender not set" :user.getGender());
-            mUserGender.setText(user.getEmailId().equals(RegisterConstants.defaultVarType)? "Email not set" :user.getEmailId());
-            mUserGender.setText(user.getBloodGroup().equals(RegisterConstants.defaultVarType)? "No blood group selected" :user.getBloodGroup());
-            mUserGender.setText(user.getDob().equals(RegisterConstants.defaultVarType)? "DOB not set" :user.getDob());
-            mUserGender.setText(user.getAddress().equals(RegisterConstants.defaultVarType)? "Address not set" :user.getAddress());
+        final String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData, "DEFAULT_VALUE");
+        final String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");
+        try {
+            userListObj = new JSONObject(usersListData);
+            userObj = new JSONObject(userData);
+            mUsername.setText(userObj.getString("name").equals(RegisterConstants.defaultVarType)? "name not set" :userObj.getString("name"));
+            mUserGender.setText(userObj.getString("gender").equals(RegisterConstants.defaultVarType)? "Gender not set" :userObj.getString("gender"));
+            mUserEmail.setText(userObj.getString("emailId").equals(RegisterConstants.defaultVarType)? "Email not set" :userObj.getString("emailId"));
+            mUserBlood.setText(userObj.getString("bloodGroup").equals(RegisterConstants.defaultVarType)? "Gender not set" :userObj.getString("bloodGroup"));
+            mUserDob.setText(userObj.getString("dob").equals(RegisterConstants.defaultVarType)? "DOB not set" :userObj.getString("dob"));
+            mUserAddress.setText(userObj.getString("address").equals(RegisterConstants.defaultVarType)? "No address" :userObj.getString("address"));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
@@ -254,27 +522,6 @@ public class EditProfileFragment extends UserFragment {
             selectImage();
         }
     };
-
-    View.OnClickListener mUpdateProfileButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(getActivity());
-            if(isNetworkAvailable()){
-                resetData();
-                setData();
-            } else {
-                showSnackbar(mEditProfileView, RegisterConstants.networkErrorText);
-            }
-        }
-    };
-
-    private void setData() {
-
-    }
-
-    private void resetData() {
-        name = gender = email = dob = bloodGroup = state = city = null;
-    }
 
     @Override
     protected String getTitle() {

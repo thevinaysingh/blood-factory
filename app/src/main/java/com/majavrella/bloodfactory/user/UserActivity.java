@@ -43,6 +43,7 @@ import butterknife.OnItemClick;
 public class UserActivity extends BaseActivity {
 
     protected SharedPreferences mSharedpreferences;
+    protected UserProfileManager userProfileManager;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -74,6 +75,7 @@ public class UserActivity extends BaseActivity {
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
         mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
+        userProfileManager = UserProfileManager.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
@@ -82,9 +84,7 @@ public class UserActivity extends BaseActivity {
     }
 
     private void setUsernameAndMob() {
-        mUsername.setText(UserProfileManager.getInstance().getName());
-        mUserMob.setText(UserProfileManager.getInstance().getMobile());
-        JSONObject userListObj;
+        JSONObject userListObj = null ;
         JSONObject userObj = null;
         final String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData, "DEFAULT_VALUE");
         final String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");

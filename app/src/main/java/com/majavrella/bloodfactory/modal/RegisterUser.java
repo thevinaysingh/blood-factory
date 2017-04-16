@@ -3,15 +3,24 @@ package com.majavrella.bloodfactory.modal;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
 /**
- * Created by Administrator on 3/12/2017.
+ * Created by Vinay on 3/12/2017.
  */
 
 public class RegisterUser {
     private static String refKey, userId, mobile, password, user = RegisterConstants.kTrue , donar = RegisterConstants.kFalse, patient = RegisterConstants.kFalse;
-
+    private static String selfRefKey;
     public RegisterUser() {
       /*Blank default constructor essential for Firebase*/
     }
+
+    //Getters and setters for selfRefKey
+    public String getSelfRefKey() {
+        return selfRefKey;
+    }
+    public void setSelfRefKey(String selfRefKey) {
+        this.selfRefKey = selfRefKey;
+    }
+
 
     //Getters and setters for user Id
     public String getUserId() {

@@ -40,6 +40,21 @@
         <item name="android:textStyle">normal</item>
     </style>
 
+    <!--small button-->
+    <style name="smallButton">
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:background">@color/new_btn_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
     <style name="editText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:padding">8dp</item>
@@ -239,9 +254,10 @@
 
     <style name="edit_image">
         <item name="android:layout_width">30dp</item>
+        <item name="android:padding">5dp</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:src">@drawable/edit_white</item>
+        <item name="android:src">@drawable/edit_icon_new</item>
     </style>
 
     <style name="expand_quest">

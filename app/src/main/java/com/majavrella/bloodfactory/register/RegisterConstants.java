@@ -38,6 +38,8 @@ public class RegisterConstants {
     public static final String loginErrorTitle = "Login error";
     public static final String loginErrorText = "Login failed, Something went wrong.";
 
+    public static final String editBoxError = "Check Internet or edit box";
+
     public static final String ErrorText = "Something went wrong.";
 
     public static final String userPrefs = "UserPrefs" ;

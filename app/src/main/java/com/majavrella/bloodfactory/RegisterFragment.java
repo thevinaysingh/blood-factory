@@ -199,10 +199,12 @@ public class RegisterFragment extends BaseFragment {
         RegisterUser registerUser = setDataInModal(new RegisterUser());
         registerUser.setUserId(userId);
         registerUser.setRefKey(ref_key);
+        registerUser.setSelfRefKey(temp_key);
 
         UserData userData = setUserDataInModal(new UserData());
         userData.setUserId(userId);
         userData.setRefKey(temp_key);
+        userData.setSelfRefKey(ref_key);
 
         mUserListDatabase.child(temp_key).setValue(registerUser);
         mUserDataDatabase.child(ref_key).setValue(userData);

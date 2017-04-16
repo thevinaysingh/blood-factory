@@ -34,6 +34,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
 
     private static View userHomeFragment;
     private boolean consumingBackPress = true;
+    private final String TAG = "UserHomeFragment";
     private Toast toast;
     protected SharedPreferences mSharedpreferences;
     @Bind(R.id.donate_blood) LinearLayout mDonateButton;
@@ -93,7 +94,9 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
         final String user_ref_key = mSharedpreferences.getString(RegisterConstants.usersDataRefKey, "DEFAULT_VALUE");
         if(user_ref_key.equals("DEFAULT_VALUE")&&user_list_ref_key.equals("DEFAULT_VALUE")) {
             getUserDataFromDb();
+            Log.d(TAG, "getUserDataFromDirectDb: "+user_list_ref_key+"\n"+ user_ref_key);
         } else {
+            Log.d(TAG, "getUserDataFromDirectDb: "+user_list_ref_key+"\n"+ user_ref_key);
             getUserDataFromDirectDb(user_ref_key, user_list_ref_key);
         }
     }
@@ -142,9 +145,11 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     }
 
     private void setDataOnLocalFromUserDb(JSONObject json) {
+        Log.d(TAG, "setDataOnLocalFromUserDb: "+json);
     }
 
     private void setDataOnLocalFromUserListDb(JSONObject json) {
+        Log.d(TAG, "setDataOnLocalFromUserListDb: "+json);
     }
 
     private void getUserDataFromDb() {
@@ -196,6 +201,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
             String key = (String) iterator.next();
             try {
                 if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
+                    Log.d("--------", "setDataFromUserList: "+json.getJSONObject(key));
 
                 }
             } catch (JSONException e) {
@@ -211,7 +217,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
             String key = (String) iterator.next();
             try {
                 if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
-
+                    Log.d("--------", "setDataFromUsers: "+json.getJSONObject(key));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

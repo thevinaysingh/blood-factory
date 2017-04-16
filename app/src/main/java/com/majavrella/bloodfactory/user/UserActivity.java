@@ -1,12 +1,15 @@
 package com.majavrella.bloodfactory.user;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +31,7 @@ import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserProfileManager;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -38,6 +42,7 @@ import butterknife.OnItemClick;
 
 public class UserActivity extends BaseActivity {
 
+    protected SharedPreferences mSharedpreferences;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -68,20 +73,33 @@ public class UserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
+        mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
+        setUsernameAndMob();
+    }
+
+    private void setUsernameAndMob() {
+        mUsername.setText(UserProfileManager.getInstance().getName());
+        mUserMob.setText(UserProfileManager.getInstance().getMobile());
+        JSONObject userListObj;
+        JSONObject userObj = null;
+        final String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData, "DEFAULT_VALUE");
+        final String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");
+        try {
+            userListObj = new JSONObject(usersListData);
+            userObj = new JSONObject(userData);
+            mUsername.setText(userObj.getString("name"));
+            mUserMob.setText(userListObj.getString("mobile"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onResume() {
-        mUsername.setText(UserProfileManager.getInstance().getName());
-        mUserMob.setText(UserProfileManager.getInstance().getMobile());
-        if(!UserProfileManager.getInstance().getProfilePic().equals(RegisterConstants.defaultVarType)){
-
-        }
-
         super.onResume();
     }
 

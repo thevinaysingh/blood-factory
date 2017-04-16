@@ -1,16 +1,25 @@
 package com.majavrella.bloodfactory.modal;
 
 /**
- * Created by Administrator on 2/26/2017.
+ * Created by Vinay on 2/26/2017.
  */
 
 public class Donar {
 
-    private static String name, gender, ageGroup, bloodGroup, mobile, address, country, state, city, availability, authorization, userId;
+    private static String selfRefKey, name, gender, ageGroup, bloodGroup, mobile, address, country, state, city, availability, authorization, userId;
 
     public Donar() {
       /*Blank default constructor essential for Firebase*/
     }
+
+    //Getters and setters for selfRefKey
+    public String getSelfRefKey() {
+        return selfRefKey;
+    }
+    public void setSelfRefKey(String selfRefKey) {
+        this.selfRefKey = selfRefKey;
+    }
+
     //Getters and setters for name
     public String getName() {
         return name;

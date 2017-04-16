@@ -140,6 +140,18 @@ public class DonateFragment extends UserFragment {
         return mDonateFragment;
     }
 
+    @Override
+    public void onResume() {
+        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
+        hideKeyboard(getActivity());
+        if(!ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
+            isUserDonatedAlready(ref_key);
+        } else {
+            setRefKey();
+        }
+        super.onResume();
+    }
+
     View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -307,18 +319,6 @@ public class DonateFragment extends UserFragment {
             e.printStackTrace();
         }
         return false;
-    }
-
-    @Override
-    public void onResume() {
-        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
-        hideKeyboard(getActivity());
-        if(!ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
-            isUserDonatedAlready(ref_key);
-        } else {
-            setRefKey();
-        }
-        super.onResume();
     }
 
     private void setRefKey() {

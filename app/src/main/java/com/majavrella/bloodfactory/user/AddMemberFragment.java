@@ -151,6 +151,54 @@ public class AddMemberFragment extends UserFragment {
         super.onResume();
     }
 
+    private View.OnClickListener mAddMemberButtonListener    =   new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(getActivity());
+            resetModalData();
+            setDataInStringFormat();
+            boolean isAllFieldsValid = dataValidation();
+            if(isAllFieldsValid){
+                if(isNetworkAvailable()) {
+                    progress.setMessage("Saving member...");
+                    progress.show();
+                    try {
+                        setDataOnCloud();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
+                    }
+                } else {
+                    showSnackbar(mAddMemberView, RegisterConstants.networkErrorText);
+                }
+
+            }
+        }
+    };
+
+    private void resetModalData() {
+        name = gender = age = bloodGroup = mob = address = state = city = country = availability = authorization = null;
+    }
+
+    private void setDataInStringFormat() {
+        name = getStringDataFromEditText(mDonarName);
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+        if(mAgeGroup.getCheckedRadioButtonId()>=0){
+            age = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+        }
+        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
+        mob = getStringDataFromEditText(mDonarMob);
+        address = getStringDataFromEditText(mDonarAddress);
+        state = getStringDataFromSpinner(mDonarState);
+        city = getStringDataFromSpinner(mDonarCity);
+        availability = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
+        authorization = mDonarAuthorization.isChecked()? "True" : "False";
+        country = "India";
+    }
+
     private boolean dataValidation() {
         boolean validation = true;
         if(name.equals("")||!isNameValid(name)){
@@ -189,46 +237,11 @@ public class AddMemberFragment extends UserFragment {
         return validation;
     }
 
-    private View.OnClickListener mAddMemberButtonListener    =   new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            hideKeyboard(getActivity());
-            resetModalData();
-            setDataInStringFormat();
-            boolean isAllFieldsValid = dataValidation();
-
-
-            if(isAllFieldsValid){
-                if(isNetworkAvailable()) {
-                    progress.setMessage("Saving member...");
-                    progress.show();
-                    try {
-                        setDataOnCloud();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
-                        progress.dismiss();
-                    }
-                } else {
-                    showSnackbar(mAddMemberView, RegisterConstants.networkErrorText);
-                }
-
-            }else {
-                Toast.makeText(mActivity, "Fill all fields", Toast.LENGTH_SHORT).show();
-            }
-
-
-            if (isAllFieldsValid){
-                Donar Donar = setDataInModal(new Donar());
-                Toast.makeText(mActivity, "Successfully added a member !!!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
-
     private void setDataOnCloud() {
         DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
         String temp_key = mDonarsDatabase.push().getKey();
         Donar donar = setDataInModal(new Donar());
+        donar.setSelfRefKey(temp_key);
         mDonarsDatabase.child(temp_key).setValue(donar);
         Toast.makeText(mActivity, "Successfully added", Toast.LENGTH_SHORT).show();
         progress.dismiss();
@@ -248,28 +261,6 @@ public class AddMemberFragment extends UserFragment {
         donar.setAuthorization(authorization);
         donar.setUserId(getCurrentUserId());
         return donar;
-    }
-
-    private void resetModalData() {
-        name = gender = age = bloodGroup = mob = address = state = city = country = availability = authorization = null;
-    }
-
-    private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mDonarName);
-        if(mGenderStatus.getCheckedRadioButtonId()>=0){
-            gender = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
-        }
-        if(mAgeGroup.getCheckedRadioButtonId()>=0){
-            age = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAgeGroup.getCheckedRadioButtonId()));
-        }
-        bloodGroup = getStringDataFromSpinner(mDonarBloodGroup);
-        mob = getStringDataFromEditText(mDonarMob);
-        address = getStringDataFromEditText(mDonarAddress);
-        state = getStringDataFromSpinner(mDonarState);
-        city = getStringDataFromSpinner(mDonarCity);
-        availability = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
-        authorization = mDonarAuthorization.isChecked()? "True" : "False";
-        country = "India";
     }
 
     @Override

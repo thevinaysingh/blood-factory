@@ -196,7 +196,6 @@ public class SigninFragment extends BaseFragment {
                 }
             }
         });
-
     }
 
     private void setUserListDBRefKey(JSONObject json) {

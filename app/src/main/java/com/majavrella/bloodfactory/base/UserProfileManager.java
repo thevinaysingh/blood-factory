@@ -11,36 +11,32 @@ import org.json.JSONObject;
 public class UserProfileManager {
 
     private static UserProfileManager mInstance = null;
-    
-    private String mobile, password, usersDbRefKey;
-    private String userId;
-    private String userListDbRefKey,currentLoc,lastLoc, dor, occupation, tor, identity, ageGroup, authorizedToApp ,name, country, emailId, gender, bloodGroup, availibility, city, state, profilePic, dob, address;
+    private String mobile, password, usersDbRefKey, userListSelfRefKey, donar, patient, userId;
+    private String address, ageGroup, bloodGroup, city, country, dob, emailId, gender, identity, name, profilePic, userListDbRefKey, usersSelfRefKey, state;
 
     private UserProfileManager(){
-        authorizedToApp = RegisterConstants.defaultVarType;
+        address = RegisterConstants.defaultVarType;
         ageGroup = RegisterConstants.defaultVarType;
-        currentLoc = RegisterConstants.defaultVarType;
-        lastLoc = RegisterConstants.defaultVarType;
-        dor = RegisterConstants.defaultVarType;
-        tor = RegisterConstants.defaultVarType;
-        occupation = RegisterConstants.defaultVarType;
-        mobile = RegisterConstants.defaultVarType;
-        password = RegisterConstants.defaultVarType;
-        name = RegisterConstants.defaultVarType;
-        userId = RegisterConstants.defaultVarType;
-        userListDbRefKey = RegisterConstants.defaultVarType;
-        usersDbRefKey = RegisterConstants.defaultVarType;
-        identity = RegisterConstants.defaultVarType;
+        bloodGroup = RegisterConstants.defaultVarType;
+        city = RegisterConstants.defaultVarType;
         country = RegisterConstants.defaultVarType;
+        dob = RegisterConstants.defaultVarType;
         emailId = RegisterConstants.defaultVarType;
         gender = RegisterConstants.defaultVarType;
-        bloodGroup = RegisterConstants.defaultVarType;
-        availibility = RegisterConstants.defaultVarType;
-        city = RegisterConstants.defaultVarType;
-        state = RegisterConstants.defaultVarType;
+        identity = RegisterConstants.defaultVarType;
+        name = RegisterConstants.defaultVarType;
         profilePic = RegisterConstants.defaultVarType;
-        dob = RegisterConstants.defaultVarType;
-        address = RegisterConstants.defaultVarType;
+        userListDbRefKey = RegisterConstants.defaultVarType;
+        usersSelfRefKey = RegisterConstants.defaultVarType;
+        state = RegisterConstants.defaultVarType;
+
+        donar= RegisterConstants.defaultVarType;
+        mobile = RegisterConstants.defaultVarType;
+        password = RegisterConstants.defaultVarType;
+        patient = RegisterConstants.defaultVarType;
+        usersDbRefKey = RegisterConstants.defaultVarType;
+        userListSelfRefKey = RegisterConstants.defaultVarType;
+        userId = RegisterConstants.defaultVarType;
     }
 
     // create new instance
@@ -59,31 +55,33 @@ public class UserProfileManager {
         }
     }
 
-    // set user id
-    public void setUserId(final String userId) {
-        this.userId = userId;
+   /* setters for address, ageGroup, bloodGroup, city, country, dob, emailId,
+    gender, identity, name, profilePic, userListDbRefKey, usersSelfRefKey, state; */
+
+    public void setUserData(JSONObject jsonObject){
+        try {
+            address = jsonObject.getString("address");
+            ageGroup = jsonObject.getString("ageGroup");
+            bloodGroup = jsonObject.getString("bloodGroup");
+            city = jsonObject.getString("city");
+            country = jsonObject.getString("country");
+            dob = jsonObject.getString("dob");
+            emailId = jsonObject.getString("emailId");
+            gender = jsonObject.getString("gender");
+            identity = jsonObject.getString("identity");
+            name = jsonObject.getString("name");
+            profilePic = jsonObject.getString("profilePic");
+            userListDbRefKey = jsonObject.getString("refKey");
+            usersSelfRefKey = jsonObject.getString("selfRefKey");
+            state = jsonObject.getString("state");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // getters for ref key , user id password and mobile
-    public String getUserListDbRefKey() {
-        return userListDbRefKey;
-    }
-    public String getUsersDbRefKey() {
-        return usersDbRefKey;
-    }
-    public String getUserId() {
-        return userId;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getMobile() {
-        return mobile;
-    }
-
-    //Getters for authorizedToApp
-    public String getAuthorizedToApp() {
-        return authorizedToApp;
+    //Getters for address
+    public  String getAddress() {
+        return address;
     }
 
     //Getters for ageGroup
@@ -91,39 +89,24 @@ public class UserProfileManager {
         return ageGroup;
     }
 
-    //Getters for tor
-    public String getTor() {
-        return tor;
+    //Getters for blood group
+    public  String getBloodGroup() {
+        return bloodGroup;
     }
 
-    //Getters for occupation
-    public String getOccupation() {
-        return occupation;
+    //Getters for city
+    public  String getCity() {
+        return city;
     }
 
-    //Getters for dor
-    public String getDor() {
-        return dor;
+    //Getters for country
+    public String getCountry() {
+        return country;
     }
 
-    //Getters for lastLoc
-    public String getLastLoc() {
-        return lastLoc;
-    }
-
-    //Getters for currentLoc
-    public String getCurrentLoc() {
-        return currentLoc;
-    }
-
-    //Getters for identity
-    public String getIdentity() {
-        return identity;
-    }
-
-    //Getters for name
-    public String getName() {
-        return name;
+    //Getters for dob
+    public  String getDob() {
+        return dob;
     }
 
     //Getters for email id
@@ -136,39 +119,14 @@ public class UserProfileManager {
         return gender;
     }
 
-    //Getters for blood group
-    public  String getBloodGroup() {
-        return bloodGroup;
+    //Getters for identity
+    public String getIdentity() {
+        return identity;
     }
 
-    //Getters for dob
-    public  String getDob() {
-        return dob;
-    }
-
-    //Getters for address
-    public  String getAddress() {
-        return address;
-    }
-
-    //Getters for city
-    public  String getCity() {
-        return city;
-    }
-
-    //Getters for state
-    public  String getState() {
-        return state;
-    }
-
-    //Getters for country
-    public String getCountry() {
-        return country;
-    }
-
-    //Getters for availibility
-    public  String getAvailibility() {
-        return availibility;
+    //Getters for name
+    public String getName() {
+        return name;
     }
 
     //Getters for profile pic
@@ -176,40 +134,68 @@ public class UserProfileManager {
         return profilePic;
     }
 
+    //Getters for userListDbRefKey
+    public String getUserListDbRefKey() {
+        return userListDbRefKey;
+    }
+
+    //Getters for usersSelfRefKey
+    public String getUsersSelfRefKey() {
+        return usersSelfRefKey;
+    }
+
+    //Getters for state
+    public  String getState() {
+        return state;
+    }
+
+    /*setters for mobile, password, usersDbRefKey, userListSelfRefKey, donar, patient, userId*/
     public void setUserListData(JSONObject jsonObject){
         try {
+            donar = jsonObject.getString("donar");
             mobile = jsonObject.getString(Constants.kMobileString);
             password = jsonObject.getString(Constants.kPasswordString);
+            patient = jsonObject.getString("patient");
             usersDbRefKey = jsonObject.getString(Constants.kRefKey);
+            userListSelfRefKey = jsonObject.getString("selfRefKey");
+            userId = jsonObject.getString("userId");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setUserData(JSONObject jsonObject){
-        try {
-            address = jsonObject.getString(Constants.kMobileString);
-            ageGroup = jsonObject.getString("ageGroup");
-            authorizedToApp = jsonObject.getString("authorizedToApp");
-            availibility = jsonObject.getString("availibility");
-            bloodGroup = jsonObject.getString("bloodGroup");
-            city = jsonObject.getString("city");
-            country = jsonObject.getString("country");
-            currentLoc = jsonObject.getString("currentLoc");
-            dob = jsonObject.getString("dob");
-            dor = jsonObject.getString("dor");
-            emailId = jsonObject.getString(emailId);
-            gender = jsonObject.getString(gender);
-            identity = jsonObject.getString("identity");
-            lastLoc = jsonObject.getString("lastLoc");
-            name = jsonObject.getString("name");
-            occupation = jsonObject.getString("occupation");
-            profilePic = jsonObject.getString("profilePic");
-            userListDbRefKey = jsonObject.getString("refKey");
-            state = jsonObject.getString("state");
-            tor = jsonObject.getString("tor");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    // getter for donar
+    public String getDonar() {
+        return donar;
+    }
+
+    // getter for mobile
+    public String getMobile() {
+        return mobile;
+    }
+
+    // getter for password
+    public String getPassword() {
+        return password;
+    }
+
+    // getter for patient
+    public String getPatient() {
+        return patient;
+    }
+
+    //getter for usersDbRefKey
+    public String getUsersDbRefKey() {
+        return usersDbRefKey;
+    }
+
+    // getter for  userListSelfRefKey
+    public String getUserListSelfRefKey() {
+        return userListSelfRefKey;
+    }
+
+    // getters for user id
+    public String getUserId() {
+        return userId;
     }
 }

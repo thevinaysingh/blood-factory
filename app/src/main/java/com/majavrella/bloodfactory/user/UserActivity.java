@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -44,6 +45,8 @@ public class UserActivity extends BaseActivity {
 
     protected SharedPreferences mSharedpreferences;
     protected UserProfileManager userProfileManager;
+    private static UserActivity mInstance = null;
+
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -65,9 +68,21 @@ public class UserActivity extends BaseActivity {
     @Bind(R.id.imageView)
     ImageView mImageView;
 
+    @Bind(R.id.edit_profile_direct)
+    LinearLayout mEditProfile;
+
     static private FirebaseAuth mFirebaseAuth;
 
     private ActionBarDrawerToggle drawerToggle;
+
+    // create new instance
+    public static UserActivity getInstance(){
+        if(mInstance == null)
+        {
+            mInstance = new UserActivity();
+        }
+        return mInstance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +96,13 @@ public class UserActivity extends BaseActivity {
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
         setUsernameAndMob();
+        mEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawer(navigationView);
+                add(EditProfileFragment.newInstance());
+            }
+        });
     }
 
     private void setUsernameAndMob() {
@@ -96,6 +118,8 @@ public class UserActivity extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        UserProfileManager.getInstance().setUserData(userObj);
+        UserProfileManager.getInstance().setUserListData(userListObj);
     }
 
     @Override
@@ -192,6 +216,12 @@ public class UserActivity extends BaseActivity {
             case R.id.about_us:
                 add(AboutUs.newInstance());
                 break;
+            case R.id.refresh:
+                Intent self = new Intent(this, UserActivity.class);
+                self.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                self.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(self);
+                break;
             case R.id.faqs:
                 add(FAQFragment.newInstance());
                 break;
@@ -215,6 +245,15 @@ public class UserActivity extends BaseActivity {
         if(f.exists()){
             f.delete();
         }
+    }
+
+
+    protected void setUsername(String name) {
+        mUsername.setText(name);
+    }
+
+    protected void setUserMob(String mobile) {
+        mUserMob.setText(mobile);
     }
 }
 

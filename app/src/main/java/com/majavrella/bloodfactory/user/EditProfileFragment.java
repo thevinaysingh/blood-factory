@@ -478,9 +478,11 @@ public class EditProfileFragment extends UserFragment {
             editor.putString(RegisterConstants.userData, json.toString());
             editor.commit();
             progress.dismiss();
+            Toast.makeText(mActivity, "Updated succeessfully", Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
             progress.dismiss();
+            Toast.makeText(mActivity, "Refresh the app", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -18,6 +18,10 @@
         android:title="About us"
         app:showAsAction="never" />
     <item
+        android:id="@+id/refresh"
+        android:title="Refresh"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/faqs"
         android:title="FAQs"
         app:showAsAction="never" />

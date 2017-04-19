@@ -1,6 +1,8 @@
 package com.majavrella.bloodfactory.user;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
 import com.majavrella.bloodfactory.api.APIResponse;
@@ -36,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.Iterator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,8 +49,9 @@ import butterknife.OnItemClick;
 public class UserActivity extends BaseActivity {
 
     protected SharedPreferences mSharedpreferences;
+    protected SharedPreferences.Editor editor;
     protected UserProfileManager userProfileManager;
-    private static UserActivity mInstance = null;
+    private ProgressDialog progressDialog;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -75,27 +81,22 @@ public class UserActivity extends BaseActivity {
 
     private ActionBarDrawerToggle drawerToggle;
 
-    // create new instance
-    public static UserActivity getInstance(){
-        if(mInstance == null)
-        {
-            mInstance = new UserActivity();
-        }
-        return mInstance;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
-        mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
+        progressDialog = new ProgressDialog(this, R.style.custom_progress_dialog);
+        progressDialog.setMessage(RegisterConstants.waitProgress);
+        progressDialog.show();
+
         userProfileManager = UserProfileManager.getInstance();
+        mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
+        editor = mSharedpreferences.edit();
         mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
-        setUsernameAndMob();
         mEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,26 +106,137 @@ public class UserActivity extends BaseActivity {
         });
     }
 
-    private void setUsernameAndMob() {
-        JSONObject userListObj = null ;
-        JSONObject userObj = null;
-        final String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData, "DEFAULT_VALUE");
-        final String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");
+    private void setDataFromLocal() {
+        JSONObject userListObject = null ;
+        JSONObject userObject = null;
+        String usersListData = mSharedpreferences.getString(RegisterConstants.usersListData, "DEFAULT_VALUE");
+        String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");
         try {
-            userListObj = new JSONObject(usersListData);
-            userObj = new JSONObject(userData);
-            mUsername.setText(userObj.getString("name"));
-            mUserMob.setText(userListObj.getString("mobile"));
+            userListObject = new JSONObject(usersListData);
+            userObject = new JSONObject(userData);
+            userProfileManager.setUserListData(userListObject);
+            userProfileManager.setUserData(userObject);
+            mUserMob.setText(userProfileManager.getMobile());
+            mUsername.setText(userProfileManager.getName());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        UserProfileManager.getInstance().setUserData(userObj);
-        UserProfileManager.getInstance().setUserListData(userListObj);
+    }
+
+    @Override
+    protected void onStart() {
+        setData();
+        super.onStart();
+    }
+
+    private void setData() {
+        if(isNetworkAvailable()){
+            setDataOnLocalFromCloud();
+        } else {
+            setDataFromLocal();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        progressDialog.dismiss();
+    }
+
+    private void setDataOnLocalFromCloud() {
+        final String url = Constants.kBaseUrl+Constants.kUserList;
+        APIManager.getInstance().callApiListener(url, this, new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        try {
+                            JSONObject jsonObject = new JSONObject(extractUsersData(json));
+                            userProfileManager.setUserListData(jsonObject);
+                            mUserMob.setText(userProfileManager.getMobile());
+                            editor.putString(RegisterConstants.usersListData, jsonObject.toString());
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case API_FAIL:
+                        Toast.makeText(UserActivity.this, "Got server error", Toast.LENGTH_SHORT).show();
+                        break;
+                    case API_NETWORK_FAIL:
+                        Toast.makeText(UserActivity.this, "Got network error", Toast.LENGTH_SHORT).show();
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+
+        final String userDataUrl = Constants.kBaseUrl+Constants.kUsersData;
+        APIManager.getInstance().callApiListener(userDataUrl, this, new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        try {
+                            JSONObject jsonObject = new JSONObject(extractUsersData(json));
+                            userProfileManager.setUserData(jsonObject);
+                            mUsername.setText(userProfileManager.getName());
+                            editor.putString(RegisterConstants.userData, jsonObject.toString());
+                            editor.apply();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        break;
+                    default : {
+                    }
+                }
+            }
+        });
+    }
+
+    private String extractUsersData(JSONObject json) {
+        String jsonString = null;
+        FirebaseUser user = mFirebaseAuth.getCurrentUser();
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid())){
+                    jsonString = json.getJSONObject(key).toString();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonString;
+    }
+
+    private void showDialogError(String title, String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(msg)
+                .setTitle(title)
+                .setIcon(R.drawable.error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(UserActivity.this, "Something went worng", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void setupDrawerAndToggle() {
@@ -245,15 +357,6 @@ public class UserActivity extends BaseActivity {
         if(f.exists()){
             f.delete();
         }
-    }
-
-
-    protected void setUsername(String name) {
-        mUsername.setText(name);
-    }
-
-    protected void setUserMob(String mobile) {
-        mUserMob.setText(mobile);
     }
 }
 

@@ -23,7 +23,7 @@ public class UserData {
     private static String address= RegisterConstants.defaultVarType;
     private static String city= RegisterConstants.defaultVarType;
     private static String state= RegisterConstants.defaultVarType;
-    private static String country= RegisterConstants.defaultVarType;
+    private static String country= "India";
     private static String profilePic = RegisterConstants.defaultVarType;
     private static String selfRefKey;
 

@@ -121,7 +121,7 @@ public class SigninFragment extends BaseFragment {
                     progress.dismiss();
                 }
             }
-        }, 2000);
+        }, 500);
 
 
     }
@@ -215,7 +215,6 @@ public class SigninFragment extends BaseFragment {
                     editor.putString(RegisterConstants.userData, json.getJSONObject(key).toString());
                     editor.commit();
                     ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
-                   // UserProfileManager.getInstance().setUserData(json.getJSONObject(key));
                     return ref_key;
                 }
             } catch (JSONException e) {
@@ -236,7 +235,6 @@ public class SigninFragment extends BaseFragment {
                     editor.putString(RegisterConstants.usersListData, json.getJSONObject(key).toString());
                     editor.commit();
                     ref_key = json.getJSONObject(key).get(Constants.kRefKey).toString();
-                   // UserProfileManager.getInstance().setUserListData(json.getJSONObject(key));
                     return ref_key;
                 }
             } catch (JSONException e) {

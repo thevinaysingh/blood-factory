@@ -139,8 +139,22 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        delay();
         super.onResume();
-        progressDialog.dismiss();
+
+    }
+
+    private void delay() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try{
+                    progressDialog.dismiss();
+                }catch (Exception e){
+                    progressDialog.dismiss();
+                }
+            }
+        }, 2500);
     }
 
     private void setDataOnLocalFromCloud() {

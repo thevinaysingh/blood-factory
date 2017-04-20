@@ -61,11 +61,11 @@ public class EditProfileFragment extends UserFragment {
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static Bitmap bitmapImg = null;
     private JSONObject userObj = null;
-    protected SharedPreferences mSharedpreferences;
     private static String selfRefKey = null;
     private DatabaseReference mUserDatabase;
     private SharedPreferences.Editor editor;
 
+    @Bind(R.id.update_whole_app) ImageView updateApp;
     @Bind(R.id.add_image) LinearLayout mAddImage;
     @Bind(R.id.dummy_pic_container) LinearLayout mDummyPicContainer;
     @Bind(R.id.profile_pic) ImageView mProfilePic;
@@ -127,10 +127,34 @@ public class EditProfileFragment extends UserFragment {
         mEditProfileView = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         ButterKnife.bind(this, mEditProfileView);
 
-        progressDialog.setMessage(RegisterConstants.waitProgress);
-        progressDialog.show();
-        mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
-        editor = mSharedpreferences.edit();
+        editor = sharPrefs.edit();
+
+        updateApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                builder.setMessage("Current changes will be reflected in whole app and application will be restarted. click ok to start processing...")
+                        .setTitle("Update whole app")
+                        .setIcon(R.drawable.right_icon)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent self = new Intent(getActivity(), UserActivity.class);
+                                self.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                self.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(self);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
         mAddImage.setOnClickListener(mAddImageListener);
 
         mUsernameEdit.setOnClickListener(new View.OnClickListener() {
@@ -268,6 +292,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUserLocationEditBox);
                         changelocDatabase("city", city, "state", state);
+                        mUserLocation.setText(city+", "+state);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -305,6 +330,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUserAddressEditBox);
                         changeDatabase("address", address);
+                        mUserAddress.setText(address);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -327,6 +353,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUserDobEditBox);
                         changeDatabase("dob", dob);
+                        mUserDob.setText(dob);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -349,6 +376,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUserBloodEditBox);
                         changeDatabase("bloodGroup", bloodGroup);
+                        mUserBlood.setText(bloodGroup);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -371,6 +399,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mEmailEditBox);
                         changeDatabase("emailId", email);
+                        mUserEmail.setText(email);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -393,6 +422,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUserGenderEditBox);
                         changeDatabase("gender", gender);
+                        mUserGender.setText(gender);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -415,6 +445,7 @@ public class EditProfileFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         playWithVisibilty(mUsernameEditBox);
                         changeDatabase("name", name);
+                        mUsername.setText(name);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -448,7 +479,11 @@ public class EditProfileFragment extends UserFragment {
             public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
                 switch (code) {
                     case API_SUCCESS:
-                        setUsersData(json);
+                        userProfileManager.setUserData(json);
+                        editor.putString(RegisterConstants.userData, json.toString());
+                        editor.apply();
+                        Toast.makeText(mActivity, "Updated succeessfully", Toast.LENGTH_SHORT).show();
+                        progress.dismiss();
                         break;
                     case API_FAIL:
                         showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
@@ -465,49 +500,34 @@ public class EditProfileFragment extends UserFragment {
         });
     }
 
-    private void setUsersData(JSONObject json) {
-        Log.d(TAG, "setUsersData: "+json);
+    @Override
+    public void onStart() {
+        progressDialog.setMessage(RegisterConstants.waitProgress);
+        progressDialog.show();
+        setData();
+        //setDataFromDataBase();
+        super.onStart();
+    }
+
+    private void setData() {
         try {
-            mUsername.setText(json.getString("name").equals(RegisterConstants.defaultVarType)? "name not set" :json.getString("name"));
-            mUserGender.setText(json.getString("gender").equals(RegisterConstants.defaultVarType)? "Gender not set" :json.getString("gender"));
-            mUserEmail.setText(json.getString("emailId").equals(RegisterConstants.defaultVarType)? "Email not set" :json.getString("emailId"));
-            mUserBlood.setText(json.getString("bloodGroup").equals(RegisterConstants.defaultVarType)? "Gender not set" :json.getString("bloodGroup"));
-            mUserDob.setText(json.getString("dob").equals(RegisterConstants.defaultVarType)? "DOB not set" :json.getString("dob"));
-            mUserAddress.setText(json.getString("address").equals(RegisterConstants.defaultVarType)? "No address" :json.getString("address"));
-            mUserLocation.setText(json.getString("city").equals(RegisterConstants.defaultVarType)? "City(Empty), State(Empty)" :json.getString("city")+", "+json.getString("state"));
-            editor.putString(RegisterConstants.userData, json.toString());
-            editor.commit();
-            progress.dismiss();
-            Toast.makeText(mActivity, "Updated succeessfully", Toast.LENGTH_SHORT).show();
-        } catch (JSONException e) {
+            mUsername.setText(userProfileManager.getName().equals(RegisterConstants.defaultVarType)? "Name(null)" :userProfileManager.getName());
+            mUserGender.setText(userProfileManager.getGender().equals(RegisterConstants.defaultVarType)? "Gender(null)" :userProfileManager.getGender());
+            mUserEmail.setText(userProfileManager.getEmailId().equals(RegisterConstants.defaultVarType)? "Email(null)" :userProfileManager.getEmailId());
+            mUserBlood.setText(userProfileManager.getBloodGroup().equals(RegisterConstants.defaultVarType)? "Blood group(null)" :userProfileManager.getBloodGroup());
+            mUserDob.setText(userProfileManager.getDob().equals(RegisterConstants.defaultVarType)? "DOB(null)" :userProfileManager.getDob());
+            mUserAddress.setText(userProfileManager.getAddress().equals(RegisterConstants.defaultVarType)? "No address" :userProfileManager.getAddress());
+            mUserLocation.setText(userProfileManager.getCity().equals(RegisterConstants.defaultVarType)? "City(Empty), State(Empty)" :userProfileManager.getCity()+", "+userProfileManager.getState());
+            selfRefKey = userProfileManager.getUsersSelfRefKey();
+        } catch (Exception e) {
             e.printStackTrace();
-            progress.dismiss();
-            Toast.makeText(mActivity, "Refresh the app", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onResume() {
         hideKeyboard(getActivity());
-        setDataFromDataBase();
         super.onResume();
-    }
-
-    private void setDataFromDataBase() {
-        final String userData = mSharedpreferences.getString(RegisterConstants.userData, "DEFAULT_VALUE");
-        try {
-            userObj = new JSONObject(userData);
-            mUsername.setText(userObj.getString("name").equals(RegisterConstants.defaultVarType)? "name not set" :userObj.getString("name"));
-            mUserGender.setText(userObj.getString("gender").equals(RegisterConstants.defaultVarType)? "Gender not set" :userObj.getString("gender"));
-            mUserEmail.setText(userObj.getString("emailId").equals(RegisterConstants.defaultVarType)? "Email not set" :userObj.getString("emailId"));
-            mUserBlood.setText(userObj.getString("bloodGroup").equals(RegisterConstants.defaultVarType)? "Gender not set" :userObj.getString("bloodGroup"));
-            mUserDob.setText(userObj.getString("dob").equals(RegisterConstants.defaultVarType)? "DOB not set" :userObj.getString("dob"));
-            mUserAddress.setText(userObj.getString("address").equals(RegisterConstants.defaultVarType)? "No address" :userObj.getString("address"));
-            mUserLocation.setText(userObj.getString("city").equals(RegisterConstants.defaultVarType)? "City(Empty), State(Empty)" :userObj.getString("city")+", "+userObj.getString("state"));
-            selfRefKey = userObj.getString("selfRefKey");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         progressDialog.dismiss();
     }
 

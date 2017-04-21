@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -217,4 +218,184 @@ public abstract class UserFragment extends Fragment {
 		positiveButtonLL.gravity = Gravity.CENTER;
 		positiveButton.setLayoutParams(positiveButtonLL);
 	}
+
+	public void setCities(Spinner spinner, String state){
+        if(state.equals("Madhya pradesh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.mp_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Andaman and Nicobar")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.andman_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+		} else if(state.equals("Andra Pradesh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.ap_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Arunachal Pradesh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.arunanchal_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Assam")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.assam_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Bihar")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.bihar_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Chandigarh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.chandigarh_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Chhattisgarh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.cg_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Dadar and Nagar Haveli")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.dadar_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Daman and Diu")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.daman_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Delhi")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.delhi_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Gujarat")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.gujrat_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Haryana")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.haryana_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Himachal Pradesh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.himanchal_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Jammu and Kashmir")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.jk_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Jharkhand")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.jharkhand_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Karnataka")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.karnataka_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Kerala")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.kerala_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Lakshadeep")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.lakshadeep_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Maharashtra")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.mh_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Manipur")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.manipur_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Meghalaya")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.meghalaya_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Mizoram")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.mijoram_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Nagaland")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.nagaland_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Orissa")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.odisa_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Pondicherry")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.pondicherry_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Punjab")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.punjab_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Rajasthan")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.raj_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Sikkim")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.sikkim_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Tamil Nadu")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.tp_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Tripura")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.tripura_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Uttaranchal")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.uttaranchal_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Uttar Pradesh")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.up_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("West Bengal")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.wb_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.list_of_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
+
+    }
 }

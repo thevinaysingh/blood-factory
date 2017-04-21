@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -128,6 +129,21 @@ public class EditProfileFragment extends UserFragment {
         ButterKnife.bind(this, mEditProfileView);
 
         editor = sharPrefs.edit();
+
+        mUserState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
+                if(position>0){
+                    setCities(mUserCity, parent.getItemAtPosition(position).toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
+            }
+        });
 
         updateApp.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -114,6 +114,7 @@ public class DonateFragment extends UserFragment {
                 hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
+                    setCities(mDonarCity, parent.getItemAtPosition(position).toString());
                 }
             }
 

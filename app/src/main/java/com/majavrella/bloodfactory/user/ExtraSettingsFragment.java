@@ -4,6 +4,7 @@ package com.majavrella.bloodfactory.user;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,10 +52,13 @@ public class ExtraSettingsFragment extends UserFragment {
             @Override
             public void onClick(View v) {
                 hideKeyboard(getActivity());
-                FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                user.updateEmail("7400897116@bloodfactory.com");
-                Toast.makeText(mActivity, "Mobile no updateed", Toast.LENGTH_SHORT).show();
-                //showDialogForChangeMobileNo();
+                if(isNetworkAvailable()){
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    ChangeMobile changeMobile = new ChangeMobile();
+                    changeMobile.show(manager, "change_mobile");
+                } else {
+                    showSnackbar(mExtraSettingsView, RegisterConstants.networkErrorText);
+                }
             }
         });
         mEditProfile.setOnClickListener(new View.OnClickListener() {

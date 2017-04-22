@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/big_distance">
+
+    <TextView
+        android:text="Change mobile number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#08b49b"
+        android:textSize="@dimen/medium_text"
+        android:gravity="bottom|center"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/small_distance"
+        android:background="@color/colorPrimaryDark" />
+    <EditText
+        android:hint="Current mobile no"
+        android:layout_height="50dp"
+        android:id="@+id/user_old_mobile"
+        style="@style/mob_et"/>
+    <EditText
+        android:hint="Current password"
+        android:layout_height="50dp"
+        android:id="@+id/user_password"
+        style="@style/password_et"/>
+    <TextView
+        android:text="New mobile number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/small_text"
+        android:paddingLeft="@dimen/medium_distance"
+        android:paddingTop="@dimen/small_distance"
+        android:textColor="@color/available_color"
+        android:gravity="start"/>
+    <EditText
+        android:hint="Enter new mobile no"
+        android:layout_height="50dp"
+        android:id="@+id/user_mob"
+        style="@style/mob_et"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_my_mobile"
+            android:text="Change mobile no"
+            android:layout_weight="1"
+            android:background="@color/header_color"
+            android:textColor="#FFFFFF"
+            style="@style/frontButton"
+            android:gravity="center"/>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

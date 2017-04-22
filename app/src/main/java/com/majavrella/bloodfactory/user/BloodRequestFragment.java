@@ -2,6 +2,7 @@ package com.majavrella.bloodfactory.user;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -199,10 +200,10 @@ public class BloodRequestFragment extends UserFragment {
             mPatientMob.setError(Constants.mobErrorText);
             validation = false;
         }
-        if(state.equals("--select state--")){
+        if(state.equals("--Select state--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, Constants.stateErrorText);
             validation = false;
-        } else if(city.equals("--select city--")){
+        } else if(city.equals("--Select city--")||city.equals("--Select--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, Constants.cityErrorText);
             validation = false;
         } else {
@@ -219,12 +220,33 @@ public class BloodRequestFragment extends UserFragment {
     }
 
     private void setDataOnCloud() {
-        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
-        String temp_key = mDonarsDatabase.push().getKey();
-        Patient patient = setDataInModal(new Patient());
-        patient.setSelfRefKey(temp_key);
-        mDonarsDatabase.child(temp_key).setValue(patient);
-        progress.dismiss();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try{
+                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+                    String temp_key = mDonarsDatabase.push().getKey();
+                    Patient patient = setDataInModal(new Patient());
+                    patient.setSelfRefKey(temp_key);
+                    mDonarsDatabase.child(temp_key).setValue(patient);
+                    progress.dismiss();
+                    resetAllField();
+                    resetModalData();
+                    showSuccessDialog("Post blood request", "You have successfully posted a blood request. will be responding you soon. ");
+                }catch (Exception e){
+                    Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                }
+            }
+        }, 2000);
+    }
+
+    private void resetAllField() {
+        mPatientName.setText("");
+        mPatientMob.setText("");
+        mPurposeOfRequest.setText("");
+        mLastDateNeed.setText("");
+//        setCities(mPatientCity, "--Select--");
     }
 
     private Patient setDataInModal(Patient patient) {

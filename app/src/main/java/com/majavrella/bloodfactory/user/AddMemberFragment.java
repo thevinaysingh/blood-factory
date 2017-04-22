@@ -253,7 +253,7 @@ public class AddMemberFragment extends UserFragment {
         mDonarName.setText("");
         mDonarMob.setText("");
         mDonarAddress.setText("");
-        setCities(mDonarCity, "--Select--");
+        //setCities(mDonarCity, "--Select--");
     }
 
     private Donar setDataInModal(Donar donar) {

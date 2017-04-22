@@ -333,9 +333,6 @@ public class UserActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch(id){
-            case R.id.notification:
-                Toast.makeText(this, "Notification in WIP", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.guidance:
                 add(GuidanceFragment.newInstance());
                 break;

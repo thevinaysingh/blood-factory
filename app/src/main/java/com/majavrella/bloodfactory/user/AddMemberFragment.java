@@ -4,6 +4,7 @@ package com.majavrella.bloodfactory.user;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,7 +149,7 @@ public class AddMemberFragment extends UserFragment {
             boolean isAllFieldsValid = dataValidation();
             if(isAllFieldsValid){
                 if(isNetworkAvailable()) {
-                    progress.setMessage("Saving member...");
+                    progress.setMessage(RegisterConstants.waitProgress);
                     progress.show();
                     try {
                         setDataOnCloud();
@@ -201,7 +202,7 @@ public class AddMemberFragment extends UserFragment {
             setErrorMsg(mAgeErrorLayout, mAgeError, Constants.ageErrorText);
             validation = false;
         }
-        if(bloodGroup.equals("--Select blood group--")){
+        if(bloodGroup.equals("--Select blood group--")||bloodGroup.equals("--Select--")){
             setErrorMsg(mBloodGrpErrorLayout, mBloodGrpError, Constants.bloodGroupErrorText);
             validation = false;
         }
@@ -213,10 +214,10 @@ public class AddMemberFragment extends UserFragment {
             mDonarAddress.setError(Constants.commonErrorText);
             validation = false;
         }
-        if(state.equals("--select state--")){
+        if(state.equals("--Select state--")||state.equals("--Select--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
             validation = false;
-        } else if(city.equals("--select city--")){
+        } else if(city.equals("--Select city--")||city.equals("--Select--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Select your City");
             validation = false;
         } else {
@@ -226,13 +227,33 @@ public class AddMemberFragment extends UserFragment {
     }
 
     private void setDataOnCloud() {
-        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
-        String temp_key = mDonarsDatabase.push().getKey();
-        Donar donar = setDataInModal(new Donar());
-        donar.setSelfRefKey(temp_key);
-        mDonarsDatabase.child(temp_key).setValue(donar);
-        Toast.makeText(mActivity, "Successfully added", Toast.LENGTH_SHORT).show();
-        progress.dismiss();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try{
+                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                    String temp_key = mDonarsDatabase.push().getKey();
+                    Donar donar = setDataInModal(new Donar());
+                    donar.setSelfRefKey(temp_key);
+                    mDonarsDatabase.child(temp_key).setValue(donar);
+                    progress.dismiss();
+                    resetAllField();
+                    resetModalData();
+                    showSuccessDialog("Thanks, Added member", "You have successfully added a member");
+                }catch (Exception e){
+                    Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                }
+            }
+        }, 2000);
+
+    }
+
+    private void resetAllField() {
+        mDonarName.setText("");
+        mDonarMob.setText("");
+        mDonarAddress.setText("");
+        setCities(mDonarCity, "--Select--");
     }
 
     private Donar setDataInModal(Donar donar) {

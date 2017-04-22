@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/notification"
-        android:title="notification"
-        android:visible="true"
-        android:icon="@drawable/notification_logo"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/guidance"
         android:title="Guidance"
         android:visible="true"

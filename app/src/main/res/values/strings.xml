@@ -65,6 +65,11 @@
         <item>Uttar Pradesh</item>
         <item>West Bengal</item>
     </string-array>
+
+    <string-array name="dummy_select">
+        <item>--Select--</item>
+    </string-array>
+
     <string-array name="list_of_cities">
         <item>--Select city--</item>
     </string-array>

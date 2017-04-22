@@ -26,12 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.SigninFragment;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
 
@@ -67,6 +69,21 @@ public abstract class UserFragment extends Fragment {
 		super.onResume();
 		getActivity().setTitle(getTitle());
 	}
+
+    public void showSuccessDialog(String title, String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage(msg)
+                .setTitle(title)
+                .setIcon(R.drawable.ok)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(mActivity, "Done", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public String capitalizeFirstLetter(String original) {
         if (original == null || original.length() == 0) {
@@ -392,7 +409,7 @@ public abstract class UserFragment extends Fragment {
             spinner.setAdapter(adapter);
         } else {
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                    getContext(), R.array.list_of_cities, android.R.layout.simple_spinner_item);
+                    getContext(), R.array.dummy_select, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
         }

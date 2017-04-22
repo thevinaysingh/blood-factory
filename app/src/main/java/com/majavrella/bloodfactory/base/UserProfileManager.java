@@ -179,6 +179,11 @@ public class UserProfileManager {
         return password;
     }
 
+    // setter for password
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     // getter for patient
     public String getPatient() {
         return patient;

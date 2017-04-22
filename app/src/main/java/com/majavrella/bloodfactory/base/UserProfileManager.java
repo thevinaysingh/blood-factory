@@ -169,6 +169,11 @@ public class UserProfileManager {
         return donar;
     }
 
+    // setter for mobile
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     // getter for mobile
     public String getMobile() {
         return mobile;

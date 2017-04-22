@@ -1,8 +1,11 @@
 package com.majavrella.bloodfactory.user;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.majavrella.bloodfactory.R;
+import com.majavrella.bloodfactory.SigninFragment;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,24 +70,77 @@ public class ChangePasswordFragment extends UserFragment {
         @Override
         public void onClick(View v) {
             hideKeyboard(getActivity());
-            reset();
-            setDataInStringFormat();
-            boolean isBothFields = dataValidation();
-            if(isBothFields == false){
-                mPasswordError.setText("Something went wrong!");
-            } else {
-                if(oldPassword.equals(newPassowrd)){
-                    mPasswordError.setTextColor(Color.parseColor("#228327"));
-                    updatePasswordOnCloud();
-                }else{
-                    mPasswordError.setText("Got difference between passwords!");
+            if(isNetworkAvailable()){
+                reset();
+                setDataInStringFormat();
+                boolean isBothFields = dataValidation();
+                if(isBothFields){
+                    if(oldPassword.equals(userProfileManager.getPassword())){
+                        progress.setMessage(RegisterConstants.waitProgress);
+                        progress.show();
+                        changePassword();
+                    } else {
+                       mPasswordError.setText("Old password is not correct");
+                    }
+                } else {
+                    mPasswordError.setText("Password should be more than 6 chars");
                 }
+
+            } else {
+                showSnackbar(mChangePasswordView, RegisterConstants.networkErrorText);
             }
         }
     };
 
-    private void updatePasswordOnCloud() {
+    private void changePassword() {
+        final FirebaseUser user = mFirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(userProfileManager.getMobile()+RegisterConstants.userIdDummyTail, oldPassword);
+        user.reauthenticate(credential)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            user.updatePassword(newPassowrd).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
+                                        mDonarListDatabase.child(userProfileManager.getUserListSelfRefKey()).child("password").setValue(newPassowrd);
+                                        userProfileManager.setPassword(newPassowrd);
+                                        showSuccessDialog();
+                                        progress.dismiss();
+                                    } else {
+                                        progress.dismiss();
+                                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                                    }
+                                }
+                            });
+                        } else {
+                            progress.dismiss();
+                            Toast.makeText(mActivity, "User authentication failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
+    private void showSuccessDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You have successfully updated your password")
+                .setTitle("Updation success")
+                .setIcon(R.drawable.success)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPasswordError.setTextColor(Color.parseColor("#209a85"));
+                        mPasswordError.setText("Updated");
+                        mOldPassword.setText("");
+                        mNewPassword.setText("");
+                        Toast.makeText(mActivity, "done", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private boolean dataValidation() {

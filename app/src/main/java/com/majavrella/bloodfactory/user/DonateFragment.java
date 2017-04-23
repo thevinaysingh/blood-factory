@@ -2,11 +2,14 @@ package com.majavrella.bloodfactory.user;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +53,7 @@ import butterknife.ButterKnife;
 public class DonateFragment extends UserFragment {
 
     private static View mDonateFragment;
+    private static Donar editDonar;
     private static String name, gender, age, bloodGroup, mob, address,country, state, city, availability, authorization;
     private SharedPreferences mSharedpreferences;
     private String ref_key;
@@ -141,41 +145,28 @@ public class DonateFragment extends UserFragment {
         return mDonateFragment;
     }
 
-    @Override
-    public void onResume() {
-        ref_key = mSharedpreferences.getString(RegisterConstants.userListRefKey,RegisterConstants.defaultSharedPrefsValue);
-        hideKeyboard(getActivity());
-        if(!ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
-            isUserDonatedAlready(ref_key);
-        } else {
-            setRefKey();
-        }
-        super.onResume();
-    }
-
     View.OnClickListener mDonateButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             hideKeyboard(getActivity());
-            resetModalData();
-            setDataInStringFormat();
-            boolean isAllFieldsValid = dataValidation();
-            if(isAllFieldsValid){
-                if(isNetworkAvailable()) {
-                    progress.setMessage("Saving donar...");
+            if(isNetworkAvailable()){
+                resetModalData();
+                setDataInStringFormat();
+                if(dataValidation()){
+                    progress.setMessage(RegisterConstants.waitProgress);
                     progress.show();
                     try {
-                        checkIfUserHasDonatedAlready();
+                        checkIfUserHasDonatedAlready((userProfileManager.getUserListSelfRefKey()));
                     } catch (Exception e){
                         e.printStackTrace();
+                        progress.dismiss();
                         Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    showSnackbar(mDonateFragment, RegisterConstants.networkErrorText);
+                    Toast.makeText(mActivity, "Input error", Toast.LENGTH_SHORT).show();
                 }
-
-            }else {
-                Toast.makeText(mActivity, "Fill all fields", Toast.LENGTH_SHORT).show();
+            } else {
+                showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
             }
         }
     };
@@ -224,10 +215,10 @@ public class DonateFragment extends UserFragment {
             mDonarAddress.setError(Constants.commonErrorText);
             validation = false;
         }
-        if(state.equals("--select state--")){
+        if(state.equals("--Select state--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Please select your State");
             validation = false;
-        } else if(city.equals("--select city--")){
+        } else if(city.equals("--Select city--")){
             setErrorMsg(mAddressErrorLayout, mAddressError, "Select your City");
             validation = false;
         } else {
@@ -236,14 +227,59 @@ public class DonateFragment extends UserFragment {
         return validation;
     }
 
+    private void checkIfUserHasDonatedAlready(final String refKey) {
+        String url = Constants.kBaseUrl+Constants.kUserListUrl+refKey+Constants.jsonTail;
+        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        if (verifyDonation(json)){
+                            showDialogBoxForEdit();
+                            progress.dismiss();
+                        } else {
+                            setDataOnCloud();
+                        }
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        progress.dismiss();
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        progress.dismiss();
+                        break;
+                    default : {
+                        progress.dismiss();
+                    }
+                }
+            }
+        });
+    }
+
     private void setDataOnCloud() {
-        DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
-        mDonarListDatabase.child(ref_key).child("donar").setValue(RegisterConstants.kTrue);
-        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
-        String temp_key = mDonarsDatabase.push().getKey();
-        Donar donar = setDataInModal(new Donar());
-        donar.setSelfRefKey(temp_key);
-        mDonarsDatabase.child(temp_key).setValue(donar);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                try{
+                    DatabaseReference mDonarListDatabase = getRootReference().child(RegisterConstants.user_list_db);
+                    mDonarListDatabase.child(userProfileManager.getUserListSelfRefKey()).child("donar").setValue(RegisterConstants.kTrue);
+                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                    String temp_key = mDonarsDatabase.push().getKey();
+                    Donar donar = setDataInModal(new Donar());
+                    donar.setSelfRefKey(temp_key);
+                    donar.setIsUser(RegisterConstants.kTrue);
+                    mDonarsDatabase.child(temp_key).setValue(donar);
+                    resetAllField();
+                    resetModalData();
+                    showSuccessDialog("Thanks, Donated blood", "You have successfully donated");
+                    progress.dismiss();
+                }catch (Exception e){
+                    Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    progress.dismiss();
+                }
+            }
+        }, 2000);
     }
 
     private Donar setDataInModal(Donar donar) {
@@ -262,90 +298,28 @@ public class DonateFragment extends UserFragment {
         return donar;
     }
 
-    private void checkIfUserHasDonatedAlready() {
-        String url = Constants.kBaseUrl+Constants.kUserList;
-        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
-            @Override
-            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                switch (code) {
-                    case API_SUCCESS:
-                        if (verifyUserDonation(json)){
-                            showDialogError("Donate Blood", "Already donated");
-                            mDonateButton.setClickable(false);
-                        } else {
-                            if(ref_key.equals(RegisterConstants.defaultSharedPrefsValue)){
-                                setRefKey();
-                            }
-                           setDataOnCloud();
-                        }
-                        break;
-                    case API_FAIL:
-                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
-                        break;
-                    case API_NETWORK_FAIL:
-                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-                        break;
-                    default : {
-                    }
-                }
-                progress.dismiss();
-            }
-        });
+    private void resetAllField() {
+        mDonarName.setText("");
+        mDonarMob.setText("");
+        mDonarAddress.setText("");
+        setCities(mDonarCity, "--Select city--");
+        resetState(mDonarState);
+        resetBlood(mDonarBloodGroup);
     }
 
-    private boolean verifyUserDonation(JSONObject json) {
-        boolean isUserDonated = false;
-        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-        Iterator iterator = json.keys();
-        while (iterator.hasNext()){
-            String key = (String) iterator.next();
-            try {
-                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(user.getUid().toString())){
-                    if(json.getJSONObject(key).getString("donar").equals(RegisterConstants.kTrue)){
-                        isUserDonated = true;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return isUserDonated;
-    }
-
-    private boolean verifyDonation(JSONObject json) {
-        try {
-            if(json.getString("donar").equals(RegisterConstants.kTrue)){
-               return true;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private void setRefKey() {
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
         if(isNetworkAvailable()){
-            String url = Constants.kBaseUrl+Constants.kUserList;
-            APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
-                @Override
-                public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
-                    switch (code) {
-                        case API_SUCCESS:
-                            ref_key = extractRefKey(json);
-                            break;
-                        case API_FAIL:
-                            showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
-                            break;
-                        case API_NETWORK_FAIL:
-                            showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
-                            break;
-                        default : {
-                        }
-                    }
-                    progress.dismiss();
-                }
-            });
+            if(userProfileManager.getDonar().equals(RegisterConstants.kTrue)){
+                showDialogBoxForEdit();
+            } else {
+                isUserDonatedAlready(userProfileManager.getUserListSelfRefKey());
+            }
+        } else {
+            showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
         }
+        super.onResume();
     }
 
     private void isUserDonatedAlready(final String refKey) {
@@ -356,7 +330,7 @@ public class DonateFragment extends UserFragment {
                 switch (code) {
                     case API_SUCCESS:
                         if (verifyDonation(json)){
-                            showSnackbar(mDonateFragment, "Already donated");
+                            showDialogBoxForEdit();
                         }
                         break;
                     case API_FAIL:
@@ -373,16 +347,98 @@ public class DonateFragment extends UserFragment {
         });
     }
 
-    public void showSnackbar(View view, String text) {
-        final Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
-                .setAction("OK", new View.OnClickListener() {
+    private boolean verifyDonation(JSONObject json) {
+        try {
+            if(json.getString("donar").equals(RegisterConstants.kTrue)){
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void showDialogBoxForEdit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("You have already donated. If you want to edit your details, Click ok and start processing...")
+                .setTitle("Donate blood")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        mDonateButton.setClickable(false);
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(isNetworkAvailable()){
+                            progress.setMessage(RegisterConstants.waitProgress);
+                            progress.show();
+                            startEditing();
+                        } else {
+                            showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
                 });
-        snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-        snackbar.show();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void startEditing() {
+        String url = Constants.kBaseUrl+Constants.kDonars;
+        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        try {
+                            JSONObject josnObject = new JSONObject(fetchDonarsData(json));
+                            setDonarsDataToEdit(josnObject);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        progress.dismiss();
+                        break;
+                    case API_FAIL:
+                        showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
+                        progress.dismiss();
+                        break;
+                    case API_NETWORK_FAIL:
+                        showDialogError(RegisterConstants.networkErrorTitle, RegisterConstants.networkErrorText);
+                        progress.dismiss();
+                        break;
+                    default : {
+                        progress.dismiss();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setDonarsDataToEdit(JSONObject josnObject) {
+       editDonar = setDonar(josnObject, new Donar());
+        mDonarName.setText(editDonar.getName());
+        mDonarMob.setText(editDonar.getMobile());
+        mDonarAddress.setText(editDonar.getAddress());
+    }
+
+    private String fetchDonarsData(JSONObject json) {
+        String jsonData = null;
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).get(Constants.kUserId).toString().equals(userProfileManager.getUserId())
+                        &&json.getJSONObject(key).get("isUser").toString().equals(RegisterConstants.kTrue)){
+                    jsonData = json.getJSONObject(key).toString();
+                    return jsonData;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonData;
     }
 
     @Override

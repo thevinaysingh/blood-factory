@@ -246,7 +246,9 @@ public class BloodRequestFragment extends UserFragment {
         mPatientMob.setText("");
         mPurposeOfRequest.setText("");
         mLastDateNeed.setText("");
-//        setCities(mPatientCity, "--Select--");
+        setCities(mPatientCity, "--Select--");
+        resetState(mPatientState);
+        resetBlood(mPatientBloodGroup);
     }
 
     private Patient setDataInModal(Patient patient) {

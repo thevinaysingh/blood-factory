@@ -235,6 +235,7 @@ public class AddMemberFragment extends UserFragment {
                     String temp_key = mDonarsDatabase.push().getKey();
                     Donar donar = setDataInModal(new Donar());
                     donar.setSelfRefKey(temp_key);
+                    donar.setIsUser(RegisterConstants.kFalse);
                     mDonarsDatabase.child(temp_key).setValue(donar);
                     progress.dismiss();
                     resetAllField();
@@ -246,14 +247,15 @@ public class AddMemberFragment extends UserFragment {
                 }
             }
         }, 2000);
-
     }
 
     private void resetAllField() {
         mDonarName.setText("");
         mDonarMob.setText("");
         mDonarAddress.setText("");
-        //setCities(mDonarCity, "--Select--");
+        setCities(mDonarCity, "--Select--");
+        resetState(mDonarState);
+        resetBlood(mDonarBloodGroup);
     }
 
     private Donar setDataInModal(Donar donar) {

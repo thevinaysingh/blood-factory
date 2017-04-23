@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.SigninFragment;
+import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
 
@@ -119,6 +120,28 @@ public abstract class UserFragment extends Fragment {
 		}
 		return ref_key;
 	}
+
+    public Donar setDonar(JSONObject josnObject, Donar editDonar) {
+        try {
+            editDonar.setAddress(josnObject.getString("address"));
+            editDonar.setAgeGroup(josnObject.getString("ageGroup"));
+            editDonar.setAuthorization(josnObject.getString("authorization"));
+            editDonar.setAvailability(josnObject.getString("availability"));
+            editDonar.setBloodGroup(josnObject.getString("bloodGroup"));
+            editDonar.setCity(josnObject.getString("city"));
+            editDonar.setGender(josnObject.getString("gender"));
+            editDonar.setMobile(josnObject.getString("mobile"));
+            editDonar.setName(josnObject.getString("name"));
+            editDonar.setSelfRefKey(josnObject.getString("selfRefKey"));
+            editDonar.setState(josnObject.getString("state"));
+            editDonar.setCountry(josnObject.getString("country"));
+            editDonar.setUserId(josnObject.getString("userId"));
+            editDonar.setIsUser(josnObject.getString("isUser"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return editDonar;
+    }
 
 	public void hideKeyboard(Context ctx) {
 		InputMethodManager inputManager = (InputMethodManager) ctx
@@ -235,6 +258,26 @@ public abstract class UserFragment extends Fragment {
 		positiveButtonLL.gravity = Gravity.CENTER;
 		positiveButton.setLayoutParams(positiveButtonLL);
 	}
+
+    public void resetBlood(Spinner spinner){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.list_of_blood_group, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    public void resetState(Spinner spinner){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.list_of_states, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    public void showNetworkError(View view, String msg){
+        Snackbar snackbar = Snackbar
+                .make(view, msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
 
 	public void setCities(Spinner spinner, String state){
         if(state.equals("Madhya pradesh")){

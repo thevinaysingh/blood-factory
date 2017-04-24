@@ -421,6 +421,7 @@ public class DonateFragment extends UserFragment {
         mDonarName.setText(editDonar.getName());
         mDonarMob.setText(editDonar.getMobile());
         mDonarAddress.setText(editDonar.getAddress());
+        add(EditFragment.newInstance());
     }
 
     private String fetchDonarsData(JSONObject json) {

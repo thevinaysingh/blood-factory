@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -53,11 +52,10 @@ import butterknife.ButterKnife;
 public class DonateFragment extends UserFragment {
 
     private static View mDonateFragment;
-    private static Donar editDonar;
     private static String name, gender, age, bloodGroup, mob, address,country, state, city, availability, authorization;
     private SharedPreferences mSharedpreferences;
     private String ref_key;
-
+    @Bind(R.id.donate_blood_page) LinearLayout mDonateBloodPage;
     @Bind(R.id.gender_error) TextView mGenderError;
     @Bind(R.id.gender_error_layout) LinearLayout mGenderErrorLayout;
     @Bind(R.id.blood_grp_error) TextView mBloodGrpError;
@@ -76,6 +74,28 @@ public class DonateFragment extends UserFragment {
     @Bind(R.id.donar_status) RadioGroup mAvailabilityStatus;
     @Bind(R.id.donar_authorization) CheckBox mDonarAuthorization;
     @Bind(R.id.donate_button) Button mDonateButton;
+
+    @Bind(R.id.edit_blood_page) LinearLayout mEditBloodPage;
+    private static Donar editDonar;
+    @Bind(R.id.donar_name_edit) EditText mEditDonarName;
+    @Bind(R.id.donar_mob_edit) EditText mEditDonarMob;
+    @Bind(R.id.donar_address_edit) EditText mEditDonarAddress;
+    @Bind(R.id.donar_state_edit) Spinner mEditDonarState;
+    @Bind(R.id.donar_city_edit) Spinner mEditDonarCity;
+    @Bind(R.id.saved_state_city) TextView mEditStateCity;
+    @Bind(R.id.gender_status_edit) TextView mEditGenderStatus;
+    @Bind(R.id.donar_blood_group_edit) TextView mEditDonarBloodGroup;
+    @Bind(R.id.age_group_edit) RadioGroup mEditAgeGroup;
+    @Bind(R.id.above18_edit) RadioButton mEditAbove18;
+    @Bind(R.id.above35_edit) RadioButton mEditAbove35;
+    @Bind(R.id.donar_status_edit) RadioGroup mEditAvailabilityStatus;
+    @Bind(R.id.donarActive_edit) RadioButton mEditDonarActive;
+    @Bind(R.id.donarInactive_edit) RadioButton mEditDonarInactive;
+    @Bind(R.id.donar_authorization_edit) CheckBox mEditDonarAuthorization;
+    @Bind(R.id.edit_button) Button mEditButton;
+
+    @Bind(R.id.success_page) LinearLayout mSuccessPage;
+    @Bind(R.id.goto_home) Button mGotoHome;
 
     public static DonateFragment newInstance() {
         return new DonateFragment();
@@ -112,6 +132,22 @@ public class DonateFragment extends UserFragment {
                 hideKeyboard(getActivity());
             }
         });
+
+        mEditDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hideKeyboard(getActivity());
+                if(position>0){
+                    setCities(mEditDonarCity, parent.getItemAtPosition(position).toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                hideKeyboard(getActivity());
+            }
+        });
+
         mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -142,6 +178,16 @@ public class DonateFragment extends UserFragment {
             }
         });
         mDonateButton.setOnClickListener(mDonateButtonListener);
+        mEditButton.setOnClickListener(mEditFragmentListener);
+        mGotoHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent self = new Intent(getActivity(), UserActivity.class);
+                self.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                self.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(self);
+            }
+        });
         return mDonateFragment;
     }
 
@@ -235,8 +281,8 @@ public class DonateFragment extends UserFragment {
                 switch (code) {
                     case API_SUCCESS:
                         if (verifyDonation(json)){
-                            showDialogBoxForEdit();
                             progress.dismiss();
+                            showEditPage();
                         } else {
                             setDataOnCloud();
                         }
@@ -308,11 +354,16 @@ public class DonateFragment extends UserFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onResume() {
         hideKeyboard(getActivity());
         if(isNetworkAvailable()){
             if(userProfileManager.getDonar().equals(RegisterConstants.kTrue)){
-                showDialogBoxForEdit();
+                showEditPage();
             } else {
                 isUserDonatedAlready(userProfileManager.getUserListSelfRefKey());
             }
@@ -320,6 +371,14 @@ public class DonateFragment extends UserFragment {
             showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
         }
         super.onResume();
+    }
+
+    private void showEditPage() {
+        progress.setMessage(RegisterConstants.waitProgress);
+        progress.show();
+        mDonateBloodPage.setVisibility(View.GONE);
+        mEditBloodPage.setVisibility(View.VISIBLE);
+        startEditing();
     }
 
     private void isUserDonatedAlready(final String refKey) {
@@ -330,7 +389,7 @@ public class DonateFragment extends UserFragment {
                 switch (code) {
                     case API_SUCCESS:
                         if (verifyDonation(json)){
-                            showDialogBoxForEdit();
+                            showEditPage();
                         }
                         break;
                     case API_FAIL:
@@ -358,33 +417,6 @@ public class DonateFragment extends UserFragment {
         return false;
     }
 
-    private void showDialogBoxForEdit() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        builder.setMessage("You have already donated. If you want to edit your details, Click ok and start processing...")
-                .setTitle("Donate blood")
-                .setIcon(R.drawable.edit_icon_new)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(isNetworkAvailable()){
-                            progress.setMessage(RegisterConstants.waitProgress);
-                            progress.show();
-                            startEditing();
-                        } else {
-                            showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
-                        }
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
     private void startEditing() {
         String url = Constants.kBaseUrl+Constants.kDonars;
         APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
@@ -394,11 +426,12 @@ public class DonateFragment extends UserFragment {
                     case API_SUCCESS:
                         try {
                             JSONObject josnObject = new JSONObject(fetchDonarsData(json));
-                            setDonarsDataToEdit(josnObject);
+                            editDonar = setDonar(josnObject, new Donar());
+                            setDonarsDataToEdit();
                         } catch (JSONException e) {
+                            progress.dismiss();
                             e.printStackTrace();
                         }
-                        progress.dismiss();
                         break;
                     case API_FAIL:
                         showDialogError(RegisterConstants.serverErrorTitle, RegisterConstants.serverErrorText);
@@ -416,14 +449,26 @@ public class DonateFragment extends UserFragment {
         });
     }
 
-    private void setDonarsDataToEdit(JSONObject josnObject) {
-       editDonar = setDonar(josnObject, new Donar());
-        mDonarName.setText(editDonar.getName());
-        mDonarMob.setText(editDonar.getMobile());
-        mDonarAddress.setText(editDonar.getAddress());
-        add(EditFragment.newInstance());
+    private void setDonarsDataToEdit() {
+        mEditDonarName.setText(editDonar.getName());
+        mEditDonarMob.setText(editDonar.getMobile());
+        mEditDonarAddress.setText(editDonar.getAddress());
+        mEditGenderStatus.setText(editDonar.getGender());
+        mEditDonarBloodGroup.setText(editDonar.getBloodGroup());
+        mEditStateCity.setText(editDonar.getCity()+", "+editDonar.getState());
+        if(editDonar.getAgeGroup().equals("18+")){
+            mEditAbove18.setChecked(true);
+        } else {
+            mEditAbove35.setChecked(true);
+        }
+        if(editDonar.getAvailability().equals("Unavailable")){
+            mEditDonarInactive.setChecked(true);
+        } else {
+            mEditDonarActive.setChecked(true);
+        }
+        progress.dismiss();
     }
-
+    
     private String fetchDonarsData(JSONObject json) {
         String jsonData = null;
         Iterator iterator = json.keys();
@@ -440,6 +485,126 @@ public class DonateFragment extends UserFragment {
             }
         }
         return jsonData;
+    }
+
+    View.OnClickListener mEditFragmentListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            hideKeyboard(getActivity());
+            if(isNetworkAvailable()){
+                resetModalData();
+                setEditDataInStringFormat();
+                if(dataEditValidation()){
+                    editDataOnCloud();
+                } else {
+                    Toast.makeText(mActivity, "Input error", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                showNetworkError(mDonateFragment, RegisterConstants.networkErrorText);
+            }
+        }
+    };
+
+    private void setEditDataInStringFormat() {
+        name = getStringDataFromEditText(mEditDonarName);
+
+        if(mEditAgeGroup.getCheckedRadioButtonId()>=0){
+            age = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mEditAgeGroup.getCheckedRadioButtonId()));
+        }
+
+        mob = getStringDataFromEditText(mEditDonarMob);
+        address = getStringDataFromEditText(mEditDonarAddress);
+        state = getStringDataFromSpinner(mEditDonarState);
+        city = getStringDataFromSpinner(mEditDonarCity);
+        availability = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mEditAvailabilityStatus.getCheckedRadioButtonId()));
+        authorization = mEditDonarAuthorization.isChecked()? RegisterConstants.kTrue : RegisterConstants.kFalse;
+    }
+
+    private boolean dataEditValidation() {
+        boolean validation = true;
+        if(!isNameValid(name)){
+            mEditDonarName.setError(Constants.nameErrorText);
+            validation = false;
+        }
+
+        if(mob.equals("")||!isPhoneValid(mob)){
+            mEditDonarMob.setError(Constants.mobErrorText);
+            validation = false;
+        }
+        if(address.equals("")){
+            mEditDonarAddress.setError(Constants.commonErrorText);
+            validation = false;
+        }
+        if(state.equals("--Select state--")){
+            state = editDonar.getState();
+            city = editDonar.getCity();
+
+        } else {
+            if(city.equals("--Select city--")){
+                showNetworkError(mDonateFragment, "Select city");
+                validation = false;
+            }
+        }
+
+
+        return validation;
+    }
+
+    private void editDataOnCloud() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+        builder.setMessage("Are you really want to edit, if yes click ok and start processing...")
+                .setTitle("Update blood detail")
+                .setIcon(R.drawable.edit_icon_new)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        progress.setMessage(RegisterConstants.waitProgress);
+                        progress.show();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                try{
+                                    editDonar.setName(name);
+                                    editDonar.setMobile(mob);
+                                    editDonar.setAddress(address);
+                                    editDonar.setCity(city);
+                                    editDonar.setState(state);
+                                    editDonar.setAgeGroup(age);
+                                    editDonar.setAvailability(availability);
+                                    editDonar.setAuthorization(authorization);
+                                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                                    mDonarsDatabase.child(editDonar.getSelfRefKey()).setValue(editDonar);
+                                    Toast.makeText(mActivity, "Editing done", Toast.LENGTH_SHORT).show();
+                                    progress.dismiss();
+                                    showSuccessMsg();
+                                }catch (Exception e){
+                                    Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                    progress.dismiss();
+                                }
+                            }
+                        }, 2000);
+                        
+                        try {
+                        } catch (Exception e){
+                            e.printStackTrace();
+                            progress.dismiss();
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showSuccessMsg() {
+        mEditBloodPage.setVisibility(View.GONE);
+        mSuccessPage.setVisibility(View.VISIBLE);
     }
 
     @Override

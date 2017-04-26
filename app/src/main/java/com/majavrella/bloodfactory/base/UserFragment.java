@@ -280,7 +280,12 @@ public abstract class UserFragment extends Fragment {
     }
 
 	public void setCities(Spinner spinner, String state){
-        if(state.equals("Madhya pradesh")){
+        if(state.equals("--Select state--")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.list_of_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        } else if(state.equals("Madhya pradesh")){
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                     getContext(), R.array.mp_cities, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

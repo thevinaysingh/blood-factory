@@ -24,7 +24,7 @@ public class RegisterConstants {
     public static final String phoneErrorText2 = "Got different phone number.";
 
     public static final String networkErrorTitle = "Network Error";
-    public static final String networkErrorText = "Internet is not available.";
+    public static final String networkErrorText = "Connect to internet and try again.";
 
     public static final String registrationErrorTitle = "Registration Error";
     public static final String registrationErrorText = "Registration failed, Something went wrong.";

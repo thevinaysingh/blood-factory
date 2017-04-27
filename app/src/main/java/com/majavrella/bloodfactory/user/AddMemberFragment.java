@@ -171,7 +171,7 @@ public class AddMemberFragment extends UserFragment {
     }
 
     private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mDonarName);
+        name = capitalizeFirstLetter(getStringDataFromEditText(mDonarName));
         if(mGenderStatus.getCheckedRadioButtonId()>=0){
             gender = getStringDataFromRadioButton((RadioButton) mAddMemberView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
         }

@@ -42,6 +42,7 @@ public class DonarList extends UserFragment {
     private static JSONArray mDonarsListArray;
     private ProgressDialog progressDialog;
     @Bind(R.id.list_container) LinearLayout mListContainer;
+    @Bind(R.id.blood_group_name) TextView mBloodGroup;
 
     public static DonarList newInstance(JSONArray jsonArray) {
         mDonarsListArray = jsonArray;
@@ -68,17 +69,20 @@ public class DonarList extends UserFragment {
 
     private void createListOfDonars(final JSONArray mDonarsListArray) {
         if(mDonarsListArray.length()>0){
+            try {
+                mBloodGroup.setText(mDonarsListArray.getJSONObject(0).getString("bloodGroup")+" Blood donar(s)");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             for(int i = 0; i<mDonarsListArray.length(); i++){
                 String message = null;
                 String mobileNo = null;
-                String donarName = null;
                 JSONObject json_data=null;
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item, null);
-                TextView bloodGroup = (TextView)view.findViewById(R.id.blood_group);
-                LinearLayout donarContainer = (LinearLayout)view.findViewById(R.id.donar_container);
-                TextView status = (TextView)view.findViewById(R.id.status);
+
+                ImageView memberImg = (ImageView) view.findViewById(R.id.member_image);
+                ImageView statusImg = (ImageView) view.findViewById(R.id.donar_availability_status);
                 TextView name = (TextView)view.findViewById(R.id.name);
-                TextView gender = (TextView)view.findViewById(R.id.gender);
                 TextView city = (TextView)view.findViewById(R.id.city);
                 TextView state = (TextView)view.findViewById(R.id.state);
                 TextView phone = (TextView)view.findViewById(R.id.phone_no);
@@ -89,14 +93,17 @@ public class DonarList extends UserFragment {
                 ImageView about = (ImageView) view.findViewById(R.id.about);
                 try {
                     json_data = mDonarsListArray.getJSONObject(i);
-                    bloodGroup.setText(json_data.getString("bloodGroup"));
-                    status.setText(json_data.getString("availability"));
-                    if (status.getText().equals("Available")){
-                        donarContainer.setBackgroundColor(Color.parseColor("#B41C2B"));
+                    if (json_data.getString("availability").equals("Available")){
+                        statusImg.setImageResource(R.drawable.right);
+                    } else {
+                        statusImg.setImageResource(R.drawable.cross);
+                    }
+                    if (json_data.getString("gender").equals("Male")){
+                        memberImg.setImageResource(R.drawable.male);
+                    } else {
+                        memberImg.setImageResource(R.drawable.female);
                     }
                     name.setText(json_data.getString("name"));
-                    donarName = capitalizeFirstLetter(json_data.getString("name"));
-                    gender.setText(json_data.getString("gender"));
                     city.setText(json_data.getString("city"));
                     state.setText(json_data.getString("state"));
                     phone.setText(json_data.getString("mobile"));

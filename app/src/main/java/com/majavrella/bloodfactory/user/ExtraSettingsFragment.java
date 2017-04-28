@@ -33,6 +33,8 @@ public class ExtraSettingsFragment extends UserFragment {
     @Bind(R.id.change_mob) LinearLayout mChangeMob;
     @Bind(R.id.edit_profile) LinearLayout mEditProfile;
     @Bind(R.id.change_password) LinearLayout mChangePassword;
+    @Bind(R.id.members_list) LinearLayout mMembersList;
+    @Bind(R.id.posted_blood_request) LinearLayout mPostedBloodRequest;
 
     public static ExtraSettingsFragment newInstance() {
         return new ExtraSettingsFragment();
@@ -77,27 +79,14 @@ public class ExtraSettingsFragment extends UserFragment {
             }
         });
 
-        return mExtraSettingsView;
-    }
-
-    public void showDialogForChangeMobileNo() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setCancelable(true);
-        builder.setTitle(Constants.changeMobiletitle);
-        builder.setIcon(R.drawable.user_id_lock);
-        builder.setMessage(Constants.changeMobileMsg);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        mMembersList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
+            public void onClick(View v) {
+                add(AddedMembers.newInstance());
             }
         });
-        final AlertDialog dialog = builder.create();
-        dialog.show(); //show() should be called before dialog.getButton().
-        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-        positiveButtonLL.gravity = Gravity.CENTER;
-        positiveButton.setLayoutParams(positiveButtonLL);
+
+        return mExtraSettingsView;
     }
 
     @Override

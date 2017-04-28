@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/big_distance"
+        android:text="Please, try again!"
+        android:layout_margin="@dimen/big_distance"
+        android:textSize="@dimen/big_text"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/try_again"
+        android:paddingRight="@dimen/big_distance"
+        android:paddingLeft="@dimen/big_distance"
+        android:text="Try again"
+        android:textAllCaps="false"
+        android:background="@drawable/roundend_border_edittext"
+        android:textColor="@color/colorButton"
+        style="@style/frontButton"
+        android:gravity="center" />
+
+</LinearLayout>

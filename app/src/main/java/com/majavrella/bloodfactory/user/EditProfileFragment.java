@@ -462,6 +462,10 @@ public class EditProfileFragment extends UserFragment {
                         playWithVisibilty(mUsernameEditBox);
                         changeDatabase("name", name);
                         mUsername.setText(name);
+                        Intent self = new Intent(getActivity(), UserActivity.class);
+                        self.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        self.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(self);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

@@ -51,19 +51,6 @@
                     style="@style/white_separator"/>
             </LinearLayout>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             <EditText
                 android:id="@+id/patient_name"
                 android:hint="@string/placeholder_patient_name"
@@ -72,18 +59,6 @@
                 <requestFocus />
             </EditText>
 
-            <LinearLayout
-                android:id="@+id/gender_error_layout"
-                android:visibility="gone"
-                style="@style/errorLayout">
-                <TextView
-                    android:text="@string/star_text"
-                    style="@style/redStar"/>
-                <TextView
-                    android:id="@+id/gender_error"
-                    android:text=""
-                    style="@style/redStar"/>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -128,18 +103,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/age_error_layout"
-                android:visibility="gone"
-                style="@style/errorLayout">
-                <TextView
-                    android:text="@string/star_text"
-                    style="@style/redStar"/>
-                <TextView
-                    android:id="@+id/age_error"
-                    android:text=""
-                    style="@style/redStar"/>
-            </LinearLayout>
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -172,7 +135,7 @@
                         android:layout_weight="1"/>
 
                     <RadioButton
-                        android:id="@+id/below18"
+                        android:id="@+id/above35"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/age_group_text_35"
@@ -184,16 +147,26 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/blood_grp_error_layout"
-                android:visibility="gone"
-                style="@style/errorLayout">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/very_small_distance"
+                android:layout_margin="@dimen/very_small_distance"
+                android:paddingLeft="@dimen/very_small_distance">
                 <TextView
-                    android:text="@string/star_text"
-                    style="@style/redStar"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Blood Group (Select from below if edit)"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/small_text" />
                 <TextView
-                    android:id="@+id/blood_grp_error"
-                    android:text=""
-                    style="@style/redStar"/>
+                    android:id="@+id/patient_blood_group_edit"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="@dimen/small_distance"
+                    android:text="A+"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_text"/>
             </LinearLayout>
             <Spinner
                 android:id="@+id/patient_blood_group"
@@ -209,19 +182,6 @@
                 android:background="@drawable/rectangle_border_edittext"
                 style="@style/mob_et">
             </EditText>
-
-            <LinearLayout
-                android:id="@+id/address_error_layout"
-                android:visibility="gone"
-                style="@style/errorLayout">
-                <TextView
-                    android:text="@string/star_text"
-                    style="@style/redStar"/>
-                <TextView
-                    android:id="@+id/address_error"
-                    android:text=""
-                    style="@style/redStar"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

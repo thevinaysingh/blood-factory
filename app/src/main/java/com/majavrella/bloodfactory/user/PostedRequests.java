@@ -229,7 +229,7 @@ public class PostedRequests extends UserFragment {
                     }
                     showDialogForBloodGroup("Request info", message);
                 } else if (items[item].equals("Edit")) {
-                    //add(EditRequestFragment.newInstance(finalJson_data));
+                    add(EditRequestFragment.newInstance(finalJson_data));
                 } else if (items[item].equals("Delete")) {
                     if(isNetworkAvailable()){
                         progress.setMessage(RegisterConstants.waitProgress);

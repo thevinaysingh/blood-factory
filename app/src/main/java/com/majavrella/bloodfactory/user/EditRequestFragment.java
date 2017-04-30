@@ -43,14 +43,20 @@ public class EditRequestFragment extends UserFragment {
 
     @Bind(R.id.patient_name) EditText mPatientName;
     @Bind(R.id.gender_status) RadioGroup mGenderStatus;
+    @Bind(R.id.genderFemale) RadioButton mGenderFemale;
+    @Bind(R.id.genderMale) RadioButton mGenderMale;
     @Bind(R.id.age_group) RadioGroup mAgeGroup;
+    @Bind(R.id.above18) RadioButton mAbove18;
+    @Bind(R.id.above35) RadioButton mAbove35;
+    @Bind(R.id.patient_blood_group_edit) TextView mPatient_blood_group_edit;
     @Bind(R.id.patient_blood_group) Spinner mPatientBloodGroup;
     @Bind(R.id.patient_mob) EditText mPatientMob;
+    @Bind(R.id.saved_state_city) TextView mSaved_state_city;
     @Bind(R.id.patient_state) Spinner mPatientState;
     @Bind(R.id.patient_city) Spinner mPatientCity;
     @Bind(R.id.last_date_need) EditText mLastDateNeed;
     @Bind(R.id.purpose_of_request) EditText mPurposeOfRequest;
-    @Bind(R.id.post_blood_request) Button mPostBloodRequest;
+    @Bind(R.id.edit_button) Button mEditButton;
 
     @Bind(R.id.goto_back) Button mGoBackButton;
     @Bind(R.id.success_page) LinearLayout success_page;
@@ -72,15 +78,13 @@ public class EditRequestFragment extends UserFragment {
         mEditRequest = inflater.inflate(R.layout.edit_request_fragment, container, false);
         ButterKnife.bind(this, mEditRequest);
         setStatusBarColor(Constants.colorStatusBarSecondary);
-        /*editPatient = setDonar(mJsonObject, new Donar());
+        editPatient = setPatient(mJsonObject, new Patient());
 
-        mDonarState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mPatientState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hideKeyboard(getActivity());
-                if(position>0){
-                    setCities(mDonarCity, parent.getItemAtPosition(position).toString());
-                }
+                setCities(mPatientCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -89,7 +93,7 @@ public class EditRequestFragment extends UserFragment {
             }
         });
 
-        mEditButton.setOnClickListener(mEditRequestListener);*/
+        mEditButton.setOnClickListener(mEditRequestListener);
         mGoBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +103,6 @@ public class EditRequestFragment extends UserFragment {
         return mEditRequest;
     }
 
-/*
     View.OnClickListener mEditRequestListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -123,39 +126,52 @@ public class EditRequestFragment extends UserFragment {
     }
 
     private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mDonarName);
-
+        name = getStringDataFromEditText(mPatientName);
         if(mAgeGroup.getCheckedRadioButtonId()>=0){
-            age = getStringDataFromRadioButton((RadioButton) mEditRequest.findViewById(mAgeGroup.getCheckedRadioButtonId()));
+            ageGroup = getStringDataFromRadioButton((RadioButton) mEditRequest.findViewById(mAgeGroup.getCheckedRadioButtonId()));
         }
 
-        mob = getStringDataFromEditText(mDonarMob);
-        address = getStringDataFromEditText(mDonarAddress);
-        state = getStringDataFromSpinner(mDonarState);
-        city = getStringDataFromSpinner(mDonarCity);
-        availability = getStringDataFromRadioButton((RadioButton) mEditRequest.findViewById(mAvailabilityStatus.getCheckedRadioButtonId()));
-        authorization = mDonarAuthorization.isChecked()? RegisterConstants.kTrue : RegisterConstants.kFalse;
+        if(mGenderStatus.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mEditRequest.findViewById(mGenderStatus.getCheckedRadioButtonId()));
+        }
+
+        bloodGroup = getStringDataFromSpinner(mPatientBloodGroup);
+
+        mob = getStringDataFromEditText(mPatientMob);
+        state = getStringDataFromSpinner(mPatientState);
+        city = getStringDataFromSpinner(mPatientCity);
+        lastDate= getStringDataFromEditText(mLastDateNeed);
+        purpose = getStringDataFromEditText(mPurposeOfRequest);
     }
 
     private boolean dataValidation() {
         boolean validation = true;
         if(!isNameValid(name)){
-            mDonarName.setError(Constants.nameErrorText);
-            validation = false;
+            name = editPatient.getName();
+        }
+
+        if(bloodGroup.equals("--Select blood group--")){
+            bloodGroup = editPatient.getBloodGroup();
         }
 
         if(mob.equals("")||!isPhoneValid(mob)){
-            mDonarMob.setError(Constants.mobErrorText);
-            validation = false;
+            mob = editPatient.getMobile();
         }
-        if(address.equals("")){
-            mDonarAddress.setError(Constants.commonErrorText);
-            validation = false;
-        }
+
         if(state.equals("--Select state--")){
-            state = editPatient.getState();
-        } if(city.equals("--Select city--")){
             city = editPatient.getCity();
+            state = editPatient.getState();
+        } else {
+            if(city.equals("--Select city--")){
+                city = editPatient.getCity();
+                state = editPatient.getState();
+            }
+        }
+        if(!isDateValid(lastDate)){
+            lastDate = editPatient.getDate();
+        }
+        if(purpose.equals("")){
+            purpose = editPatient.getPurpose();
         }
         return validation;
     }
@@ -163,7 +179,7 @@ public class EditRequestFragment extends UserFragment {
     private void editDataOnCloud() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setMessage("Are you really want to edit, if yes click ok and start processing...")
-                .setTitle("Edit page")
+                .setTitle("Edit request")
                 .setIcon(R.drawable.edit_icon_new)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
@@ -171,15 +187,16 @@ public class EditRequestFragment extends UserFragment {
                         progress.setMessage(RegisterConstants.waitProgress);
                         progress.show();
                         try {
-                            editPatient.setName(name);
-                            editPatient.setMobile(mob);
-                            editPatient.setAddress(address);
+                            editPatient.setAgeGroup(ageGroup);
+                            editPatient.setBloodGroup(bloodGroup);
                             editPatient.setCity(city);
+                            editPatient.setDate(lastDate);
+                            editPatient.setGender(gender);
+                            editPatient.setMobile(mob);
+                            editPatient.setName(name);
+                            editPatient.setPurpose(purpose);
                             editPatient.setState(state);
-                            editPatient.setAgeGroup(age);
-                            editPatient.setAvailability(availability);
-                            editPatient.setAuthorization(authorization);
-                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
                             mDonarsDatabase.child(editPatient.getSelfRefKey()).setValue(editPatient);
                             Toast.makeText(mActivity, "Editing done", Toast.LENGTH_SHORT).show();
                             progress.dismiss();
@@ -213,23 +230,28 @@ public class EditRequestFragment extends UserFragment {
     }
 
     private void setDonarsDataToEdit() {
-        mDonarName.setText(editPatient.getName());
-        mDonarMob.setText(editPatient.getMobile());
-        mDonarAddress.setText(editPatient.getAddress());
-        mGenderStatus.setText(editPatient.getGender());
-        mDonarBloodGroup.setText(editPatient.getBloodGroup());
-        mStateCity.setText(editPatient.getCity()+", "+editPatient.getState());
+        mPatientName.setText(editPatient.getName());
+        mPatientMob.setText(editPatient.getMobile());
+
         if(editPatient.getAgeGroup().equals("18+")){
             mAbove18.setChecked(true);
+            mAbove35.setChecked(false);
         } else {
             mAbove35.setChecked(true);
+            mAbove18.setChecked(false);
         }
-        if(editPatient.getAvailability().equals("Unavailable")){
-            mDonarInactive.setChecked(true);
+        if(editPatient.getGender().equals("Male")){
+            mGenderMale.setChecked(true);
+            mGenderFemale.setChecked(false);
         } else {
-            mDonarActive.setChecked(true);
+            mGenderMale.setChecked(false);
+            mGenderFemale.setChecked(true);
         }
-    }*/
+        mPatient_blood_group_edit.setText(editPatient.getBloodGroup());
+        mSaved_state_city.setText(editPatient.getCity()+", "+editPatient.getState());
+        mLastDateNeed.setText(editPatient.getDate());
+        mPurposeOfRequest.setText(editPatient.getPurpose());
+    }
 
     @Override
     protected String getTitle() {

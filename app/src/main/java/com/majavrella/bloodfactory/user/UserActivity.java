@@ -75,7 +75,7 @@ public class UserActivity extends BaseActivity {
     ImageView mImageView;
 
     @Bind(R.id.edit_profile_direct)
-    LinearLayout mEditProfile;
+    TextView mEditProfile;
 
     static private FirebaseAuth mFirebaseAuth;
 

@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.SigninFragment;
 import com.majavrella.bloodfactory.api.APIConstant;
@@ -80,6 +82,8 @@ public class PeopleNeedFragment extends UserFragment {
                 String message = null;
                 String mobileNo = null;
                 String patient = null;
+                String ref_key= null;
+                String helpingHands = null;
                 JSONObject json_data=null;
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_needy, null);
                 TextView bloodGroup = (TextView)view.findViewById(R.id.blood_group);
@@ -105,7 +109,9 @@ public class PeopleNeedFragment extends UserFragment {
                     city.setText(json_data.getString("city"));
                     state.setText(json_data.getString("state"));
                     phone.setText(json_data.getString("mobile"));
-                    mobileNo = json_data.getString("mobile").toString();
+                    ref_key = json_data.getString("selfRefKey");
+                    helpingHands = json_data.getString("helpingUsers")+userProfileManager.getUserId()+"/";
+                    mobileNo = json_data.getString("mobile");
                     message = "Name: "+json_data.getString("name")+"\n"
                             +"Gender: "+json_data.getString("gender")+"\n"
                             +"Age Group: "+json_data.getString("ageGroup")+"\n"
@@ -209,6 +215,8 @@ public class PeopleNeedFragment extends UserFragment {
                 });
 
                 final String finalMessage = message;
+                final String finalRef_key = ref_key;
+                final String finalHelpingHands = helpingHands;
                 singleTapReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -219,7 +227,17 @@ public class PeopleNeedFragment extends UserFragment {
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        sendInstantReply();
+                                        progress.setMessage(RegisterConstants.waitProgress);
+                                        progress.show();
+                                        try {
+                                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+                                            mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands);
+                                            Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
+                                            progress.dismiss();
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                            progress.dismiss();
+                                        }
                                     }
                                 })
                                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -247,7 +265,8 @@ public class PeopleNeedFragment extends UserFragment {
         progressDialog.dismiss();
     }
 
-    private void sendInstantReply() {
+    private void sendInstantReply(String finalRef_key) {
+
     }
 
     private void shareOthers(String finalMessage1) {

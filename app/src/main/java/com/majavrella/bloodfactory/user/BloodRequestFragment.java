@@ -1,11 +1,13 @@
 package com.majavrella.bloodfactory.user;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,9 @@ import com.majavrella.bloodfactory.modal.Donar;
 import com.majavrella.bloodfactory.modal.Member;
 import com.majavrella.bloodfactory.modal.Patient;
 import com.majavrella.bloodfactory.register.RegisterConstants;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -129,6 +134,28 @@ public class BloodRequestFragment extends UserFragment {
                 hideKeyboard(getActivity());
             }
         });
+        mLastDateNeed.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("-----", "beforeTextChanged: "+s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //Toast.makeText(mActivity, "Length"+s.length()+ "start"+start+ " before"+ before+ " count"+ count , Toast.LENGTH_SHORT).show();
+                if(s.length()==2 && start==1){
+                    mLastDateNeed.setText(s+"/");
+                }
+                if(s.length()==5 && start==4){
+                    mLastDateNeed.setText(s+"/");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mLastDateNeed.setSelection(mLastDateNeed.getText().length());
+            }
+        });
 
         mPostBloodRequest.setOnClickListener(mPostBloodRequestListener);
         return mBloodRequestView;
@@ -213,6 +240,20 @@ public class BloodRequestFragment extends UserFragment {
         if(!isDateValid(lastDate)){
             mLastDateNeed.setError(Constants.dateErrorText);
             validation = false;
+        } else {
+            Date currentDate = null;
+            Date enteredDate = null;
+            SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                currentDate = mdformat.parse(getCurrentDate());
+                enteredDate = mdformat.parse(lastDate);
+                if(enteredDate.before(currentDate)){
+                    mLastDateNeed.setError(Constants.dateErrorText);
+                    validation = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if(purpose==null){
             purpose = "Purpose not given!";

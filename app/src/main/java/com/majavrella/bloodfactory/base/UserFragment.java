@@ -42,8 +42,10 @@ import com.majavrella.bloodfactory.user.UserActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 public abstract class UserFragment extends Fragment {
@@ -216,8 +218,25 @@ public abstract class UserFragment extends Fragment {
 	public boolean isPhoneValid(String phone){
         return phone.matches(Constants.mobRegex);
     }
-	public boolean isDateValid(String date){
-        return date.matches(Constants.dateRegex);
+	public boolean isDateValid(String strDate){
+        if(strDate == null){
+            return false;
+        }
+        if(!strDate.matches(Constants.dateRegex)){
+            return false;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false);
+        try {
+            //if not valid, it will throw ParseException
+            Date date = sdf.parse(strDate);
+
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 	protected abstract String getTitle();

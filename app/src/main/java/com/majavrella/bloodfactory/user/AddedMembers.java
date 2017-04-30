@@ -140,6 +140,7 @@ public class AddedMembers extends UserFragment {
                 JSONObject json_data = null;
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.donar_item, null);
                 TextView bloodGroup = (TextView)view.findViewById(R.id.blood_group);
+                TextView statusText = (TextView)view.findViewById(R.id.status_text);
                 TextView name = (TextView)view.findViewById(R.id.name);
                 TextView city = (TextView)view.findViewById(R.id.city);
                 TextView state = (TextView)view.findViewById(R.id.state);
@@ -171,7 +172,9 @@ public class AddedMembers extends UserFragment {
                 }
                  if(donar.getAvailability().equals("Available")){
                      statusImg.setImageResource(R.drawable.right);
+                     statusText.setText("Available");
                  } else {
+                     statusText.setText("Unavailable");
                      statusImg.setImageResource(R.drawable.cross);
                  }
                 mListContainer.addView(view, i);

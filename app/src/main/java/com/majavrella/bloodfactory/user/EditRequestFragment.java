@@ -3,6 +3,9 @@ package com.majavrella.bloodfactory.user;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,9 @@ import com.majavrella.bloodfactory.modal.Patient;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -93,6 +99,29 @@ public class EditRequestFragment extends UserFragment {
             }
         });
 
+        mLastDateNeed.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("-----", "beforeTextChanged: "+s);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==2 && start==1){
+                    mLastDateNeed.setText(s+"/");
+                }
+                if(s.length()==5 && start==4){
+                    mLastDateNeed.setText(s+"/");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mLastDateNeed.setSelection(mLastDateNeed.getText().length());
+            }
+        });
+
+
         mEditButton.setOnClickListener(mEditRequestListener);
         mGoBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +176,8 @@ public class EditRequestFragment extends UserFragment {
     private boolean dataValidation() {
         boolean validation = true;
         if(!isNameValid(name)){
-            name = editPatient.getName();
+            mPatientName.setError(Constants.nameErrorText);
+            validation = false;
         }
 
         if(bloodGroup.equals("--Select blood group--")){
@@ -155,7 +185,8 @@ public class EditRequestFragment extends UserFragment {
         }
 
         if(mob.equals("")||!isPhoneValid(mob)){
-            mob = editPatient.getMobile();
+            mPatientMob.setError(Constants.mobErrorText);
+            validation = false;
         }
 
         if(state.equals("--Select state--")){
@@ -163,12 +194,27 @@ public class EditRequestFragment extends UserFragment {
             state = editPatient.getState();
         } else {
             if(city.equals("--Select city--")){
-                city = editPatient.getCity();
-                state = editPatient.getState();
+                showNetworkError(mEditRequest, "Select city");
+                validation = false;
             }
         }
         if(!isDateValid(lastDate)){
-            lastDate = editPatient.getDate();
+            mLastDateNeed.setError(Constants.dateErrorText);
+            validation = false;
+        } else {
+            Date currentDate = null;
+            Date enteredDate = null;
+            SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                currentDate = mdformat.parse(getCurrentDate());
+                enteredDate = mdformat.parse(lastDate);
+                if(enteredDate.before(currentDate)){
+                    mLastDateNeed.setError(Constants.dateErrorText);
+                    validation = false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if(purpose.equals("")){
             purpose = editPatient.getPurpose();
@@ -255,6 +301,6 @@ public class EditRequestFragment extends UserFragment {
 
     @Override
     protected String getTitle() {
-        return "Edit page";
+        return "Edit Request";
     }
 }

@@ -255,7 +255,7 @@ public class BloodRequestFragment extends UserFragment {
                 e.printStackTrace();
             }
         }
-        if(purpose==null){
+        if(purpose==null||purpose.equals("")){
             purpose = "Purpose not given!";
         }
         return validation;

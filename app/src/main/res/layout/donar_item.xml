@@ -12,26 +12,38 @@
         android:layout_height="wrap_content"
         android:background="@color/backgroundWhite">
         <LinearLayout
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/big_distance"
-            android:background="@drawable/small_circle"
+            android:paddingLeft="@dimen/medium_distance"
+            android:paddingRight="@dimen/medium_distance"
             android:orientation="vertical">
-            <ImageView
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:id="@+id/member_image"
-                android:layout_width="@dimen/small_medium_img_size"
-                android:layout_height="@dimen/small_medium_img_size"
-                android:src="@drawable/male" />
+                android:background="@drawable/small_circle">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/member_image"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/male" />
+            </FrameLayout>
+            <TextView
+                android:id="@+id/status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unavailable"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/donar_availability_status"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginLeft="-20dp"
-            android:layout_marginBottom="@dimen/small_distance"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
             android:layout_gravity="bottom"
             android:src="@drawable/cross"/>
         <LinearLayout

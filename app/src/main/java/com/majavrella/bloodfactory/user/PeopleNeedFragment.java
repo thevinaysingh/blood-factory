@@ -124,6 +124,8 @@ public class PeopleNeedFragment extends UserFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                final String user_id = userProfileManager.getUserId();
                 final LinearLayout replyContainer = (LinearLayout) view.findViewById(R.id.more_container);
                 mListContainer.addView(view, i);
                 reply.setOnClickListener(new View.OnClickListener() {
@@ -222,21 +224,30 @@ public class PeopleNeedFragment extends UserFragment {
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
                         builder.setMessage(R.string.one_tap_msg)
-                                .setTitle("Reply through app")
+                                .setTitle("One tap reply")
                                 .setIcon(R.drawable.one_tap)
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        progress.setMessage(RegisterConstants.waitProgress);
-                                        progress.show();
-                                        try {
-                                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
-                                            mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands);
-                                            Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
-                                            progress.dismiss();
-                                        } catch (Exception e){
-                                            e.printStackTrace();
-                                            progress.dismiss();
+                                        if(!finalHelpingHands.contains(user_id)){
+                                           if(isNetworkAvailable()){
+                                               progress.setMessage(RegisterConstants.waitProgress);
+                                               progress.show();
+                                               try {
+                                                   DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+                                                   mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands);
+                                                   Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
+                                                   progress.dismiss();
+                                                   getFragmentManager().popBackStackImmediate();
+                                               } catch (Exception e){
+                                                   e.printStackTrace();
+                                                   progress.dismiss();
+                                               }
+                                           } else {
+                                               showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
+                                           }
+                                        } else {
+                                            Toast.makeText(getActivity(), "Already replied", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 })

@@ -6,7 +6,41 @@
     android:orientation="vertical"
     android:background="@drawable/user_home_background">
     <LinearLayout
+        android:id="@+id/request_info_container"
+        android:visibility="gone"
         android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:alpha="0.4"
+        android:background="@color/background_color">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/medium_text"
+                    android:textColor="@color/colorButton"
+                    android:paddingTop="@dimen/medium_distance"
+                    android:text="Response for requests"/>
+                <LinearLayout
+                    android:id="@+id/request_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/front_page"
+        android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"

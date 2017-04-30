@@ -106,8 +106,8 @@ public class BloodRequestFragment extends UserFragment {
                 hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
-                    setCities(mPatientCity, parent.getItemAtPosition(position).toString());
                 }
+                setCities(mPatientCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override

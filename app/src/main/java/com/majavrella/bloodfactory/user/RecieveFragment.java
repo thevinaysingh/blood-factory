@@ -88,8 +88,8 @@ public class RecieveFragment extends UserFragment {
                 hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mStateErrorLayout);
-                    setCities(mCity, parent.getItemAtPosition(position).toString());
                 }
+                setCities(mCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override

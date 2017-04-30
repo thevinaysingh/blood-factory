@@ -185,8 +185,12 @@ public class EditFragment extends UserFragment {
 
         if(state.equals("--Select state--")){
             state = editDonar.getState();
-        } if(city.equals("--Select city--")){
             city = editDonar.getCity();
+        } else {
+            if(city.equals("--Select city--")){
+                showNetworkError(mEditFragment, "Select city");
+                validation = false;
+            }
         }
         return validation;
     }

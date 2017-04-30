@@ -140,9 +140,7 @@ public class DonateFragment extends UserFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hideKeyboard(getActivity());
-                if(position>0){
-                    setCities(mEditDonarCity, parent.getItemAtPosition(position).toString());
-                }
+                setCities(mEditDonarCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -157,8 +155,8 @@ public class DonateFragment extends UserFragment {
                 hideKeyboard(getActivity());
                 if(position>0){
                     hideIt(mAddressErrorLayout);
-                    setCities(mDonarCity, parent.getItemAtPosition(position).toString());
                 }
+                setCities(mDonarCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override

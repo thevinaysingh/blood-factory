@@ -143,16 +143,17 @@ public class BloodRequestFragment extends UserFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Toast.makeText(mActivity, "Length"+s.length()+ "start"+start+ " before"+ before+ " count"+ count , Toast.LENGTH_SHORT).show();
-                if(s.length()==2 && start==1){
+                if(mLastDateNeed.getText().length()==2 && start==1){
                     mLastDateNeed.setText(s+"/");
                 }
-                if(s.length()==5 && start==4){
+                if(mLastDateNeed.getText().length()==5 && start==4){
                     mLastDateNeed.setText(s+"/");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (mLastDateNeed.getText().length()==3||mLastDateNeed.getText().length()==6)
                 mLastDateNeed.setSelection(mLastDateNeed.getText().length());
             }
         });

@@ -107,17 +107,18 @@ public class EditRequestFragment extends UserFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()==2 && start==1){
+                if(mLastDateNeed.getText().length()==2 && start==1){
                     mLastDateNeed.setText(s+"/");
                 }
-                if(s.length()==5 && start==4){
+                if(mLastDateNeed.getText().length()==5 && start==4){
                     mLastDateNeed.setText(s+"/");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                mLastDateNeed.setSelection(mLastDateNeed.getText().length());
+                if (mLastDateNeed.getText().length()==3||mLastDateNeed.getText().length()==6)
+                    mLastDateNeed.setSelection(mLastDateNeed.getText().length());
             }
         });
 

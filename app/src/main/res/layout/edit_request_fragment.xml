@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/edit_container"
+            android:visibility="visible"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundWhite"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="@dimen/medium_distance"
+                android:paddingLeft="@dimen/medium_distance"
+                android:paddingTop="@dimen/medium_distance">
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/very_small_distance">
+                        <ImageView
+                            android:layout_width="@dimen/small_img_size"
+                            android:layout_height="@dimen/small_img_size"
+                            android:src="@drawable/edit"
+                            android:clickable="false"/>
+                    </LinearLayout>
+                </FrameLayout>
+                <TextView
+                    android:text="Edit Request"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/medium_text"
+                    android:gravity="center" />
+                <View
+                    style="@style/white_separator"/>
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <EditText
+                android:id="@+id/patient_name"
+                android:hint="@string/placeholder_patient_name"
+                android:background="@drawable/rectangle_border_edittext"
+                style="@style/username_et">
+                <requestFocus />
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/gender_error_layout"
+                android:visibility="gone"
+                style="@style/errorLayout">
+                <TextView
+                    android:text="@string/star_text"
+                    style="@style/redStar"/>
+                <TextView
+                    android:id="@+id/gender_error"
+                    android:text=""
+                    style="@style/redStar"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/very_small_distance"
+                android:layout_margin="@dimen/very_small_distance"
+                android:paddingLeft="@dimen/very_small_distance">
+                <TextView
+                    android:layout_width="@dimen/big_img_size"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/small_text" />
+
+                <RadioGroup
+                    android:id="@+id/gender_status"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+                    <RadioButton
+                        android:id="@+id/genderFemale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender_female"
+                        android:checked="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/small_text"
+                        android:layout_weight="1"/>
+                    <RadioButton
+                        android:id="@+id/genderMale"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gender_male"
+                        android:checked="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/small_text"
+                        android:layout_weight="1"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/age_error_layout"
+                android:visibility="gone"
+                style="@style/errorLayout">
+                <TextView
+                    android:text="@string/star_text"
+                    style="@style/redStar"/>
+                <TextView
+                    android:id="@+id/age_error"
+                    android:text=""
+                    style="@style/redStar"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/very_small_distance"
+                android:layout_margin="@dimen/very_small_distance"
+                android:paddingLeft="@dimen/very_small_distance">
+                <TextView
+                    android:layout_width="@dimen/big_img_size"
+                    android:layout_height="wrap_content"
+                    android:text="@string/age_group_text"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/small_text" />
+
+                <RadioGroup
+                    android:id="@+id/age_group"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+                    <RadioButton
+                        android:id="@+id/above18"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age_group_text_18"
+                        android:checked="true"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/small_text"
+                        android:layout_weight="1"/>
+
+                    <RadioButton
+                        android:id="@+id/below18"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age_group_text_35"
+                        android:checked="false"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/small_text"
+                        android:layout_weight="1"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/blood_grp_error_layout"
+                android:visibility="gone"
+                style="@style/errorLayout">
+                <TextView
+                    android:text="@string/star_text"
+                    style="@style/redStar"/>
+                <TextView
+                    android:id="@+id/blood_grp_error"
+                    android:text=""
+                    style="@style/redStar"/>
+            </LinearLayout>
+            <Spinner
+                android:id="@+id/patient_blood_group"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/small_medium_img_size"
+                android:entries="@array/list_of_blood_group"
+                style="@style/editText"
+                android:background="@drawable/rectangle_border_edittext"/>
+
+            <EditText
+                android:id="@+id/patient_mob"
+                android:hint="@string/placeholder_mob"
+                android:background="@drawable/rectangle_border_edittext"
+                style="@style/mob_et">
+            </EditText>
+
+            <LinearLayout
+                android:id="@+id/address_error_layout"
+                android:visibility="gone"
+                style="@style/errorLayout">
+                <TextView
+                    android:text="@string/star_text"
+                    style="@style/redStar"/>
+                <TextView
+                    android:id="@+id/address_error"
+                    android:text=""
+                    style="@style/redStar"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/very_small_distance"
+                android:layout_margin="@dimen/very_small_distance"
+                android:paddingLeft="@dimen/very_small_distance">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Present City &amp; State (Set new from below)"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/small_text" />
+                <TextView
+                    android:id="@+id/saved_state_city"
+                    android:layout_width="match_parent"
+                    android:text="Indore, Madhya Pradesh"
+                    android:paddingLeft="@dimen/medium_distance"
+                    android:paddingRight="@dimen/medium_distance"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/small_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <Spinner
+                    android:id="@+id/patient_state"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/small_medium_img_size"
+                    android:entries="@array/list_of_states"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_border_edittext"
+                    style="@style/editText">
+                </Spinner>
+                <Spinner
+                    android:id="@+id/patient_city"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/small_medium_img_size"
+                    android:entries="@array/list_of_cities"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_border_edittext"
+                    style="@style/editText">
+                </Spinner>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/last_date_need"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/small_medium_img_size"
+                android:lines="1"
+                android:inputType="date"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:hint="@string/placeholder_last_date"
+                android:background="@drawable/rectangle_border_edittext"
+                style="@style/editText">
+            </EditText>
+
+            <EditText
+                android:id="@+id/purpose_of_request"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/medium_img_size"
+                android:gravity="start"
+                android:lines="3"
+                android:maxLines="3"
+                android:hint="@string/placeholder_purpose"
+                android:background="@drawable/rectangle_border_edittext"
+                style="@style/editText">
+            </EditText>
+
+
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/medium_distance"
+                android:layout_marginBottom="@dimen/medium_distance">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit &amp; Save"
+                    android:background="@color/new_btn_color"
+                    android:layout_weight="1"
+                    android:id="@+id/edit_button"
+                    style="@style/CommonButton"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/success_page"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#f2eeee"
+            android:gravity="center">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <ImageView
+                    android:layout_width="@dimen/small_img_size"
+                    android:layout_height="@dimen/small_img_size"
+                    android:src="@drawable/success_icon"
+                    android:clickable="false"/>
+            </FrameLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/medium_distance"
+                android:textSize="@dimen/small_text"
+                android:gravity="center"
+                android:text="Successfully edited!"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goto_back"
+                android:paddingRight="@dimen/big_distance"
+                android:paddingLeft="@dimen/big_distance"
+                android:text="Go back"
+                android:background="@color/backgroundWhite"
+                android:textColor="#08b49b"
+                style="@style/frontButton"
+                android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

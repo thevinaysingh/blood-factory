@@ -1,12 +1,8 @@
 package com.majavrella.bloodfactory.user;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,14 +20,18 @@ import com.majavrella.bloodfactory.api.APIManager;
 import com.majavrella.bloodfactory.api.APIResponse;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.UserFragment;
-import com.majavrella.bloodfactory.base.Utility;
 import com.majavrella.bloodfactory.modal.Donar;
+import com.majavrella.bloodfactory.modal.Patient;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 import butterknife.Bind;
@@ -41,34 +41,34 @@ import butterknife.ButterKnife;
  * Created by Administrator on 4/27/2017.
  */
 
-public class AddedMembers extends UserFragment {
+public class PostedRequests extends UserFragment {
 
-    private static View mAddedMembers;
-    private static JSONArray mMembersArray;
+    private static View mPostBloodRequests;
+    private static JSONArray mRequestsArray;
     @Bind(R.id.list_container) LinearLayout mListContainer;
 
-    public static AddedMembers newInstance() {
-        return new AddedMembers();
+    public static PostedRequests newInstance() {
+        return new PostedRequests();
     }
 
-    public AddedMembers() {
+    public PostedRequests() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mAddedMembers = inflater.inflate(R.layout.fragment_members_list, container, false);
-        ButterKnife.bind(this, mAddedMembers);
-        fetchMembers();
-        return mAddedMembers;
+        mPostBloodRequests = inflater.inflate(R.layout.fragment_requests_list, container, false);
+        ButterKnife.bind(this, mPostBloodRequests);
+        fetchRequests();
+        return mPostBloodRequests;
     }
 
-    private void fetchMembers() {
+    private void fetchRequests() {
         if(isNetworkAvailable()){
             progress.setMessage(RegisterConstants.waitProgress);
             progress.show();
-            final String url = Constants.kBaseUrl+Constants.kDonars;
+            final String url = Constants.kBaseUrl+Constants.kPatients;
             APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
                 @Override
                 public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
@@ -76,7 +76,7 @@ public class AddedMembers extends UserFragment {
                         case API_SUCCESS:
                             JSONArray jsonArray = searchResultInJson(json);
                             try {
-                                createListOfMembers(jsonArray);
+                                createListOfRequests(jsonArray);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -84,12 +84,12 @@ public class AddedMembers extends UserFragment {
                         case API_FAIL:
                             needInternet();
                             progress.dismiss();
-                            showNetworkError(mAddedMembers, RegisterConstants.networkErrorText);
+                            showNetworkError(mPostBloodRequests, RegisterConstants.networkErrorText);
                             break;
                         case API_NETWORK_FAIL:
                             needInternet();
                             progress.dismiss();
-                            showNetworkError(mAddedMembers, RegisterConstants.networkErrorText);
+                            showNetworkError(mPostBloodRequests, RegisterConstants.networkErrorText);
                             break;
                     }
                 }
@@ -106,9 +106,9 @@ public class AddedMembers extends UserFragment {
             @Override
             public void onClick(View v) {
                 if(isNetworkAvailable()){
-                    fetchMembers();
+                    fetchRequests();
                 } else {
-                    showNetworkError(mAddedMembers, "No network connection");
+                    showNetworkError(mPostBloodRequests, "No network connection");
                 }
             }
         });
@@ -122,8 +122,7 @@ public class AddedMembers extends UserFragment {
         while (iterator.hasNext()){
             String key = (String) iterator.next();
             try {
-                if(json.getJSONObject(key).getString("userId").equals(userProfileManager.getUserId())
-                        &&json.getJSONObject(key).getString("isUser").equals(RegisterConstants.kFalse)){
+                if(json.getJSONObject(key).getString("userId").equals(userProfileManager.getUserId())){
                     requiredJson.put(json.getJSONObject(key));
                 }
             } catch (JSONException e) {
@@ -133,26 +132,59 @@ public class AddedMembers extends UserFragment {
         return requiredJson;
     }
 
-    private void createListOfMembers(final JSONArray mMembersArray) throws JSONException {
-        if(mMembersArray.length()>0){
-            for(int i = 0; i<mMembersArray.length(); i++){
-                Donar donar = null;
+    private void createListOfRequests(final JSONArray mRequestsArray) throws JSONException {
+        if(mRequestsArray.length()>0){
+            for(int i = 0; i<mRequestsArray.length(); i++){
+                Patient patient = null;
                 JSONObject json_data = null;
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout.donar_item, null);
-                TextView bloodGroup = (TextView)view.findViewById(R.id.blood_group);
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.request_item, null);
+                ImageView memberImg = (ImageView) view.findViewById(R.id.member_image);
+                ImageView statusImg = (ImageView) view.findViewById(R.id.status_img);
+                TextView statusText = (TextView)view.findViewById(R.id.status_text);
                 TextView name = (TextView)view.findViewById(R.id.name);
+                TextView bloodGroup = (TextView)view.findViewById(R.id.blood_group);
+                TextView lastDate = (TextView)view.findViewById(R.id.last_date);
                 TextView city = (TextView)view.findViewById(R.id.city);
                 TextView state = (TextView)view.findViewById(R.id.state);
-                ImageView memberImg = (ImageView) view.findViewById(R.id.member_image);
-                ImageView statusImg = (ImageView) view.findViewById(R.id.donar_availability_status);
 
                 LinearLayout donarContainer = (LinearLayout)view.findViewById(R.id.donar_container);
                 try {
-                    json_data = mMembersArray.getJSONObject(i);
-                    donar = setDonar(json_data, new Donar());
+                    json_data = mRequestsArray.getJSONObject(i);
+                    patient = setPatient(json_data, new Patient());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                name.setText(patient.getName());
+                bloodGroup.setText(patient.getBloodGroup());
+                city.setText(patient.getCity());
+                state.setText(patient.getState());
+                lastDate.setText(patient.getDate());
+                if(patient.getGender().equals("Male")){
+                    memberImg.setImageResource(R.drawable.male);
+                } else {
+                    memberImg.setImageResource(R.drawable.female);
+                }
+
+                // Check date
+                Date currentDate = null;
+                Date lastDateOfNeed = null;
+                SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    currentDate = mdformat.parse(getCurrentDate());
+                    lastDateOfNeed = mdformat.parse(patient.getDate());
+                    if(lastDateOfNeed.after(currentDate)||lastDateOfNeed.equals(currentDate)){
+                        statusImg.setImageResource(R.drawable.progress);
+                        statusText.setText("In progress");
+                    } else {
+                        statusText.setText("Date over");
+                        statusImg.setImageResource(R.drawable.cross);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 final JSONObject finalJson_data = new JSONObject(json_data.toString());
                 donarContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -160,20 +192,7 @@ public class AddedMembers extends UserFragment {
                         chooseActivityFromOption(finalJson_data);
                     }
                 });
-                name.setText(donar.getName());
-                city.setText(donar.getCity());
-                state.setText(donar.getState());
-                bloodGroup.setText(donar.getBloodGroup());
-                if(donar.getGender().equals("Male")){
-                    memberImg.setImageResource(R.drawable.male);
-                } else {
-                    memberImg.setImageResource(R.drawable.female);
-                }
-                 if(donar.getAvailability().equals("Available")){
-                     statusImg.setImageResource(R.drawable.right);
-                 } else {
-                     statusImg.setImageResource(R.drawable.cross);
-                 }
+
                 mListContainer.addView(view, i);
             }
         } else {
@@ -196,26 +215,27 @@ public class AddedMembers extends UserFragment {
                     String message = null;
                     try {
                         message = "Name: "+finalJson_data.getString("name")+"\n"
-                                 +"Gender: "+finalJson_data.getString("gender")+"\n"
-                                 +"Age Group: "+finalJson_data.getString("ageGroup")+"\n"
-                                 +"blood group: "+finalJson_data.getString("bloodGroup")+"\n"
-                                 +"Mobile: "+finalJson_data.getString("mobile")+"\n"
-                                 +"Address: "+finalJson_data.getString("address")+"\n"
-                                 +"City: "+finalJson_data.getString("city")+"\n"
-                                 +"State: "+finalJson_data.getString("state")+"\n"
-                                 +"Status: "+finalJson_data.getString("availability");
+                                +"Gender: "+finalJson_data.getString("gender")+"\n"
+                                +"Age Group: "+finalJson_data.getString("ageGroup")+"\n"
+                                +"blood group: "+finalJson_data.getString("bloodGroup")+"\n"
+                                +"Last date: "+finalJson_data.getString("date")+"\n"
+                                +"Purpose: "+finalJson_data.getString("purpose")+"\n"
+                                +"Mobile: "+finalJson_data.getString("mobile")+"\n"
+                                +"City: "+finalJson_data.getString("city")+"\n"
+                                +"State: "+finalJson_data.getString("state")+"\n"
+                                +"Status: "+finalJson_data.getString("status");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    showDialogForBloodGroup("Donar info", message);
+                    showDialogForBloodGroup("Request info", message);
                 } else if (items[item].equals("Edit")) {
-                    add(EditFragment.newInstance(finalJson_data));
+                    //add(EditRequestFragment.newInstance(finalJson_data));
                 } else if (items[item].equals("Delete")) {
                     if(isNetworkAvailable()){
                         progress.setMessage(RegisterConstants.waitProgress);
                         progress.show();
                         try {
-                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                            DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
                             mDonarsDatabase.child(finalJson_data.getString("selfRefKey")).removeValue(new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -230,7 +250,7 @@ public class AddedMembers extends UserFragment {
                             Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        showNetworkError(mAddedMembers, RegisterConstants.networkErrorText);
+                        showNetworkError(mPostBloodRequests, RegisterConstants.networkErrorText);
                     }
                 } else{
                     dialog.dismiss();
@@ -242,11 +262,12 @@ public class AddedMembers extends UserFragment {
 
     @Override
     public void onResume() {
+        //checkDate();
         super.onResume();
     }
 
     @Override
     protected String getTitle() {
-        return "Added Members";
+        return "Requests";
     }
 }

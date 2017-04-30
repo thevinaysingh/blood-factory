@@ -163,7 +163,8 @@ public class RecieveFragment extends UserFragment {
             try {
                 if(json.getJSONObject(key).get("bloodGroup").toString().equals(bloodGroup)
                         &&json.getJSONObject(key).get("state").toString().equals(state)
-                        &&json.getJSONObject(key).get("city").toString().equals(city)){
+                        &&json.getJSONObject(key).get("city").toString().equals(city)
+                        &&json.getJSONObject(key).get("authorization").toString().equals(RegisterConstants.kTrue)){
                     requiredJson.put(json.getJSONObject(key));
                 }
             } catch (JSONException e) {

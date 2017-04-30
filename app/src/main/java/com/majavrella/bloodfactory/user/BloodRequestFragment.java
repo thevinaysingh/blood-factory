@@ -129,6 +129,7 @@ public class BloodRequestFragment extends UserFragment {
                 hideKeyboard(getActivity());
             }
         });
+
         mPostBloodRequest.setOnClickListener(mPostBloodRequestListener);
         return mBloodRequestView;
     }
@@ -163,7 +164,7 @@ public class BloodRequestFragment extends UserFragment {
     }
 
     private void setDataInStringFormat() {
-        name = getStringDataFromEditText(mPatientName);
+        name = capitalizeFirstLetter(getStringDataFromEditText(mPatientName));
         if(mGenderStatus.getCheckedRadioButtonId()>=0){
             gender = getStringDataFromRadioButton((RadioButton) mBloodRequestView.findViewById(mGenderStatus.getCheckedRadioButtonId()));
         }

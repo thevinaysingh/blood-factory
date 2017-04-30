@@ -525,7 +525,6 @@ public class EditProfileFragment extends UserFragment {
         progressDialog.setMessage(RegisterConstants.waitProgress);
         progressDialog.show();
         setData();
-        //setDataFromDataBase();
         super.onStart();
     }
 

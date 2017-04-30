@@ -5,7 +5,6 @@ package com.majavrella.bloodfactory.modal;
  */
 
 public class Patient {
-
     private String name;
     private String userId;
     private String gender;
@@ -17,9 +16,27 @@ public class Patient {
     private String date;
     private String purpose;
     private String selfRefKey;
+    private String helpingUsers="";
+    private String status = "In progress";
 
     public Patient() {
       /*Blank default constructor essential for Firebase*/
+    }
+
+    //Getters and setters for helping users
+    public String getHelpingUsers() {
+        return helpingUsers;
+    }
+    public void setHelpingUsers(String helpingUsers) {
+        this.helpingUsers = helpingUsers;
+    }
+
+    //Getters and setters for status
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     //Getters and setters for user id

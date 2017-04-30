@@ -35,12 +35,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.SigninFragment;
 import com.majavrella.bloodfactory.modal.Donar;
+import com.majavrella.bloodfactory.modal.Patient;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 
 public abstract class UserFragment extends Fragment {
@@ -141,6 +144,27 @@ public abstract class UserFragment extends Fragment {
             e.printStackTrace();
         }
         return editDonar;
+    }
+
+    public Patient setPatient(JSONObject josnObject, Patient editPatient) {
+        try {
+            editPatient.setAgeGroup(josnObject.getString("ageGroup"));
+            editPatient.setBloodGroup(josnObject.getString("bloodGroup"));
+            editPatient.setCity(josnObject.getString("city"));
+            editPatient.setDate(josnObject.getString("date"));
+            editPatient.setGender(josnObject.getString("gender"));
+            editPatient.setHelpingUsers(josnObject.getString("helpingUsers"));
+            editPatient.setMobile(josnObject.getString("mobile"));
+            editPatient.setName(josnObject.getString("name"));
+            editPatient.setPurpose(josnObject.getString("purpose"));
+            editPatient.setSelfRefKey(josnObject.getString("selfRefKey"));
+            editPatient.setState(josnObject.getString("state"));
+            editPatient.setStatus(josnObject.getString("status"));
+            editPatient.setUserId(josnObject.getString("userId"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return editPatient;
     }
 
 	public void hideKeyboard(Context ctx) {
@@ -461,6 +485,12 @@ public abstract class UserFragment extends Fragment {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
         }
+    }
 
+    public String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
+        String strDate = mdformat.format(calendar.getTime());
+        return strDate;
     }
 }

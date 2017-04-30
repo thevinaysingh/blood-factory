@@ -425,27 +425,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center_vertical"
                 android:paddingTop="@dimen/very_small_distance"
                 android:layout_margin="@dimen/very_small_distance"
                 android:paddingLeft="@dimen/very_small_distance">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gender"
-                    android:layout_weight="1"
+                    android:text="Blood Group (Select from below if edit)"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text" />
                 <TextView
-                    android:id="@+id/gender_status_edit"
-                    android:layout_width="0dp"
-                    android:text="-"
+                    android:id="@+id/donar_blood_group_edit"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="@dimen/small_distance"
+                    android:text="A+"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text"
-                    android:layout_weight="2"/>
-
+                    android:textSize="@dimen/small_text"/>
             </LinearLayout>
+            <Spinner
+                android:id="@+id/blood_group_edit_box"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/small_medium_img_size"
+                android:entries="@array/list_of_blood_group"
+                style="@style/editText"
+                android:background="@drawable/rectangle_border_edittext"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -456,20 +461,44 @@
                 android:paddingLeft="@dimen/very_small_distance">
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="Blood Group"
                     android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
                     android:textColor="@color/text_color"
                     android:textSize="@dimen/small_text" />
-                <TextView
-                    android:id="@+id/donar_blood_group_edit"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:text="-"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/small_text"
-                    android:layout_weight="2"/>
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+                    <RadioGroup
+                        android:id="@+id/gender_edit_box"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+                        <RadioButton
+                            android:id="@+id/gender_edit_female"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender_female"
+                            android:checked="false"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/small_text"
+                            android:layout_weight="1"/>
+                        <RadioButton
+                            android:id="@+id/gender_edit_male"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender_male"
+                            android:checked="false"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/small_text"
+                            android:layout_weight="1"/>
+                    </RadioGroup>
+                </LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -563,7 +592,6 @@
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
-
             <CheckBox
                 android:id="@+id/donar_authorization_edit"
                 android:text="@string/authorization_text"

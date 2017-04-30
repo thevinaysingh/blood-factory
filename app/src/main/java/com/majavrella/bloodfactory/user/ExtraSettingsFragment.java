@@ -86,8 +86,17 @@ public class ExtraSettingsFragment extends UserFragment {
             }
         });
 
+        mPostedBloodRequest.setOnClickListener(mPostedBloodRequestListener);
+
         return mExtraSettingsView;
     }
+
+    private View.OnClickListener mPostedBloodRequestListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            add(PostedRequests.newInstance());
+        }
+    };
 
     @Override
     public void onResume() {

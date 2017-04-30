@@ -43,8 +43,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (fragmentManager.getBackStackEntryCount() > 1) {
             drawerToggle.setDrawerIndicatorEnabled(false);
             drawerToggle.setToolbarNavigationClickListener(navigationBackPressListener); //pop backstack
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         } else {
             drawerToggle.setDrawerIndicatorEnabled(true);
+            getDrawer().setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             drawerToggle.setToolbarNavigationClickListener(drawerToggle.getToolbarNavigationClickListener()); //open nav menu drawer
         }
     }

@@ -74,8 +74,8 @@ public class DonateFragment extends UserFragment {
     @Bind(R.id.donar_status) RadioGroup mAvailabilityStatus;
     @Bind(R.id.donar_authorization) CheckBox mDonarAuthorization;
     @Bind(R.id.donate_button) Button mDonateButton;
-
     @Bind(R.id.edit_blood_page) LinearLayout mEditBloodPage;
+
     private static Donar editDonar;
     @Bind(R.id.donar_name_edit) EditText mEditDonarName;
     @Bind(R.id.donar_mob_edit) EditText mEditDonarMob;
@@ -83,7 +83,10 @@ public class DonateFragment extends UserFragment {
     @Bind(R.id.donar_state_edit) Spinner mEditDonarState;
     @Bind(R.id.donar_city_edit) Spinner mEditDonarCity;
     @Bind(R.id.saved_state_city) TextView mEditStateCity;
-    @Bind(R.id.gender_status_edit) TextView mEditGenderStatus;
+    @Bind(R.id.blood_group_edit_box) Spinner mBlood_group_edit_box;
+    @Bind(R.id.gender_edit_box) RadioGroup mGender_edit_box;
+    @Bind(R.id.gender_edit_male) RadioButton mGender_edit_male;
+    @Bind(R.id.gender_edit_female) RadioButton mGender_edit_female;
     @Bind(R.id.donar_blood_group_edit) TextView mEditDonarBloodGroup;
     @Bind(R.id.age_group_edit) RadioGroup mEditAgeGroup;
     @Bind(R.id.above18_edit) RadioButton mEditAbove18;
@@ -453,13 +456,19 @@ public class DonateFragment extends UserFragment {
         mEditDonarName.setText(editDonar.getName());
         mEditDonarMob.setText(editDonar.getMobile());
         mEditDonarAddress.setText(editDonar.getAddress());
-        mEditGenderStatus.setText(editDonar.getGender());
         mEditDonarBloodGroup.setText(editDonar.getBloodGroup());
         mEditStateCity.setText(editDonar.getCity()+", "+editDonar.getState());
         if(editDonar.getAgeGroup().equals("18+")){
             mEditAbove18.setChecked(true);
         } else {
             mEditAbove35.setChecked(true);
+        }
+        if(editDonar.getGender().equals("Male")){
+            mGender_edit_female.setChecked(false);
+            mGender_edit_male.setChecked(true);
+        } else {
+            mGender_edit_female.setChecked(true);
+            mGender_edit_male.setChecked(false);
         }
         if(editDonar.getAvailability().equals("Unavailable")){
             mEditDonarInactive.setChecked(true);
@@ -507,11 +516,15 @@ public class DonateFragment extends UserFragment {
 
     private void setEditDataInStringFormat() {
         name = getStringDataFromEditText(mEditDonarName);
-
         if(mEditAgeGroup.getCheckedRadioButtonId()>=0){
             age = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mEditAgeGroup.getCheckedRadioButtonId()));
         }
 
+        if(mGender_edit_box.getCheckedRadioButtonId()>=0){
+            gender = getStringDataFromRadioButton((RadioButton) mDonateFragment.findViewById(mGender_edit_box.getCheckedRadioButtonId()));
+        }
+
+        bloodGroup = getStringDataFromSpinner(mBlood_group_edit_box);
         mob = getStringDataFromEditText(mEditDonarMob);
         address = getStringDataFromEditText(mEditDonarAddress);
         state = getStringDataFromSpinner(mEditDonarState);
@@ -535,6 +548,10 @@ public class DonateFragment extends UserFragment {
             mEditDonarAddress.setError(Constants.commonErrorText);
             validation = false;
         }
+        if(bloodGroup.equals("--Select blood group--")){
+            bloodGroup = editDonar.getBloodGroup();
+        }
+
         if(state.equals("--Select state--")){
             state = editDonar.getState();
             city = editDonar.getCity();
@@ -568,6 +585,8 @@ public class DonateFragment extends UserFragment {
                                     editDonar.setMobile(mob);
                                     editDonar.setAddress(address);
                                     editDonar.setCity(city);
+                                    editDonar.setGender(gender);
+                                    editDonar.setBloodGroup(bloodGroup);
                                     editDonar.setState(state);
                                     editDonar.setAgeGroup(age);
                                     editDonar.setAvailability(availability);

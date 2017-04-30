@@ -101,9 +101,7 @@ public class EditFragment extends UserFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hideKeyboard(getActivity());
-                if(position>0){
-                    setCities(mDonarCity, parent.getItemAtPosition(position).toString());
-                }
+                setCities(mDonarCity, parent.getItemAtPosition(position).toString());
             }
 
             @Override

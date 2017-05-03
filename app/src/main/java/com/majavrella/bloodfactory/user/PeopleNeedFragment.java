@@ -110,7 +110,7 @@ public class PeopleNeedFragment extends UserFragment {
                     state.setText(json_data.getString("state"));
                     phone.setText(json_data.getString("mobile"));
                     ref_key = json_data.getString("selfRefKey");
-                    helpingHands = json_data.getString("helpingUsers")+userProfileManager.getUserId()+"/";
+                    helpingHands = json_data.getString("helpingUsers");
                     mobileNo = json_data.getString("mobile");
                     message = "Name: "+json_data.getString("name")+"\n"
                             +"Gender: "+json_data.getString("gender")+"\n"
@@ -216,49 +216,51 @@ public class PeopleNeedFragment extends UserFragment {
                     }
                 });
 
+
                 final String finalMessage = message;
                 final String finalRef_key = ref_key;
                 final String finalHelpingHands = helpingHands;
                 singleTapReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-                        builder.setMessage(R.string.one_tap_msg)
-                                .setTitle("One tap reply")
-                                .setIcon(R.drawable.one_tap)
-                                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if(!finalHelpingHands.contains(user_id)){
-                                           if(isNetworkAvailable()){
-                                               progress.setMessage(RegisterConstants.waitProgress);
-                                               progress.show();
-                                               try {
-                                                   DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
-                                                   mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands);
-                                                   Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
-                                                   progress.dismiss();
-                                                   getFragmentManager().popBackStackImmediate();
-                                               } catch (Exception e){
-                                                   e.printStackTrace();
-                                                   progress.dismiss();
-                                               }
-                                           } else {
-                                               showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
-                                           }
-                                        } else {
-                                            Toast.makeText(getActivity(), "Already replied", Toast.LENGTH_SHORT).show();
+
+                        if(finalHelpingHands.contains(userProfileManager.getUserId())){
+                            Toast.makeText(getActivity(), "Already replied", Toast.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                            builder.setMessage(R.string.one_tap_msg)
+                                    .setTitle("One tap reply")
+                                    .setIcon(R.drawable.one_tap)
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if(isNetworkAvailable()){
+                                                progress.setMessage(RegisterConstants.waitProgress);
+                                                progress.show();
+                                                try {
+                                                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+                                                    mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands+userProfileManager.getUserId()+"/");
+                                                    Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
+                                                    progress.dismiss();
+                                                    getFragmentManager().popBackStackImmediate();
+                                                } catch (Exception e){
+                                                    e.printStackTrace();
+                                                    progress.dismiss();
+                                                }
+                                            } else {
+                                                showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
+                                            }
                                         }
-                                    }
-                                })
-                                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                                    })
+                                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
                     }
                 });
 

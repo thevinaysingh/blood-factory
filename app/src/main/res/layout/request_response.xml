@@ -6,7 +6,7 @@
     android:padding="@dimen/very_small_distance"
     android:background="@drawable/rectangle_border">
     <LinearLayout
-        android:id="@+id/donar_container"
+        android:id="@+id/req_container"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,8 +15,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:paddingLeft="@dimen/medium_distance"
-            android:paddingRight="@dimen/medium_distance"
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="40dp"
@@ -40,14 +38,13 @@
                 android:layout_height="15dp"
                 android:src="@drawable/progress"/>
         </LinearLayout>
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:padding="5dp">
+            android:paddingLeft="@dimen/small_distance"
+            android:layout_weight="1">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +103,6 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/big_distance"
             android:background="@drawable/small_circle_red">
             <TextView
                 android:id="@+id/helpingHandsCounter"
@@ -115,5 +111,7 @@
                 android:text="+9"
                 android:textColor="@color/backgroundWhite"/>
         </LinearLayout>
+        <ImageView
+            style="@style/expand_quest"/>
     </LinearLayout>
 </LinearLayout>

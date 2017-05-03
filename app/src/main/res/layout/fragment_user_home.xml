@@ -7,10 +7,14 @@
     android:background="@drawable/user_home_background">
     <LinearLayout
         android:id="@+id/request_info_container"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:alpha="0.4"
+        android:layout_marginTop="@dimen/medium_distance"
+        android:layout_marginBottom="@dimen/big_distance"
+        android:layout_marginRight="@dimen/medium_distance"
+        android:layout_marginLeft="@dimen/medium_distance"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@color/background_color">
         <ScrollView
             android:layout_width="match_parent"
@@ -29,10 +33,38 @@
                     android:paddingTop="@dimen/medium_distance"
                     android:text="Response for requests"/>
                 <LinearLayout
+                    android:visibility="visible"
                     android:id="@+id/request_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"/>
+                <LinearLayout
+                    android:id="@+id/user_info_container"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:background="@drawable/roundend_border_edittext"
+                        android:paddingLeft="@dimen/small_distance"
+                        android:paddingRight="@dimen/small_distance"
+                        android:textSize="@dimen/very_small_text"
+                        android:layout_marginLeft="@dimen/medium_distance"
+                        android:layout_marginBottom="@dimen/medium_distance"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:textColor="@color/new_btn_color"
+                        android:text="Back"/>
+                    <LinearLayout
+                        android:id="@+id/user_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

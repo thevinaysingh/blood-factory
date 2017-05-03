@@ -39,6 +39,7 @@ import com.majavrella.bloodfactory.modal.Patient;
 import com.majavrella.bloodfactory.register.RegisterConstants;
 import com.majavrella.bloodfactory.user.UserActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -125,6 +126,38 @@ public abstract class UserFragment extends Fragment {
 		}
 		return ref_key;
 	}
+
+    protected  String getUserMobileNo(JSONObject json, final String user_id) {
+        String user_mobile = null;
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).getString("userId").equals(user_id)){
+                    user_mobile = json.getJSONObject(key).getString("mobile");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return user_mobile;
+    }
+
+    protected String getUser(JSONObject json, final String user_id) {
+        String user_string = null;
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).getString("userId").equals(user_id)){
+                    return json.getJSONObject(key).toString();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return user_string;
+    }
 
     public Donar setDonar(JSONObject josnObject, Donar editDonar) {
         try {

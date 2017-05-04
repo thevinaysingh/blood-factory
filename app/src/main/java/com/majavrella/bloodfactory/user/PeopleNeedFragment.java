@@ -83,6 +83,7 @@ public class PeopleNeedFragment extends UserFragment {
                 String mobileNo = null;
                 String patient = null;
                 String ref_key= null;
+                String user_id_of_requester= null;
                 String helpingHands = null;
                 JSONObject json_data=null;
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item_needy, null);
@@ -110,6 +111,7 @@ public class PeopleNeedFragment extends UserFragment {
                     state.setText(json_data.getString("state"));
                     phone.setText(json_data.getString("mobile"));
                     ref_key = json_data.getString("selfRefKey");
+                    user_id_of_requester = json_data.getString("userId");
                     helpingHands = json_data.getString("helpingUsers");
                     mobileNo = json_data.getString("mobile");
                     message = "Name: "+json_data.getString("name")+"\n"
@@ -220,6 +222,7 @@ public class PeopleNeedFragment extends UserFragment {
                 final String finalMessage = message;
                 final String finalRef_key = ref_key;
                 final String finalHelpingHands = helpingHands;
+                final String finalUser_id_of_requester = user_id_of_requester;
                 singleTapReply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -235,17 +238,14 @@ public class PeopleNeedFragment extends UserFragment {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             if(isNetworkAvailable()){
-                                                progress.setMessage(RegisterConstants.waitProgress);
-                                                progress.show();
-                                                try {
-                                                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
-                                                    mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands+userProfileManager.getUserId()+"/");
-                                                    Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
-                                                    progress.dismiss();
-                                                    getFragmentManager().popBackStackImmediate();
-                                                } catch (Exception e){
-                                                    e.printStackTrace();
-                                                    progress.dismiss();
+                                                if(userProfileManager.getDonar().equals(RegisterConstants.kTrue)){
+                                                    if(userProfileManager.getUserId().equals(finalUser_id_of_requester)){
+                                                        Toast.makeText(mActivity, "This is your own request", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        checkAvailbility(finalRef_key, finalHelpingHands);
+                                                    }
+                                                } else {
+                                                    showDialogForBloodGroup("Not donated", "You need to donate first");
                                                 }
                                             } else {
                                                 showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
@@ -277,6 +277,64 @@ public class PeopleNeedFragment extends UserFragment {
         }
         progressDialog.dismiss();
     }
+
+    private void checkAvailbility(final String finalRef_key, final String finalHelpingHands) {
+        progress.setMessage(RegisterConstants.waitProgress);
+        progress.show();
+        final String url = Constants.kBaseUrl+Constants.kDonars;
+        APIManager.getInstance().callApiListener(url, getActivity(), new APIResponse() {
+            @Override
+            public void resultWithJSON(APIConstant.ApiLoginResponse code, JSONObject json) {
+                switch (code) {
+                    case API_SUCCESS:
+                        if(isUserAvailable(json)){
+                            try {
+                                DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
+                                mDonarsDatabase.child(finalRef_key).child("helpingUsers").setValue(finalHelpingHands+userProfileManager.getUserId()+"/");
+                                Toast.makeText(mActivity, "Thanks for help", Toast.LENGTH_SHORT).show();
+                                progress.dismiss();
+                                getFragmentManager().popBackStackImmediate();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                                progress.dismiss();
+                            }
+                        } else {
+                            progress.dismiss();
+                            Toast.makeText(mActivity, "You are not available now", Toast.LENGTH_SHORT).show();
+                        }
+
+                        break;
+                    case API_FAIL:
+                        progress.dismiss();
+                        showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
+                        break;
+                    case API_NETWORK_FAIL:
+                        progress.dismiss();
+                        showNetworkError(mPeopleInNeed, RegisterConstants.networkErrorText);
+                        break;
+                }
+            }
+        });
+    }
+
+    private boolean isUserAvailable(JSONObject json) {
+     boolean  isUserCanDonate = false;
+        Iterator iterator = json.keys();
+        while (iterator.hasNext()){
+            String key = (String) iterator.next();
+            try {
+                if(json.getJSONObject(key).getString("userId").equals(userProfileManager.getUserId())
+                        &&json.getJSONObject(key).getString("isUser").equals(RegisterConstants.kTrue)
+                        &&json.getJSONObject(key).getString("availability").equals("Available")){
+                    isUserCanDonate = true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return isUserCanDonate;
+    }
+
 
     private void sendInstantReply(String finalRef_key) {
 

@@ -421,6 +421,11 @@ public abstract class UserFragment extends Fragment {
                     getContext(), R.array.gujrat_cities, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
+        } else if(state.equals("Goa")){
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                    getContext(), R.array.goa_cities, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
         } else if(state.equals("Haryana")){
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                     getContext(), R.array.haryana_cities, android.R.layout.simple_spinner_item);

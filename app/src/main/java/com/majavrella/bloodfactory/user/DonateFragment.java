@@ -391,6 +391,8 @@ public class DonateFragment extends UserFragment {
                     case API_SUCCESS:
                         if (verifyDonation(json)){
                             showEditPage();
+                        } else {
+                            setUserData();
                         }
                         break;
                     case API_FAIL:
@@ -405,6 +407,12 @@ public class DonateFragment extends UserFragment {
                 progress.dismiss();
             }
         });
+    }
+
+    private void setUserData() {
+        mDonarName.setText(userProfileManager.getName());
+        mDonarMob.setText(userProfileManager.getMobile());
+        mDonarAddress.setText(userProfileManager.getAddress());
     }
 
     private boolean verifyDonation(JSONObject json) {

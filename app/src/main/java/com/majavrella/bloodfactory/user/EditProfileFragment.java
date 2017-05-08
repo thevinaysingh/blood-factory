@@ -7,9 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +29,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
@@ -65,6 +72,7 @@ public class EditProfileFragment extends UserFragment {
     private static String selfRefKey = null;
     private DatabaseReference mUserDatabase;
     private SharedPreferences.Editor editor;
+    private StorageReference storageRef;
 
     @Bind(R.id.update_whole_app) ImageView updateApp;
     @Bind(R.id.add_image) LinearLayout mAddImage;
@@ -129,6 +137,8 @@ public class EditProfileFragment extends UserFragment {
         ButterKnife.bind(this, mEditProfileView);
 
         editor = sharPrefs.edit();
+        // Create a storage reference from our app
+        storageRef = FirebaseStorage.getInstance().getReference();
 
         mUserState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -604,7 +614,6 @@ public class EditProfileFragment extends UserFragment {
     }
 
     private void onCaptureImageResult(Intent data) {
-        bitmapImg=null;
         bitmapImg = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmapImg.compress(Bitmap.CompressFormat.PNG, 90, bytes);
@@ -628,7 +637,6 @@ public class EditProfileFragment extends UserFragment {
     }
 
     private void onSelectFromGalleryResult(Intent data) {
-        bitmapImg=null;
         if (data != null) {
             try {
                 bitmapImg = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), data.getData());
@@ -640,6 +648,30 @@ public class EditProfileFragment extends UserFragment {
         Log.d("Edit profile", "onSelectFromGalleryResult: "+ bitmapImg);
         mProfilePic.setImageBitmap(bitmapImg);
         mProfilePic.setVisibility(View.VISIBLE);
+        setImageOnCloudStorage();
+    }
+
+    private void setImageOnCloudStorage() {
+        // Create a reference to "profile.jpg"
+        StorageReference profileRef = storageRef.child(userProfileManager.getUserId()+"profile.jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmapImg.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = profileRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                taskSnapshot.getMetadata();
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                Log.d(TAG, "onSuccess: "+downloadUrl);
+                Toast.makeText(mActivity, "success", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private View.OnClickListener mAddImageListener = new View.OnClickListener() {

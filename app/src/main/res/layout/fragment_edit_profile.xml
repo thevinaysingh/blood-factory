@@ -57,12 +57,14 @@
                             android:layout_gravity="center"
                             android:layout_width="@dimen/medium_img_size"
                             android:layout_height="@dimen/medium_img_size"
+                            android:background="@drawable/circle_drawable"
                             android:src="@drawable/user_img" />
                     </LinearLayout>
 
                     <ImageView
                         android:visibility="gone"
-                        android:layout_gravity="center"
+                        android:background="@drawable/circle_drawable"
+                        android:layout_gravity="center_horizontal"
                         android:layout_height="140dp"
                         android:layout_width="140dp"
                         android:id="@+id/profile_pic"

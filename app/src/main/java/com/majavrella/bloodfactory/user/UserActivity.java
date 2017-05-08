@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -24,8 +27,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.majavrella.bloodfactory.api.APIConstant;
 import com.majavrella.bloodfactory.api.APIManager;
 import com.majavrella.bloodfactory.api.APIResponse;
@@ -52,6 +59,7 @@ public class UserActivity extends BaseActivity {
     protected SharedPreferences.Editor editor;
     protected UserProfileManager userProfileManager;
     private ProgressDialog progressDialog;
+    private StorageReference storageRef;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -86,13 +94,15 @@ public class UserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         ButterKnife.bind(this);
-        progressDialog = new ProgressDialog(this, R.style.custom_progress_dialog);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(RegisterConstants.waitProgress);
         progressDialog.show();
 
         userProfileManager = UserProfileManager.getInstance();
         mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         editor = mSharedpreferences.edit();
+        // Create a storage reference from our app
+        storageRef = FirebaseStorage.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
         setupNavigationItems();
         setupDrawerAndToggle();
@@ -126,7 +136,26 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onStart() {
         setData();
+        getImage();
         super.onStart();
+    }
+
+    private void getImage() {
+        StorageReference islandRef = storageRef.child(userProfileManager.getUserId()+"profile.jpg");
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                // Data for "images/island.jpg" is returns, use this as needed
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     private void setData() {

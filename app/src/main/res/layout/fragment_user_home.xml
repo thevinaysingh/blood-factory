@@ -7,7 +7,7 @@
     android:background="@drawable/user_home_background">
     <LinearLayout
         android:id="@+id/request_info_container"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/medium_distance"
         android:layout_marginBottom="@dimen/big_distance"

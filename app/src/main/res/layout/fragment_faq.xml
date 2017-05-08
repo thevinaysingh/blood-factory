@@ -51,5 +51,39 @@
             android:layout_height="wrap_content"
             android:id="@+id/linear_card_view">
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_distance"
+            android:padding="@dimen/small_distance"
+            android:textColor="@color/colorButton"
+            android:textSize="@dimen/medium_text"
+            android:text="Ask yor question here"/>
+        <EditText
+            android:id="@+id/ask_your_quest"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/medium_img_size"
+            android:gravity="start"
+            android:lines="3"
+            android:maxLines="3"
+            android:hint="Your question"
+            android:background="@drawable/rectangle_border_edittext"
+            style="@style/editText"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp">
+            <Button
+                android:id="@+id/ask_quest_button"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Ask"
+                android:background="@color/new_btn_color"
+                style="@style/CommonButton"
+                android:gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

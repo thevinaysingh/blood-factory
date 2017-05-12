@@ -1838,7 +1838,7 @@
         <item>Yellur</item>
         <item>Yenagudde</item>
     </string-array>
-    
+
     <!--telangana cities-->
     <string-array name="telangana_cities">
         <item>--Select city--</item>
@@ -2994,7 +2994,7 @@
         <item>Waghai</item>
         <item>Wankaner</item>
     </string-array>
-    
+
     <!--haryana cities-->
     <string-array name="haryana_cities">
         <item>Ambala</item>
@@ -4301,7 +4301,7 @@
     <string name="notification_info_attr2">Notification Ringtone</string>
     <string name="app_info_title">App Information</string>
     <string name="app_info_attr1">Version</string>
-    <string name="app_info_attr2" >Developer</string>
+    <string name="app_info_attr2">Developer</string>
     <string name="app_info_attr3">Purpose</string>
     <string name="user_info_attr3">Change Password</string>
     <string name="guidance_note">Note:- \nThis information is collected from different resources. Please authenticate from a registered/ experienced/ certified DOCTOR before touching any end conclusion.</string>

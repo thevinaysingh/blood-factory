@@ -47,13 +47,19 @@
                 android:textSize="@dimen/big_text"
                 android:gravity="center" />
         </LinearLayout>
+        <View
+            style="@style/white_separator"/>
         <TextView
             android:text=""
+            android:id="@+id/about_us_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_distance"
+            android:layout_marginBottom="@dimen/big_distance"
+            android:paddingRight="@dimen/big_distance"
+            android:paddingLeft="@dimen/big_distance"
             android:textColor="@color/backgroundWhite"
-            android:textSize="@dimen/medium_text"
+            android:textSize="@dimen/small_text"
             android:gravity="center" />
-
     </LinearLayout>
 </ScrollView>

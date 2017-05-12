@@ -59,7 +59,7 @@ public class UserActivity extends BaseActivity {
     protected SharedPreferences.Editor editor;
     protected UserProfileManager userProfileManager;
     private ProgressDialog progressDialog;
-    private StorageReference storageRef;
+    protected StorageReference storageRef;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -82,10 +82,14 @@ public class UserActivity extends BaseActivity {
     @Bind(R.id.imageView)
     ImageView mImageView;
 
+    @Bind(R.id.dummy_pic_container)
+    LinearLayout mPic_container;
+
     @Bind(R.id.edit_profile_direct)
     TextView mEditProfile;
 
     static private FirebaseAuth mFirebaseAuth;
+    static private FirebaseUser mFirebaseUser;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -101,9 +105,9 @@ public class UserActivity extends BaseActivity {
         userProfileManager = UserProfileManager.getInstance();
         mSharedpreferences = getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         editor = mSharedpreferences.edit();
-        // Create a storage reference from our app
-        storageRef = FirebaseStorage.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        storageRef = FirebaseStorage.getInstance().getReference();
         setupNavigationItems();
         setupDrawerAndToggle();
         add(UserHomeFragment.newInstance());
@@ -135,25 +139,28 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected void onStart() {
-        setData();
         getImage();
+        setData();
         super.onStart();
     }
 
     private void getImage() {
-        StorageReference islandRef = storageRef.child(userProfileManager.getUserId()+"profile.jpg");
-
+        StorageReference profilePicRef = storageRef.child(mFirebaseUser.getUid()+"profile.jpg");
         final long ONE_MEGABYTE = 1024 * 1024;
-        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        profilePicRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                // Data for "images/island.jpg" is returns, use this as needed
+                userProfileManager.setImageBitmap(bitmap);
+                mPic_container.setVisibility(View.GONE);
+                mImageView.setImageBitmap(bitmap);
+                mImageView.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
+                mPic_container.setVisibility(View.VISIBLE);
+                mImageView.setVisibility(View.GONE);
             }
         });
     }

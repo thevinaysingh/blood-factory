@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/big_distance"
+    android:orientation="vertical"
+    tools:context="com.majavrella.bloodfactory.user.VersionFragment">
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Application" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blood factroy"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Version" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1.0.0"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Company/Team" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Majavrella"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Release date" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="13 May, 2017"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next Release date" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/medium_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Within 6 months from release date"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Purpose" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Human blood is an essential element of human life with no substitute. The purpose of blood factory application to provide blood at right time to everyone with the help of each other.
+This includes all rare types of blood groups."/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Services" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. App includes all (rare) types of blood.
+\n2. Search and find blood on your local areas/cities/districts.
+\n3. Donate blood if you want to donate (we request please try to donate, you are an angel for somebody).
+\n4. Add members who want to or able to donate.
+\n5. User can post a blood request if not matched your requirement. We try to fulfill ASAP.
+\n6. This application does not include any type of advertisement.
+\n7. No money needed to use it."/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Limitations" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1. No notification functionality
+\n2. India (Bharat) specific application. app does not include record(s)/data/detail outside of India.
+\n3. No application sharing process.
+\n4. No option for check updates.
+\n5. Guidance data needs more specific.
+\n6. Post blood request functionality needs to more improvement
+\n7. Information given by user need aunthentication in a definite time interval"/>
+
+    <TextView
+        style="@style/version_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expected updates" />
+    <TextView
+        style="@style/version_text"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next update is expected to incorporates all limitations and list of all blood banks with address &amp; contact information"/>
+</LinearLayout>
+</ScrollView>

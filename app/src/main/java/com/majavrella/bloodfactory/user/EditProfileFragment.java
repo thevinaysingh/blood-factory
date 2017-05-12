@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -68,6 +69,8 @@ public class EditProfileFragment extends UserFragment {
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static Bitmap bitmapImg = null;
+    private static Bitmap bitmapImgOnCloud = null;
+
     private JSONObject userObj = null;
     private static String selfRefKey = null;
     private DatabaseReference mUserDatabase;
@@ -308,6 +311,69 @@ public class EditProfileFragment extends UserFragment {
         return mEditProfileView;
     }
 
+    @Override
+    public void onStart() {
+        progressDialog.setMessage(RegisterConstants.waitProgress);
+        progressDialog.show();
+        getImage();
+        setData();
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        hideKeyboard(getActivity());
+        super.onResume();
+        progressDialog.dismiss();
+    }
+
+    private void getImage() {
+        if(userProfileManager.getImageBitmap()!=null){
+            mDummyPicContainer.setVisibility(View.GONE);
+            mProfilePic.setImageBitmap(userProfileManager.getImageBitmap());
+            mProfilePic.setVisibility(View.VISIBLE);
+        } else {
+            StorageReference islandRef = storageRef.child(userProfileManager.getUserId()+"profile.jpg");
+            final long ONE_MEGABYTE = 1024 * 1024;
+            islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    bitmapImgOnCloud = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    mDummyPicContainer.setVisibility(View.GONE);
+                    mProfilePic.setImageBitmap(bitmapImgOnCloud);
+                    mProfilePic.setVisibility(View.VISIBLE);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    mDummyPicContainer.setVisibility(View.VISIBLE);
+                    mProfilePic.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    private void setData() {
+        try {
+            mUsername.setText(userProfileManager.getName().equals(RegisterConstants.defaultVarType)? "Name(null)" :userProfileManager.getName());
+            mUserGender.setText(userProfileManager.getGender().equals(RegisterConstants.defaultVarType)? "Gender(null)" :userProfileManager.getGender());
+            mUserEmail.setText(userProfileManager.getEmailId().equals(RegisterConstants.defaultVarType)? "Email(null)" :userProfileManager.getEmailId());
+            mUserBlood.setText(userProfileManager.getBloodGroup().equals(RegisterConstants.defaultVarType)? "Blood group(null)" :userProfileManager.getBloodGroup());
+            mUserDob.setText(userProfileManager.getDob().equals(RegisterConstants.defaultVarType)? "DOB(null)" :userProfileManager.getDob());
+            mUserAddress.setText(userProfileManager.getAddress().equals(RegisterConstants.defaultVarType)? "No address" :userProfileManager.getAddress());
+            mUserLocation.setText(userProfileManager.getCity().equals(RegisterConstants.defaultVarType)? "City(Empty), State(Empty)" :userProfileManager.getCity()+", "+userProfileManager.getState());
+            selfRefKey = userProfileManager.getUsersSelfRefKey();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected String getTitle() {
+        return Constants.kEditProfileFragment;
+    }
+
     private void changeLocation(final String city, final String state) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         builder.setMessage("You are trying to change/set city and state, If yes click ok to start processing...")
@@ -530,36 +596,6 @@ public class EditProfileFragment extends UserFragment {
         });
     }
 
-    @Override
-    public void onStart() {
-        progressDialog.setMessage(RegisterConstants.waitProgress);
-        progressDialog.show();
-        setData();
-        super.onStart();
-    }
-
-    private void setData() {
-        try {
-            mUsername.setText(userProfileManager.getName().equals(RegisterConstants.defaultVarType)? "Name(null)" :userProfileManager.getName());
-            mUserGender.setText(userProfileManager.getGender().equals(RegisterConstants.defaultVarType)? "Gender(null)" :userProfileManager.getGender());
-            mUserEmail.setText(userProfileManager.getEmailId().equals(RegisterConstants.defaultVarType)? "Email(null)" :userProfileManager.getEmailId());
-            mUserBlood.setText(userProfileManager.getBloodGroup().equals(RegisterConstants.defaultVarType)? "Blood group(null)" :userProfileManager.getBloodGroup());
-            mUserDob.setText(userProfileManager.getDob().equals(RegisterConstants.defaultVarType)? "DOB(null)" :userProfileManager.getDob());
-            mUserAddress.setText(userProfileManager.getAddress().equals(RegisterConstants.defaultVarType)? "No address" :userProfileManager.getAddress());
-            mUserLocation.setText(userProfileManager.getCity().equals(RegisterConstants.defaultVarType)? "City(Empty), State(Empty)" :userProfileManager.getCity()+", "+userProfileManager.getState());
-            selfRefKey = userProfileManager.getUsersSelfRefKey();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        hideKeyboard(getActivity());
-        super.onResume();
-        progressDialog.dismiss();
-    }
-
     private void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
@@ -681,11 +717,6 @@ public class EditProfileFragment extends UserFragment {
             selectImage();
         }
     };
-
-    @Override
-    protected String getTitle() {
-        return Constants.kEditProfileFragment;
-    }
 
     private void playWithVisibilty(View v) {
         hideKeyboard(mActivity);

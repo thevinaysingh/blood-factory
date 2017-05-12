@@ -106,7 +106,7 @@ public abstract class UserFragment extends Fragment {
 
 	public String getCurrentUserId() {
 		FirebaseUser user = mFirebaseAuth.getCurrentUser();
-		return user.getUid().toString();
+		return user.getUid();
 	}
 
 	protected String extractRefKey(JSONObject json) {

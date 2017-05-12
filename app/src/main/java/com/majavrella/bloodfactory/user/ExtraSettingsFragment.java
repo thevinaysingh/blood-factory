@@ -35,6 +35,8 @@ public class ExtraSettingsFragment extends UserFragment {
     @Bind(R.id.change_password) LinearLayout mChangePassword;
     @Bind(R.id.members_list) LinearLayout mMembersList;
     @Bind(R.id.posted_blood_request) LinearLayout mPostedBloodRequest;
+    @Bind(R.id.app_version) TextView mAppVersion;
+    @Bind(R.id.app_developer) TextView mAppDeveloper;
 
     public static ExtraSettingsFragment newInstance() {
         return new ExtraSettingsFragment();
@@ -87,6 +89,20 @@ public class ExtraSettingsFragment extends UserFragment {
         });
 
         mPostedBloodRequest.setOnClickListener(mPostedBloodRequestListener);
+
+        mAppVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(VersionFragment.newInstance());
+            }
+        });
+
+        mAppDeveloper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(DeveloperFragment.newInstance());
+            }
+        });
 
         return mExtraSettingsView;
     }

@@ -1,5 +1,7 @@
 package com.majavrella.bloodfactory.base;
 
+import android.graphics.Bitmap;
+
 import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ public class UserProfileManager {
     private static UserProfileManager mInstance = null;
     private String mobile, password, usersDbRefKey, userListSelfRefKey, donar, patient, userId;
     private String address, ageGroup, bloodGroup, city, country, dob, emailId, gender, identity, name, profilePic, userListDbRefKey, usersSelfRefKey, state;
+    private Bitmap imageBitmap = null;
 
     private UserProfileManager(){
         address = RegisterConstants.defaultVarType;
@@ -53,6 +56,15 @@ public class UserProfileManager {
         {
             mInstance = null;
         }
+    }
+
+    /*setter for address*/
+    public void setImageBitmap (Bitmap imageBitmap){
+        this.imageBitmap = imageBitmap;
+    }
+    /*getter for address*/
+    public Bitmap getImageBitmap (){
+       return imageBitmap;
     }
 
    /* setters for address, ageGroup, bloodGroup, city, country, dob, emailId,

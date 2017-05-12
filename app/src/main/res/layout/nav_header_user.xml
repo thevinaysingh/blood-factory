@@ -19,7 +19,48 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1">
-        <ImageView
+        <LinearLayout
+            android:id="@+id/add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true">
+            <android.support.v7.widget.CardView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:elevation="12dp"
+                app:cardCornerRadius="45dp"
+                android:background="@color/black"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9">
+                <LinearLayout
+                    android:id="@+id/dummy_pic_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="@dimen/medium_img_size"
+                        android:layout_height="@dimen/medium_img_size"
+                        android:background="@drawable/circle_drawable"
+                        android:src="@drawable/user_img" />
+                </LinearLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:background="@drawable/circle_drawable"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="140dp"
+                    android:layout_width="140dp"
+                    android:id="@+id/imageView"
+                    android:src="@drawable/user_img">
+                </ImageView>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+        <!--<ImageView
             android:id="@+id/imageView"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -27,7 +68,7 @@
             android:layout_marginBottom="8dp"
             android:padding="5dp"
             android:background="@drawable/circle_drawable"
-            app:srcCompat="@drawable/user_img" />
+            app:srcCompat="@drawable/user_img" />-->
 
         <TextView
             android:layout_width="match_parent"

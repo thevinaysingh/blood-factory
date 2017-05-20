@@ -202,6 +202,7 @@ public class DonateFragment extends UserFragment {
                 if(dataValidation()){
                     progress.setMessage(RegisterConstants.waitProgress);
                     progress.show();
+                    progress.setCancelable(false);
                     try {
                         checkIfUserHasDonatedAlready((userProfileManager.getUserListSelfRefKey()));
                     } catch (Exception e){
@@ -317,10 +318,15 @@ public class DonateFragment extends UserFragment {
                     donar.setSelfRefKey(temp_key);
                     donar.setIsUser(RegisterConstants.kTrue);
                     mDonarsDatabase.child(temp_key).setValue(donar);
+                    DatabaseReference mUsersDatabase = getRootReference().child(RegisterConstants.user_Data_db);
+                    mUsersDatabase.child(userProfileManager.getUsersSelfRefKey()).child("bloodGroup").setValue(bloodGroup);
+                    mUsersDatabase.child(userProfileManager.getUsersSelfRefKey()).child("ageGroup").setValue(age);
+                    mUsersDatabase.child(userProfileManager.getUsersSelfRefKey()).child("address").setValue(address);
+                    userProfileManager.setDonar(RegisterConstants.kTrue);
                     resetAllField();
                     resetModalData();
-                    showSuccessDialog("Thanks, Donated blood", "You have successfully donated");
                     progress.dismiss();
+                    showSuccessMsgDonated();
                 }catch (Exception e){
                     Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
                     progress.dismiss();
@@ -377,6 +383,7 @@ public class DonateFragment extends UserFragment {
     private void showEditPage() {
         progress.setMessage(RegisterConstants.waitProgress);
         progress.show();
+        progress.setCancelable(false);
         mDonateBloodPage.setVisibility(View.GONE);
         mEditBloodPage.setVisibility(View.VISIBLE);
         startEditing();
@@ -561,7 +568,6 @@ public class DonateFragment extends UserFragment {
         if(state.equals("--Select state--")){
             state = editDonar.getState();
             city = editDonar.getCity();
-
         } else {
             if(city.equals("--Select city--")){
                 showNetworkError(mDonateFragment, "Select city");
@@ -581,39 +587,37 @@ public class DonateFragment extends UserFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        progress.setMessage(RegisterConstants.waitProgress);
-                        progress.show();
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                try{
-                                    editDonar.setName(name);
-                                    editDonar.setMobile(mob);
-                                    editDonar.setAddress(address);
-                                    editDonar.setCity(city);
-                                    editDonar.setGender(gender);
-                                    editDonar.setBloodGroup(bloodGroup);
-                                    editDonar.setState(state);
-                                    editDonar.setAgeGroup(age);
-                                    editDonar.setAvailability(availability);
-                                    editDonar.setAuthorization(authorization);
-                                    DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
-                                    mDonarsDatabase.child(editDonar.getSelfRefKey()).setValue(editDonar);
-                                    Toast.makeText(mActivity, "Editing done", Toast.LENGTH_SHORT).show();
-                                    progress.dismiss();
-                                    showSuccessMsg();
-                                }catch (Exception e){
-                                    Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
-                                    e.printStackTrace();
-                                    progress.dismiss();
+                        if(isNetworkAvailable()){
+                            progress.setMessage(RegisterConstants.waitProgress);
+                            progress.show();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    try{
+                                        editDonar.setName(name);
+                                        editDonar.setMobile(mob);
+                                        editDonar.setAddress(address);
+                                        editDonar.setCity(city);
+                                        editDonar.setGender(gender);
+                                        editDonar.setBloodGroup(bloodGroup);
+                                        editDonar.setState(state);
+                                        editDonar.setAgeGroup(age);
+                                        editDonar.setAvailability(availability);
+                                        editDonar.setAuthorization(authorization);
+                                        DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
+                                        mDonarsDatabase.child(editDonar.getSelfRefKey()).setValue(editDonar);
+                                        Toast.makeText(mActivity, "Editing done", Toast.LENGTH_SHORT).show();
+                                        progress.dismiss();
+                                        showSuccessMsg();
+                                    }catch (Exception e){
+                                        Toast.makeText(mActivity, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                        progress.dismiss();
+                                    }
                                 }
-                            }
-                        }, 2000);
-                        
-                        try {
-                        } catch (Exception e){
-                            e.printStackTrace();
-                            progress.dismiss();
+                            }, 2000);
+                        } else {
+                            Toast.makeText(mActivity, "No network available", Toast.LENGTH_SHORT).show();
                         }
                     }
                 })
@@ -630,6 +634,13 @@ public class DonateFragment extends UserFragment {
     private void showSuccessMsg() {
         mEditBloodPage.setVisibility(View.GONE);
         mSuccessPage.setVisibility(View.VISIBLE);
+    }
+
+    private void showSuccessMsgDonated() {
+        getFragmentManager().popBackStackImmediate();
+        Toast.makeText(mActivity, "Donated successfully", Toast.LENGTH_SHORT).show();
+        //mDonateBloodPage.setVisibility(View.GONE);
+        //mSuccessPage.setVisibility(View.VISIBLE);
     }
 
     @Override

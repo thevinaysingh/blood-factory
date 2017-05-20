@@ -350,8 +350,13 @@ public abstract class UserFragment extends Fragment {
     }
 
     public void showNetworkError(View view, String msg){
+        if(view==null){
+            Toast.makeText(mActivity, "No network available", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Snackbar snackbar = Snackbar
                 .make(view, msg, Snackbar.LENGTH_LONG);
+
         snackbar.show();
     }
 

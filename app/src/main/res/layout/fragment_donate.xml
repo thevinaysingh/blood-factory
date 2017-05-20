@@ -643,7 +643,7 @@
                 android:padding="@dimen/medium_distance"
                 android:textSize="@dimen/small_text"
                 android:gravity="center"
-                android:text="Successfully edited!"/>
+                android:text="Successfully done"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

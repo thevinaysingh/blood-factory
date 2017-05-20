@@ -61,9 +61,9 @@
         android:textSize="@dimen/medium_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="13 May, 2017"/>
+        android:text="23 May, 2017"/>
 
-    <TextView
+    <!--<TextView
         style="@style/version_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
         android:textSize="@dimen/medium_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Within 6 months from release date"/>
+        android:text="Within 6 months from release date"/>-->
 
     <TextView
         style="@style/version_text_title"
@@ -103,11 +103,9 @@ This includes all rare types of blood groups."/>
 \n2. Search and find blood on your local areas/cities/districts.
 \n3. Donate blood if you want to donate (we request please try to donate, you are an angel for somebody).
 \n4. Add members who want to or able to donate.
-\n5. User can post a blood request if not matched your requirement. We try to fulfill ASAP.
-\n6. This application does not include any type of advertisement.
-\n7. No money needed to use it."/>
+\n5. User can post a blood request if not matched your requirement. We try to fulfill ASAP."/>
 
-    <TextView
+<!--    <TextView
         style="@style/version_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,6 +133,6 @@ This includes all rare types of blood groups."/>
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next update is expected to incorporates all limitations and list of all blood banks with address &amp; contact information"/>
+        android:text="Next update is expected to incorporates all limitations and list of all blood banks with address &amp; contact information"/>-->
 </LinearLayout>
 </ScrollView>

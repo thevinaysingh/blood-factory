@@ -134,6 +134,7 @@ public class AddedMembers extends UserFragment {
     }
 
     private void createListOfMembers(final JSONArray mMembersArray) throws JSONException {
+        mListContainer.removeAllViews();
         if(mMembersArray.length()>0){
             for(int i = 0; i<mMembersArray.length(); i++){
                 Donar donar = null;
@@ -217,6 +218,7 @@ public class AddedMembers extends UserFragment {
                     if(isNetworkAvailable()){
                         progress.setMessage(RegisterConstants.waitProgress);
                         progress.show();
+                        progress.setCancelable(false);
                         try {
                             DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.donars_db);
                             mDonarsDatabase.child(finalJson_data.getString("selfRefKey")).removeValue(new DatabaseReference.CompletionListener() {

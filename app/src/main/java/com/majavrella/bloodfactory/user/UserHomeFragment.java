@@ -42,9 +42,9 @@ import butterknife.ButterKnife;
 
 public class UserHomeFragment extends UserFragment implements BackButtonSupportFragment {
 
-    private static View userHomeFragment;
-    private boolean consumingBackPress = true;
-    private final String TAG = "UserHomeFragment";
+    protected static View userHomeFragment;
+    protected boolean consumingBackPress = true;
+    protected final String TAG = "UserHomeFragment";
     private Toast toast;
     private JSONArray jsonArray= null;
     protected SharedPreferences mSharedpreferences;
@@ -71,20 +71,27 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
                              Bundle savedInstanceState) {
         userHomeFragment = inflater.inflate(R.layout.fragment_user_home, container, false);
         ButterKnife.bind(this, userHomeFragment);
-
-        fetchRequests();
         mSharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
         setStatusBarColor(Constants.colorStatusBar);
         mDonateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add(DonateFragment.newInstance());
+                if(isNetworkAvailable()){
+                    add(DonateFragment.newInstance());
+                } else {
+                    Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         mFindButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add(RecieveFragment.newInstance());
+                if(isNetworkAvailable()) {
+                    add(RecieveFragment.newInstance());
+                } else {
+                    Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -101,6 +108,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
 
     @Override
     public void onStart() {
+        fetchRequests();
         super.onStart();
     }
 
@@ -134,6 +142,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     }
 
     private void createListOfRequests(final JSONArray mRequestsArray) throws JSONException {
+        mRequestContainer.removeAllViews();
         if(mRequestsArray.length()>0){
             mRequestInfoContainer.setVisibility(View.VISIBLE);
             mfront_page.setVisibility(View.GONE);

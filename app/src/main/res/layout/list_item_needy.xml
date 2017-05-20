@@ -151,12 +151,12 @@
         android:paddingTop="@dimen/small_distance"
         android:background="@color/background_color">
         <LinearLayout
+            android:id="@+id/call"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/call"
                 android:layout_width="@dimen/small_logo"
                 android:layout_height="@dimen/small_logo"
                 android:layout_gravity="center"
@@ -169,12 +169,12 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/sms"
             android:layout_width="0dp"
             android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/sms"
                 android:layout_width="@dimen/small_logo"
                 android:layout_height="@dimen/small_logo"
                 android:layout_gravity="center"
@@ -186,12 +186,12 @@
                 android:text="Sms"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/share"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/share"
                 android:layout_width="@dimen/small_logo"
                 android:layout_height="@dimen/small_logo"
                 android:layout_gravity="center"
@@ -203,12 +203,12 @@
                 android:text="Share"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/about"
             android:layout_width="0dp"
             android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_weight="1">
             <ImageView
-                android:id="@+id/about"
                 android:layout_width="@dimen/small_logo"
                 android:layout_height="@dimen/small_logo"
                 android:layout_gravity="center"

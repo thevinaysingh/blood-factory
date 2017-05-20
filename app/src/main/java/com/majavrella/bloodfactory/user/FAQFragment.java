@@ -4,15 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.majavrella.bloodfactory.R;
 import com.majavrella.bloodfactory.base.Constants;
 import com.majavrella.bloodfactory.base.FaqQandA;
 import com.majavrella.bloodfactory.base.UserFragment;
+import com.majavrella.bloodfactory.register.RegisterConstants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +24,12 @@ import butterknife.ButterKnife;
 public class FAQFragment extends UserFragment {
 
     private static View mEditProfileView;
+    String quest;
     @Bind(R.id.linear_card_view) LinearLayout faqContainer;
+    /*@Bind(R.id.ask_quest_button)
+    Button askButton;
+    @Bind(R.id.ask_your_quest)
+    EditText askQuest;*/
 
     public static FAQFragment newInstance() {
         return new FAQFragment();
@@ -38,6 +47,16 @@ public class FAQFragment extends UserFragment {
         
         createQandA(FaqQandA.faqQuestions, FaqQandA.faqAnswers);
         setStatusBarColor(Constants.colorStatusBarDark);
+        /*askButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable()){
+                    quest = null;
+                } else {
+                    Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
         return mEditProfileView;
     }
 

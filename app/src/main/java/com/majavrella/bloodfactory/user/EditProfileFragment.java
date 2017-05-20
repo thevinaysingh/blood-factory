@@ -78,9 +78,9 @@ public class EditProfileFragment extends UserFragment {
     private StorageReference storageRef;
 
     @Bind(R.id.update_whole_app) ImageView updateApp;
-    @Bind(R.id.add_image) LinearLayout mAddImage;
+    /*@Bind(R.id.add_image) LinearLayout mAddImage;
     @Bind(R.id.dummy_pic_container) LinearLayout mDummyPicContainer;
-    @Bind(R.id.profile_pic) ImageView mProfilePic;
+    @Bind(R.id.profile_pic) ImageView mProfilePic;*/
 
     @Bind(R.id.user_name) TextView mUsername;
     @Bind(R.id.user_name_edit) ImageView mUsernameEdit;
@@ -184,7 +184,7 @@ public class EditProfileFragment extends UserFragment {
                 dialog.show();
             }
         });
-        mAddImage.setOnClickListener(mAddImageListener);
+        //mAddImage.setOnClickListener(mAddImageListener);
 
         mUsernameEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,7 +315,7 @@ public class EditProfileFragment extends UserFragment {
     public void onStart() {
         progressDialog.setMessage(RegisterConstants.waitProgress);
         progressDialog.show();
-        getImage();
+        //getImage();
         setData();
         super.onStart();
     }
@@ -327,7 +327,7 @@ public class EditProfileFragment extends UserFragment {
         progressDialog.dismiss();
     }
 
-    private void getImage() {
+    /*private void getImage() {
         if(userProfileManager.getImageBitmap()!=null){
             mDummyPicContainer.setVisibility(View.GONE);
             mProfilePic.setImageBitmap(userProfileManager.getImageBitmap());
@@ -351,7 +351,7 @@ public class EditProfileFragment extends UserFragment {
                 }
             });
         }
-    }
+    }*/
 
     private void setData() {
         try {
@@ -400,6 +400,7 @@ public class EditProfileFragment extends UserFragment {
     private void changelocDatabase(String city, String city1, String state, String state1) {
         progress.setMessage(RegisterConstants.waitProgress);
         progress.show();
+        progress.setCancelable(false);
         try {
             mUserDatabase = getRootReference().child(RegisterConstants.user_Data_db);
             mUserDatabase.child(selfRefKey).child(city).setValue(city1);
@@ -557,6 +558,7 @@ public class EditProfileFragment extends UserFragment {
     private void changeDatabase(String key, String value) {
         progress.setMessage(RegisterConstants.waitProgress);
         progress.show();
+        progress.setCancelable(false);
         try {
             mUserDatabase = getRootReference().child(RegisterConstants.user_Data_db);
             mUserDatabase.child(selfRefKey).child(key).setValue(value);
@@ -596,7 +598,7 @@ public class EditProfileFragment extends UserFragment {
         });
     }
 
-    private void selectImage() {
+/*    private void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
 
@@ -628,7 +630,7 @@ public class EditProfileFragment extends UserFragment {
 
     private void galleryIntent() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image*//*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
     }
@@ -708,15 +710,15 @@ public class EditProfileFragment extends UserFragment {
                 Toast.makeText(mActivity, "success", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
-    private View.OnClickListener mAddImageListener = new View.OnClickListener() {
+   /* private View.OnClickListener mAddImageListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             hideKeyboard(getActivity());
             selectImage();
         }
-    };
+    };*/
 
     private void playWithVisibilty(View v) {
         hideKeyboard(mActivity);

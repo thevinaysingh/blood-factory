@@ -33,6 +33,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import butterknife.Bind;
@@ -96,10 +98,10 @@ public class PeopleNeedFragment extends UserFragment {
                 TextView state = (TextView)view.findViewById(R.id.state);
                 TextView phone = (TextView)view.findViewById(R.id.phone_no);
                 TextView reply = (TextView)view.findViewById(R.id.more);
-                ImageView replyOnCall = (ImageView) view.findViewById(R.id.call);
-                final ImageView smsReply = (ImageView) view.findViewById(R.id.sms);
-                ImageView shareToOthers = (ImageView) view.findViewById(R.id.share);
-                ImageView singleTapReply = (ImageView) view.findViewById(R.id.about);
+                LinearLayout replyOnCall = (LinearLayout) view.findViewById(R.id.call);
+                final LinearLayout smsReply = (LinearLayout) view.findViewById(R.id.sms);
+                LinearLayout shareToOthers = (LinearLayout) view.findViewById(R.id.share);
+                LinearLayout singleTapReply = (LinearLayout) view.findViewById(R.id.about);
                 try {
                     json_data = mPeopleInNeedArray.getJSONObject(i);
                     bloodGroup.setText(json_data.getString("bloodGroup"));
@@ -389,9 +391,18 @@ public class PeopleNeedFragment extends UserFragment {
         Iterator iterator = json.keys();
         while (iterator.hasNext()){
             String key = (String) iterator.next();
+            // mPeopleInNeedArray.put(json.getJSONObject(key));
+            // Check date
+            Date currentDate = null;
+            Date lastDateOfNeed = null;
+            SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy");
             try {
-                mPeopleInNeedArray.put(json.getJSONObject(key));
-            } catch (JSONException e) {
+                currentDate = mdformat.parse(getCurrentDate());
+                lastDateOfNeed = mdformat.parse(json.getJSONObject(key).getString("date"));
+                if(lastDateOfNeed.after(currentDate)||lastDateOfNeed.equals(currentDate)){
+                    mPeopleInNeedArray.put(json.getJSONObject(key));
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

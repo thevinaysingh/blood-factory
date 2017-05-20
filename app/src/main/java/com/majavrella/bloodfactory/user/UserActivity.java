@@ -100,6 +100,7 @@ public class UserActivity extends BaseActivity {
         ButterKnife.bind(this);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(RegisterConstants.waitProgress);
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         userProfileManager = UserProfileManager.getInstance();
@@ -139,7 +140,7 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected void onStart() {
-        getImage();
+        // getImage();
         setData();
         super.onStart();
     }
@@ -324,7 +325,11 @@ public class UserActivity extends BaseActivity {
                 add(AddMemberFragment.newInstance());
                 break;
             case 1:
-                add(DonateFragment.newInstance());
+                if(isNetworkAvailable()){
+                    add(DonateFragment.newInstance());
+                } else {
+                    Toast.makeText(this, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
                 break;
             case 2:
                 add(RecieveFragment.newInstance());
@@ -333,7 +338,11 @@ public class UserActivity extends BaseActivity {
                 add(BloodRequestFragment.newInstance());
                 break;
             case 4:
-                add(PeopleNeedFragment.newInstance());
+                if(isNetworkAvailable()){
+                    add(PeopleNeedFragment.newInstance());
+                } else {
+                    Toast.makeText(this, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
                 break;
             case 5:
                 add(ExtraSettingsFragment.newInstance());
@@ -391,7 +400,6 @@ public class UserActivity extends BaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                Toast.makeText(this, " Successfully logout!!!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

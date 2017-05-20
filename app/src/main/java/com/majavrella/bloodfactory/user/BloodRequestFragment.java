@@ -166,12 +166,14 @@ public class BloodRequestFragment extends UserFragment {
         @Override
         public void onClick(View v) {
             hideKeyboard(getActivity());
+            resetModalData();
+            setDataInStringFormat();
+            boolean isAllFieldsValid = dataValidation();
             if(isNetworkAvailable()){
-                resetModalData();
-                setDataInStringFormat();
-                if(dataValidation()){
+                if(isAllFieldsValid){
                     progress.setMessage(RegisterConstants.waitProgress);
                     progress.show();
+                    progress.setCancelable(false);
                     try{
                         setDataOnCloud();
                     } catch(Exception e){

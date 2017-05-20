@@ -233,6 +233,7 @@ public class EditRequestFragment extends UserFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         progress.setMessage(RegisterConstants.waitProgress);
                         progress.show();
+                        progress.setCancelable(false);
                         try {
                             editPatient.setAgeGroup(ageGroup);
                             editPatient.setBloodGroup(bloodGroup);

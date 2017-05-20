@@ -147,10 +147,11 @@ public class AddMemberFragment extends UserFragment {
             resetModalData();
             setDataInStringFormat();
             boolean isAllFieldsValid = dataValidation();
-            if(isAllFieldsValid){
-                if(isNetworkAvailable()) {
+            if(isNetworkAvailable()) {
+                if(isAllFieldsValid){
                     progress.setMessage(RegisterConstants.waitProgress);
                     progress.show();
+                    progress.setCancelable(false);
                     try {
                         setDataOnCloud();
                     } catch (Exception e){
@@ -158,10 +159,9 @@ public class AddMemberFragment extends UserFragment {
                         Toast.makeText(mActivity, "Operation failed", Toast.LENGTH_SHORT).show();
                         progress.dismiss();
                     }
-                } else {
-                    showSnackbar(mAddMemberView, RegisterConstants.networkErrorText);
                 }
-
+            } else {
+                showSnackbar(mAddMemberView, RegisterConstants.networkErrorText);
             }
         }
     };

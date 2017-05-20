@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/linear_card_view">
         </LinearLayout>
-        <TextView
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/medium_distance"
@@ -84,6 +84,6 @@
                 android:background="@color/new_btn_color"
                 style="@style/CommonButton"
                 android:gravity="center" />
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 </ScrollView>

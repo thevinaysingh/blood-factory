@@ -30,6 +30,6 @@
         android:textSize="@dimen/medium_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Avesh khan\n+91 7987903986\n+91 9575967856"/>
+        android:text="Avesh khan\n+91 7987903986"/>
 
 </LinearLayout>

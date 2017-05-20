@@ -133,6 +133,7 @@ public class PostedRequests extends UserFragment {
     }
 
     private void createListOfRequests(final JSONArray mRequestsArray) throws JSONException {
+        mListContainer.removeAllViews();
         if(mRequestsArray.length()>0){
             for(int i = 0; i<mRequestsArray.length(); i++){
                 Patient patient = null;
@@ -234,6 +235,7 @@ public class PostedRequests extends UserFragment {
                     if(isNetworkAvailable()){
                         progress.setMessage(RegisterConstants.waitProgress);
                         progress.show();
+                        progress.setCancelable(false);
                         try {
                             DatabaseReference mDonarsDatabase = getRootReference().child(RegisterConstants.patients_db);
                             mDonarsDatabase.child(finalJson_data.getString("selfRefKey")).removeValue(new DatabaseReference.CompletionListener() {

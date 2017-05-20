@@ -181,6 +181,10 @@ public class UserProfileManager {
         return donar;
     }
 
+    public void setDonar(String donar){
+        this.donar = donar;
+    }
+
     // setter for mobile
     public void setMobile(String mobile) {
         this.mobile = mobile;

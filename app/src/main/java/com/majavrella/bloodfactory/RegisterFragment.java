@@ -45,8 +45,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-
-
 public class RegisterFragment extends BaseFragment {
 
     private static View mRegisterFragment;
@@ -63,7 +61,6 @@ public class RegisterFragment extends BaseFragment {
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
     }
-
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -158,6 +155,7 @@ public class RegisterFragment extends BaseFragment {
             }
 
             progress.setMessage(RegisterConstants.registrationProgress);
+            progress.setCancelable(false);
             progress.show();
             final  String user_id = mobile+RegisterConstants.userIdDummyTail;
             mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
@@ -226,7 +224,9 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private void checkIfUserExist(final String user_id) {
-        progress.setMessage(RegisterConstants.verificationProgress); progress.show();
+        progress.setMessage(RegisterConstants.verificationProgress);
+        progress.setCancelable(false);
+        progress.show();
         mFirebaseAuth.fetchProvidersForEmail(user_id).addOnCompleteListener(new OnCompleteListener<ProviderQueryResult>() {
             @Override
             public void onComplete(@NonNull Task<ProviderQueryResult> task) {

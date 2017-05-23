@@ -1,13 +1,9 @@
 package com.majavrella.bloodfactory;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 import com.majavrella.bloodfactory.appbase.BaseFragment;

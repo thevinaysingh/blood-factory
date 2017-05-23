@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,7 +24,6 @@
                 android:layout_marginRight="@dimen/medium_distance"
                 android:src="@drawable/right_icon"/>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,60 +57,7 @@
                 android:textColor="@color/text_color"
                 android:textSize="@dimen/medium_text"
                 android:gravity="center" />
-            <!--<View
-                style="@style/black_separator"/>-->
         </LinearLayout>
-
-        <!--<FrameLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
-            <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
-            <!--android:layout_gravity="center">-->
-            <!--<LinearLayout-->
-                <!--android:id="@+id/add_image"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical"-->
-                <!--android:gravity="center"-->
-                <!--android:clickable="true">-->
-                <!--<android.support.v7.widget.CardView-->
-                    <!--android:layout_width="90dp"-->
-                    <!--android:layout_height="90dp"-->
-                    <!--android:elevation="12dp"-->
-                    <!--app:cardCornerRadius="45dp"-->
-                    <!--android:background="@color/black"-->
-                    <!--android:innerRadius="0dp"-->
-                    <!--android:shape="ring"-->
-                    <!--android:thicknessRatio="1.9">-->
-                    <!--<LinearLayout-->
-                        <!--android:id="@+id/dummy_pic_container"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center"-->
-                        <!--android:orientation="vertical">-->
-                        <!--<ImageView-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:layout_width="@dimen/medium_img_size"-->
-                            <!--android:layout_height="@dimen/medium_img_size"-->
-                            <!--android:background="@drawable/circle_drawable"-->
-                            <!--android:src="@drawable/user_img" />-->
-                    <!--</LinearLayout>-->
-
-                    <!--<ImageView-->
-                        <!--android:visibility="gone"-->
-                        <!--android:background="@drawable/circle_drawable"-->
-                        <!--android:layout_gravity="center_horizontal"-->
-                        <!--android:layout_height="140dp"-->
-                        <!--android:layout_width="140dp"-->
-                        <!--android:id="@+id/profile_pic"-->
-                        <!--android:src="@drawable/user_img">-->
-                    <!--</ImageView>-->
-                <!--</android.support.v7.widget.CardView>-->
-            <!--</LinearLayout>-->
-        <!--</FrameLayout>-->
-        <!--<View
-            style="@style/white_separator"/>-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -214,7 +159,6 @@
                             android:textSize="16dp"
                             android:textColor="#fff"
                             android:layout_weight="1"/>
-
                         <RadioButton
                             android:id="@+id/genderFemale"
                             android:layout_width="0dp"

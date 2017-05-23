@@ -9,12 +9,10 @@ import com.majavrella.bloodfactory.appbase.MainActivity;
 
 public class MainSplashScreen extends Activity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_splash_screen);
-//        ProgressBar mProgressBar = (ProgressBar)findViewById(R.id.fake_progress_bar);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

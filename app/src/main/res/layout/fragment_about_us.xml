@@ -7,8 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/background">
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,9 +31,9 @@
                         android:gravity="center"
                         android:padding="5dp">
                         <ImageView
-                            android:layout_width="@dimen/medium_img_size"
+                            android:layout_width="@dimen/big_img_size"
                             android:layout_height="@dimen/medium_img_size"
-                            android:src="@drawable/splash_logo"
+                            android:src="@drawable/app_logo_new"
                             android:clickable="false"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -43,12 +42,13 @@
                 android:text="@string/guidance_tag_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/backgroundWhite"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/medium_distance"
                 android:textSize="@dimen/big_text"
                 android:gravity="center" />
         </LinearLayout>
         <View
-            style="@style/white_separator"/>
+            style="@style/black_separator"/>
         <TextView
             android:text=""
             android:id="@+id/about_us_text"
@@ -58,7 +58,7 @@
             android:layout_marginBottom="@dimen/big_distance"
             android:paddingRight="@dimen/big_distance"
             android:paddingLeft="@dimen/big_distance"
-            android:textColor="@color/backgroundWhite"
+            android:textColor="@color/black"
             android:textSize="@dimen/small_text"
             android:gravity="center" />
     </LinearLayout>

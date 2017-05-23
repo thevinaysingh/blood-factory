@@ -260,7 +260,9 @@ public class SigninFragment extends BaseFragment {
             if(isNetworkAvailable()){
                 resetData(); setDataInStringFormat(); boolean isAllFieldsValid = dataValidation();
                 if (isAllFieldsValid){
-                    progress.setMessage(RegisterConstants.validationProgress); progress.show();
+                    progress.setMessage(RegisterConstants.validationProgress);
+                    progress.setCancelable(false);
+                    progress.show();
                     final  String user_id = mobile+RegisterConstants.userIdDummyTail;
                     mFirebaseAuth.signInWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
                         @Override

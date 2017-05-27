@@ -419,7 +419,6 @@ public class DonateFragment extends UserFragment {
     private void setUserData() {
         mDonarName.setText(userProfileManager.getName());
         mDonarMob.setText(userProfileManager.getMobile());
-        mDonarAddress.setText(userProfileManager.getAddress());
     }
 
     private boolean verifyDonation(JSONObject json) {

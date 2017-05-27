@@ -209,6 +209,7 @@
                     android:text="@string/app_info_attr1"/>
                 <TextView
                     android:id="@+id/app_developer"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/settings_text"

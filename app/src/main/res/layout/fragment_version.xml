@@ -61,7 +61,7 @@
         android:textSize="@dimen/medium_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="23 May, 2017"/>
+        android:text="May, 2017"/>
 
     <!--<TextView
         style="@style/version_text_title"

@@ -35,7 +35,7 @@
         android:textSize="@dimen/medium_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="1.0.0"/>
+        android:text="1.0"/>
 
     <TextView
         style="@style/version_text_title"

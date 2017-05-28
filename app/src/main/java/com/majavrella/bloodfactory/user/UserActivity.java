@@ -401,6 +401,13 @@ public class UserActivity extends BaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 break;
+            case R.id.share:
+                String shareBody = "https://play.google.com/store/apps/details?id=com.majavrella.bloodfactory";
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(sharingIntent);
+                break;
             default:
                 break;
         }

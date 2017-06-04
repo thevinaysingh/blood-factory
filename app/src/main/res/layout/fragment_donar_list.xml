@@ -18,7 +18,7 @@
             android:textSize="@dimen/big_text"
             android:paddingRight="@dimen/big_distance"
             android:paddingLeft="@dimen/big_distance"
-            android:text="A+ Blood group donars"/>
+            android:text="Blood donars"/>
         <LinearLayout
             android:id="@+id/list_container"
             android:layout_width="match_parent"

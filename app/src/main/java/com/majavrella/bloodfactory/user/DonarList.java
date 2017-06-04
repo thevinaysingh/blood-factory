@@ -70,7 +70,8 @@ public class DonarList extends UserFragment {
     private void createListOfDonars(final JSONArray mDonarsListArray) {
         if(mDonarsListArray.length()>0){
             try {
-                mBloodGroup.setText(mDonarsListArray.getJSONObject(0).getString("bloodGroup")+" Blood donar(s)");
+                String searchedBlood = mDonarsListArray.getJSONObject(0).getString("bloodGroup")+ " Donar(s)";
+                mBloodGroup.setText(searchedBlood);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

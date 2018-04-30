@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "699236104860",
-    "firebase_url": "https://blood-factory.firebaseio.com",
-    "project_id": "blood-factory",
-    "storage_bucket": "blood-factory.appspot.com"
+    "project_number": "912926449879",
+    "firebase_url": "https://blood-informer-1fba8.firebaseio.com",
+    "project_id": "blood-informer-1fba8",
+    "storage_bucket": "blood-informer-1fba8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:699236104860:android:6aa2d1d0921090f4",
+        "mobilesdk_app_id": "1:912926449879:android:17e261abff7e39c4",
         "android_client_info": {
-          "package_name": "com.majavrella.bloodfactory"
+          "package_name": "com.majavrella.bloodinformer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "699236104860-iiilt8go7jsrurt5irf2dufltldf8t8b.apps.googleusercontent.com",
+          "client_id": "912926449879-7cn912db6ta0d81uva7n1cpm0u1s6g1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.majavrella.bloodinformer",
+            "certificate_hash": "1f862bbf36a21a3ecb3c8f4c7fcac6c8ad1e67f6"
+          }
+        },
+        {
+          "client_id": "912926449879-tlgi77r11kbkmt573bko4jkmrr1isj7g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD2CbhW1WqB3501WAzj5LqzvCqQSRtbPT4"
+          "current_key": "AIzaSyB0CzXzOrxeO6QCzM3PKsIWMqRZv9wd0iI"
         }
       ],
       "services": {
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "912926449879-tlgi77r11kbkmt573bko4jkmrr1isj7g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

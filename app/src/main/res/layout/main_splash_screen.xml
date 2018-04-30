@@ -1,30 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/splash_bg">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
-        android:layout_gravity="center">
-        <LinearLayout
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="5dp">
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="5dp">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/app_logo_new"
-                android:clickable="false"/>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
+            android:src="@drawable/app_logo_new"
+            android:clickable="false"/>
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/fake_progress_bar"
@@ -35,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Powered by copacetic technologies"
+        android:text="Powered by un-cero tech"
         android:textSize="16sp"
         android:layout_gravity="bottom|center"
         android:gravity="center"

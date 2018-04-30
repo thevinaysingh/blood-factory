@@ -1,4 +1,4 @@
-package com.majavrella.bloodfactory;
+package com.majavrella.bloodinformer;
 
 import org.junit.Test;
 

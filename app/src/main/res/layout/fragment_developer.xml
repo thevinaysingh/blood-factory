@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/big_distance"
-    tools:context="com.majavrella.bloodfactory.user.DeveloperFragment">
+    tools:context=".user.DeveloperFragment">
 
     <TextView
         style="@style/version_text_title"

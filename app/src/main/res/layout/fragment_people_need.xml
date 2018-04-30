@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@color/backgroundWhite"
-            tools:context="com.majavrella.bloodfactory.user.PeopleNeedFragment">
+            tools:context=".user.PeopleNeedFragment">
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

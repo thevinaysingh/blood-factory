@@ -244,9 +244,34 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private void authenticateUser() {
-        Digits.logout();
-        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
-        Digits.authenticate(authConfigBuilder.build());
+        progress.setMessage(RegisterConstants.registrationProgress);
+        progress.setCancelable(false);
+        progress.show();
+        final  String user_id = mobile+RegisterConstants.userIdDummyTail;
+        mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                    try{
+                        setDataOnCloud(user.getUid().toString());
+                        progress.dismiss();
+                        showRegistrationSuccessDialog();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        progress.dismiss();
+                        user.delete();
+                        showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
+                    }
+                } else {
+                    progress.dismiss();
+                    showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
+                }
+            }
+        });
+//        Digits.logout();
+//        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
+//        Digits.authenticate(authConfigBuilder.build());
     }
 
     View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {

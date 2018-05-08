@@ -5,7 +5,7 @@ package com.majavrella.bloodinformer.register;
  */
 
 public class RegisterConstants {
-    public static final String userIdDummyTail = "@bloodfactory.com";
+    public static final String userIdDummyTail = "@bloodinformer.com";
     public static final String countryCode = "+91";
 
     public static final String user_list_db = "user_list";

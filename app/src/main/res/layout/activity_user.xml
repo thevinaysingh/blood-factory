@@ -37,5 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/backgroundWhite" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Powered by un-cero tech"
+            android:textSize="16sp"
+            android:textColor="#000"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

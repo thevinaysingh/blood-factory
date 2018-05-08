@@ -8,7 +8,7 @@ public class Constants {
 
     public static final String kConsumerKey = "OcDNJGwlUg1XtfdGjmv4riYAC";
     public static final String kConsumerSecret = "KiCE5JBOsqkgOew9T9sCIfsFIs1w4A6MizjUtC4BTcU5raOiHT";
-    public static final String kBaseUrl = "https://blood-factory.firebaseio.com/";
+    public static final String kBaseUrl = "https://blood-informer-1fba8.firebaseio.com/";
     public static final String kPackageName = "com.majavrella.bloodinformer";
     public static final String kUserList = "user_list.json";
     public static final String kUserListUrl = "user_list/";
@@ -57,9 +57,9 @@ public class Constants {
     public static final String colorGrey = "#848181";
     public static final String colorLogin = "#730015";
     public static final String colorUserHome = "#375270";
-    public static final String colorStatusBarDark = "#6b6b6b";
-    public static final String colorStatusBar = "#35586c";
-    public static final String colorStatusBarSecondary = "#00796a";
+    public static final String colorStatusBarDark = "#800000";
+    public static final String colorStatusBar = "#800000";
+    public static final String colorStatusBarSecondary = "##800000";
     public static final String changeMobiletitle = "Change Mobile No";
     public static final String changeMobileMsg = "Your mobile number is treated as user id for blood factory application."
     + " This version of app does not allow to change your mobile number. We are sorry to keep it messy!";

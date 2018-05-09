@@ -46,7 +46,7 @@ public class FirstFragment extends BaseFragment implements BackButtonSupportFrag
                add(RegisterFragment.newInstance());
             }
         });
-        setStatusBarColor(Constants.colorGrey);
+        setStatusBarColor(Constants.colorStatusBar);
         return mFirstFragment;
     }
 

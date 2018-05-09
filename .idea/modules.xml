@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Bloodfactory.iml" filepath="$PROJECT_DIR$/Bloodfactory.iml" />
+      <module fileurl="file://C:\Users\AVESH\Desktop\Vinay\blood-factory\Bloodfactory.iml" filepath="C:\Users\AVESH\Desktop\Vinay\blood-factory\Bloodfactory.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/blood-factory.iml" filepath="$PROJECT_DIR$/blood-factory.iml" />
     </modules>
   </component>
 </project>

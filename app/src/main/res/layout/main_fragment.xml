@@ -6,12 +6,11 @@
     android:padding="0dp"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    android:background="@color/backgroundWhite">
+    android:background="@drawable/app_home_bg">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/backgroundWhite">
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,25 +28,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_gravity="end"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="10dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search Blood"
+            android:layout_weight="1"
+            android:id="@+id/search_blood"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/red_color"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/big_distance"
+            style="@style/frontButton"
+            android:gravity="center" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Log in"
             android:layout_weight="1"
             android:id="@+id/loginBtn"
-            android:background="#3b945c"
+            android:layout_marginBottom="@dimen/big_distance"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             style="@style/frontButton"
             android:gravity="center" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/registerBtn"
-            android:background="#35586c"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/black"
             android:text="Register"
             android:layout_weight="1"
+            android:textStyle="bold"
             style="@style/frontButton"
             android:gravity="center"/>
     </LinearLayout>

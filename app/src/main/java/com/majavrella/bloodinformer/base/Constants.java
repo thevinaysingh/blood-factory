@@ -59,7 +59,7 @@ public class Constants {
     public static final String colorUserHome = "#375270";
     public static final String colorStatusBarDark = "#800000";
     public static final String colorStatusBar = "#800000";
-    public static final String colorStatusBarSecondary = "##800000";
+    public static final String colorStatusBarSecondary = "#800000";
     public static final String changeMobiletitle = "Change Mobile No";
     public static final String changeMobileMsg = "Your mobile number is treated as user id for blood factory application."
     + " This version of app does not allow to change your mobile number. We are sorry to keep it messy!";

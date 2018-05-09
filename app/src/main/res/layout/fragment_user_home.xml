@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/user_home_background">
+    android:background="@drawable/user_home_bg">
     <LinearLayout
         android:id="@+id/request_info_container"
         android:visibility="gone"
@@ -88,7 +88,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You are Welcomed in blood factory."
+            android:text="You are Welcomed in blood informer."
             android:textColor="@color/backgroundWhite"
             android:textStyle="normal"
             android:textSize="16sp"/>
@@ -105,79 +105,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:layout_marginBottom="10dp">
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Search Blood"
             android:layout_weight="1"
-            android:orientation="vertical">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <LinearLayout
-                    android:id="@+id/donate_blood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:clickable="true"
-                    android:background="@drawable/circle_transparent_drawable"
-                    android:weightSum="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/donate_blood"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Donate\n  Blood"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/very_small_text"
-                        android:textColor="@color/backgroundWhite" />
-                </LinearLayout>
-            </FrameLayout>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/find_blood"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/red_color"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/big_distance"
+            style="@style/frontButton"
+            android:gravity="center" />
+        <Button
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Donate"
             android:layout_weight="1"
-            android:orientation="vertical">
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <LinearLayout
-                    android:id="@+id/find_blood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:clickable="true"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:background="@drawable/circle_transparent_drawable"
-                    android:weightSum="1">
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/find_blood"
-                        android:clickable="false"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Find\nBlood"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/very_small_text"
-                        android:textColor="@color/backgroundWhite" />
-                </LinearLayout>
-            </FrameLayout>
-
-        </LinearLayout>
+            android:id="@+id/donate_blood"
+            android:layout_marginBottom="@dimen/big_distance"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            style="@style/frontButton"
+            android:gravity="center" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_member"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/black"
+            android:text="Add Member"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            style="@style/frontButton"
+            android:gravity="center"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/people_in_need"
+            android:background="@color/backgroundWhite"
+            android:textColor="@color/black"
+            android:text="People in Need"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            style="@style/frontButton"
+            android:gravity="center"/>
     </LinearLayout>
 
 </LinearLayout>

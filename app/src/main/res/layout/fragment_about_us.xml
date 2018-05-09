@@ -53,6 +53,6 @@
             android:paddingLeft="@dimen/big_distance"
             android:textColor="@color/black"
             android:textSize="@dimen/small_text"
-            android:gravity="center" />
+            android:gravity="start" />
     </LinearLayout>
 </ScrollView>

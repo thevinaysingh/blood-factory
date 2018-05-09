@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,8 +46,10 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
     private Toast toast;
     private JSONArray jsonArray= null;
     protected SharedPreferences mSharedpreferences;
-    @Bind(R.id.donate_blood) LinearLayout mDonateButton;
-    @Bind(R.id.find_blood) LinearLayout mFindButton;
+    @Bind(R.id.donate_blood) Button mDonateButton;
+    @Bind(R.id.find_blood) Button mFindButton;
+    @Bind(R.id.add_member) Button mAddMemberButton;
+    @Bind(R.id.people_in_need) Button mPeopleInNeedButton;
 
     @Bind(R.id.request_info_container) LinearLayout mRequestInfoContainer;
     @Bind(R.id.request_container) LinearLayout mRequestContainer;
@@ -86,6 +89,28 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
             public void onClick(View v) {
                 if(isNetworkAvailable()) {
                     add(RecieveFragment.newInstance());
+                } else {
+                    Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mAddMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable()) {
+                    add(AddMemberFragment.newInstance());
+                } else {
+                    Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mPeopleInNeedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable()) {
+                    add(PeopleNeedFragment.newInstance());
                 } else {
                     Toast.makeText(mActivity, RegisterConstants.networkErrorTitle, Toast.LENGTH_SHORT).show();
                 }

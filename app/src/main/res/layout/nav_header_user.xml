@@ -7,7 +7,7 @@
     android:background="@color/common_page_color"
     android:gravity="bottom"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/small_distance"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -26,15 +26,10 @@
             android:orientation="vertical"
             android:gravity="center"
             android:clickable="true">
+
             <android.support.v7.widget.CardView
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:elevation="12dp"
-                app:cardCornerRadius="45dp"
-                android:background="@color/black"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:thicknessRatio="1.9">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <LinearLayout
                     android:id="@+id/dummy_pic_container"
                     android:layout_width="wrap_content"
@@ -43,10 +38,10 @@
                     android:orientation="vertical">
                     <ImageView
                         android:layout_gravity="center"
-                        android:layout_width="@dimen/medium_img_size"
-                        android:layout_height="@dimen/medium_img_size"
+                        android:layout_width="94dp"
+                        android:layout_height="72dp"
                         android:background="@drawable/circle_drawable"
-                        android:src="@drawable/round_flag" />
+                        android:src="@drawable/flag_of_india" />
                 </LinearLayout>
 
                 <ImageView
@@ -75,6 +70,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/mUsername"
             android:text="No Name"
+            android:layout_marginTop="@dimen/small_distance"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
@@ -94,8 +90,8 @@
             android:id="@+id/edit_profile_direct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profile"
-            android:textSize="@dimen/big_text"
+            android:text="Edit Profile"
+            android:textSize="@dimen/medium_text"
             android:textColor="@color/backgroundWhite"/>
     </LinearLayout>
 </LinearLayout>

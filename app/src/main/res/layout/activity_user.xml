@@ -35,13 +35,17 @@
         <ListView
             android:id="@+id/main_navigation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@color/backgroundWhite" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Powered by un-cero tech"
             android:textSize="16sp"
+            android:padding="@dimen/small_distance"
+            android:paddingLeft="@dimen/medium_distance"
+            android:background="@color/backgroundWhite"
             android:textColor="#000"/>
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

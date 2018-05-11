@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.majavrella.bloodinformer.EmergencyFragment;
 import com.majavrella.bloodinformer.api.APIConstant;
 import com.majavrella.bloodinformer.api.APIManager;
 import com.majavrella.bloodinformer.api.APIResponse;
@@ -310,7 +311,7 @@ public class UserActivity extends BaseActivity {
 
     private void setupNavigationItems() {
         String[] navigationItems = {Constants.kAddMemberFragment, Constants.kDonateBloodFragment, Constants.kSearchBloodFragment,
-                Constants.kBloodRequestFragment, Constants.kPeopleInNeedFragment, Constants.kExtraSettingsFragment};
+                Constants.kBloodRequestFragment, Constants.kPeopleInNeedFragment, Constants.kEmergenyFragment, Constants.kExtraSettingsFragment};
         ArrayAdapter<String> mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, navigationItems);
         drawerList.setAdapter(mAdapter);
     }
@@ -342,6 +343,9 @@ public class UserActivity extends BaseActivity {
                 }
                 break;
             case 5:
+                add(EmergencyFragment.newInstance());
+                break;
+            case 6:
                 add(ExtraSettingsFragment.newInstance());
                 break;
             default:

@@ -43,6 +43,7 @@ public class Constants {
     public static final String kGuidanceFragment = "Guidance";
     public static final String kAboutUsFragment = "About us";
     public static final String kFAQFragment = "FAQs";
+    public static final String kEmergenyFragment = "Emergency Contact";
 
     public static final String nameErrorText = "Name is not valid!";
     public static final String emailErrorText = "Email is not valid!";

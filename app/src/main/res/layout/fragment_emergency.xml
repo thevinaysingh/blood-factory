@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/medium_distance"
+            android:orientation="vertical">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/very_small_distance">
+                    <ImageView
+                        android:layout_width="@dimen/big_img_size"
+                        android:layout_height="@dimen/big_img_size"
+                        android:src="@drawable/app_logo_new"
+                        android:clickable="false"/>
+                </LinearLayout>
+            </FrameLayout>
+            <TextView
+                android:text="Emergency Conatct Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red_color"
+                android:layout_marginTop="@dimen/medium_distance"
+                android:textSize="@dimen/small_text"
+                android:gravity="center" />
+        </LinearLayout>
+        <View
+            style="@style/black_separator"/>
+        <TextView
+            android:text="1. +91 9575967856"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_distance"
+            android:layout_marginBottom="@dimen/big_distance"
+            android:paddingRight="@dimen/big_distance"
+            android:paddingLeft="@dimen/big_distance"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text"
+            android:gravity="start" />
+        <TextView
+            android:text="2. +91 9691986777"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_distance"
+            android:layout_marginBottom="@dimen/big_distance"
+            android:paddingRight="@dimen/big_distance"
+            android:paddingLeft="@dimen/big_distance"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text"
+            android:gravity="start" />
+    </LinearLayout>
+</ScrollView>

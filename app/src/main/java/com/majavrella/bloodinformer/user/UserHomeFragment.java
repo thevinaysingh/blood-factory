@@ -306,6 +306,7 @@ public class UserHomeFragment extends UserFragment implements BackButtonSupportF
 
                     mobileNo = mobilesArray[i];
                     message = "Name: "+userJson.getString("name")+"\n"
+                            +"Mobile: "+mobileNo+"\n"
                             +"Gender: "+userJson.getString("gender")+"\n"
                             +"Age Group: "+userJson.getString("ageGroup")+"\n"
                             +"blood group: "+userJson.getString("bloodGroup")+"\n"

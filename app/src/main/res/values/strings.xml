@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Blood informer</string>
+    <string name="sendotp_key">215030Az7Ij14cKZzD5af67c0f</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -34,6 +34,9 @@ import com.majavrella.bloodinformer.base.Constants;
 import com.majavrella.bloodinformer.modal.RegisterUser;
 import com.majavrella.bloodinformer.modal.UserData;
 import com.majavrella.bloodinformer.register.RegisterConstants;
+import com.msg91.sendotp.library.SendOtpVerification;
+import com.msg91.sendotp.library.Verification;
+import com.msg91.sendotp.library.VerificationListener;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 
@@ -41,9 +44,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
 
-public class RegisterFragment extends BaseFragment {
+public class RegisterFragment extends BaseFragment implements VerificationListener {
 
     private static View mRegisterFragment;
+    private static Verification mVerification;
     private String name, mobile, password;
     private DatabaseReference mDatabase;
     @Bind(com.majavrella.bloodinformer.R.id.user_name) EditText mUsername;
@@ -269,6 +273,17 @@ public class RegisterFragment extends BaseFragment {
                 }
             }
         });
+
+        mVerification = SendOtpVerification.createSmsVerification
+                (SendOtpVerification
+                        .config("country_code" + "9753238059")
+                        .context(mActivity)
+                        .autoVerification(true)
+                        .build(), this);
+//        mVerification.initiate();
+//        mVerification.verify(otp_code);
+//        mVerification.resend("voice");
+//        https://github.com/MSG91/sendotp-android
 //        Digits.logout();
 //        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
 //        Digits.authenticate(authConfigBuilder.build());
@@ -300,4 +315,48 @@ public class RegisterFragment extends BaseFragment {
     protected String getTitle() {
         return Constants.kRegisterFragment;
     }
+
+    @Override
+    public void onInitiated(String s) {
+
+    }
+
+    @Override
+    public void onInitiationFailed(Exception e) {
+
+    }
+
+    @Override
+    public void onVerified(String s) {
+
+    }
+
+    @Override
+    public void onVerificationFailed(Exception e) {
+
+    }
+//
+//    @Override
+//    public void onInitiated(String response) {
+//        Log.d(TAG, "Initialized!" + response);
+//        //OTP successfully resent/sent.
+//    }
+//
+//    @Override
+//    public void onInitiationFailed(Exception exception) {
+//        Log.e(TAG, "Verification initialization failed: " + exception.getMessage());
+//        //sending otp failed.
+//    }
+//
+//    @Override
+//    public void onVerified(String response) {
+//        Log.d(TAG, "Verified!\n" + response);
+//        //OTP verified successfully.
+//    }
+//
+//    @Override
+//    public void onVerificationFailed(Exception exception) {
+//        Log.e(TAG, "Verification failed: " + exception.getMessage());
+//        //OTP  verification failed.
+//    }
 }

@@ -16,6 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data android:name="sendotp.key" android:value="@string/sendotp_key" />
 
         <!-- Splash screen -->
         <activity

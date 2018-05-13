@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +16,26 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.AuthConfig;
 import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
+import com.majavrella.bloodinformer.FirstFragment;
 import com.majavrella.bloodinformer.R;
+import com.majavrella.bloodinformer.VerifyPin;
 import com.majavrella.bloodinformer.api.APIConstant;
 import com.majavrella.bloodinformer.api.APIManager;
 import com.majavrella.bloodinformer.api.APIResponse;
+import com.majavrella.bloodinformer.appbase.BaseFragment;
 import com.majavrella.bloodinformer.base.Constants;
 import com.majavrella.bloodinformer.register.RegisterConstants;
+import com.msg91.sendotp.library.SendOtpVerification;
+import com.msg91.sendotp.library.Verification;
+import com.msg91.sendotp.library.VerificationListener;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
 
@@ -42,26 +52,51 @@ import io.fabric.sdk.android.Fabric;
  * Created by Administrator on 3/25/2017.
  */
 
-public class ForgotPassword extends DialogFragment {
+public class ForgotPassword extends BaseFragment implements VerificationListener{
 
     private static View mForgotPassword;
+    private static VerifyPin verifyPin = new VerifyPin();
     private String mobile;
     @Bind(R.id.user_mob) EditText mUserMobile;
     @Bind(R.id.get_my_password) Button mGetMyPassword;
+    @Bind(com.majavrella.bloodinformer.R.id.back)
+    FrameLayout mBack;
     private static String userPassword = null;
     protected ProgressDialog progress;
+    private static Verification mVerification = new Verification() {
+        @Override
+        public void initiate() {
+            Log.e(">>>>Verification", "mVerification initiate");
+        }
+
+        @Override
+        public void verify(String s) {
+            Log.e(">>>>Verification", "mVerification verify:"+s);
+        }
+
+        @Override
+        public void resend(String s) {
+            Log.e(">>>>Verification", "mVerification resend:"+s);
+        }
+    };
+
+    public static ForgotPassword newInstance() {
+        return new ForgotPassword();
+    }
+
+    public ForgotPassword() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mForgotPassword = inflater.inflate(R.layout.fragment_forgot_password, container);
+        mForgotPassword = inflater.inflate(R.layout.fragment_forgot_password, container, false);
         ButterKnife.bind(this, mForgotPassword);
         progress=new ProgressDialog(getActivity());
         TwitterAuthConfig authConfig = new TwitterAuthConfig(Constants.kConsumerKey, Constants.kConsumerSecret);
         Fabric.with(getActivity(), new TwitterCore(authConfig), new Digits.Builder().build());
         mUserMobile.requestFocus();
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         mGetMyPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +112,12 @@ public class ForgotPassword extends DialogFragment {
                 }
             }
         });
+        mBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(mActivity);
+                add(FirstFragment.newInstance());}
+        });
         return mForgotPassword;
     }
 
@@ -88,23 +129,6 @@ public class ForgotPassword extends DialogFragment {
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-
-    AuthCallback authCallback = new AuthCallback() {
-        @Override
-        public void success(DigitsSession session, String phoneNumber) {
-            if(!phoneNumber.equals(RegisterConstants.countryCode+mobile)){
-                showErrorDialog(RegisterConstants.phoneErrorTitle, RegisterConstants.phoneErrorText2);
-            } else {
-                successDialog();
-            }
-        }
-
-        @Override
-        public void failure(DigitsException error) {
-            showErrorDialog(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
-        }
-    };
-
     private void showErrorDialog(String title, String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setCancelable(true);
@@ -114,7 +138,7 @@ public class ForgotPassword extends DialogFragment {
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
-                dismiss();
+
             }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -129,7 +153,7 @@ public class ForgotPassword extends DialogFragment {
         alertDialogBuilder.setMessage("Successfully verified. Your password is ["+userPassword+"]. can change password after login only.");
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface arg0, int arg1) { dismiss(); }
+            public void onClick(DialogInterface arg0, int arg1) {  }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -158,9 +182,17 @@ public class ForgotPassword extends DialogFragment {
     }
 
     private void authenticateUser(final String mobile) {
-        Digits.logout();
-        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
-        Digits.authenticate(authConfigBuilder.build());
+        if(isNetworkAvailable()){
+            mVerification = SendOtpVerification
+                    .createSmsVerification(SendOtpVerification
+                            .config(RegisterConstants.countryCode+mobile)
+                            .context(getActivity())
+                            .autoVerification(true)
+                            .build(), this);
+            mVerification.initiate();
+        } else {
+            showSnackbar(RegisterConstants.networkErrorText);
+        }
     }
 
     private void verifyUser(JSONObject result) {
@@ -182,5 +214,33 @@ public class ForgotPassword extends DialogFragment {
         if(!isUserRegistered){
             showErrorDialog(RegisterConstants.registrationErrorTitle, RegisterConstants.registerErrorText);
         }
+    }
+
+    @Override
+    public void onInitiated(String s) {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        verifyPin.setVerificationListener(mVerification);
+        verifyPin.show(manager, "verify_pin_layout");
+    }
+
+    @Override
+    public void onInitiationFailed(Exception e) {
+        Toast.makeText(getActivity(), "Unable to send otp. Please, Check your network and try again!", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onVerified(String s) {
+        verifyPin.dismiss();
+        successDialog();
+    }
+
+    @Override
+    public void onVerificationFailed(Exception e) {
+        Toast.makeText(getActivity(), "You have entered wrong pin!", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    protected String getTitle() {
+        return Constants.kForgotFragment;
     }
 }

@@ -68,7 +68,7 @@ public class SigninFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mSigninFragment = inflater.inflate(com.majavrella.bloodinformer.R.layout.login_fragment, container, false);
+        mSigninFragment = inflater.inflate(R.layout.login_fragment, container, false);
         ButterKnife.bind(this, mSigninFragment);
 
         sharedpreferences = getActivity().getSharedPreferences(RegisterConstants.userPrefs, Context.MODE_PRIVATE);
@@ -297,13 +297,14 @@ public class SigninFragment extends BaseFragment {
     View.OnClickListener mLostPasswordListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(isNetworkAvailable()){
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                ForgotPassword forgotPassword = new ForgotPassword();
-                forgotPassword.show(manager, "password_layout");
-            } else {
-                showSnackbar(RegisterConstants.networkErrorText);
-            }
+            add(ForgotPassword.newInstance());
+//            if(isNetworkAvailable()){
+//                FragmentManager manager = getActivity().getSupportFragmentManager();
+//                ForgotPassword forgotPassword = new ForgotPassword();
+//                forgotPassword.show(manager, "password_layout");
+//            } else {
+//                showSnackbar(RegisterConstants.networkErrorText);
+//            }
         }
     };
 

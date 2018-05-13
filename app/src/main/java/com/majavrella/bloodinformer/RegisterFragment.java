@@ -4,9 +4,11 @@ package com.majavrella.bloodinformer;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.AuthConfig;
@@ -30,6 +33,7 @@ import com.google.firebase.auth.ProviderQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.majavrella.bloodinformer.appbase.BaseFragment;
+import com.majavrella.bloodinformer.appbase.FragmentCallback;
 import com.majavrella.bloodinformer.base.Constants;
 import com.majavrella.bloodinformer.modal.RegisterUser;
 import com.majavrella.bloodinformer.modal.UserData;
@@ -47,7 +51,23 @@ import io.fabric.sdk.android.Fabric;
 public class RegisterFragment extends BaseFragment implements VerificationListener {
 
     private static View mRegisterFragment;
-    private static Verification mVerification;
+    private static Verification mVerification = new Verification() {
+        @Override
+        public void initiate() {
+            Log.e(">>>>Verification", "mVerification initiate");
+        }
+
+        @Override
+        public void verify(String s) {
+            Log.e(">>>>Verification", "mVerification verify:"+s);
+        }
+
+        @Override
+        public void resend(String s) {
+            Log.e(">>>>Verification", "mVerification resend:"+s);
+        }
+    };
+    private static VerifyPin verifyPin = new VerifyPin();
     private String name, mobile, password;
     private DatabaseReference mDatabase;
     @Bind(com.majavrella.bloodinformer.R.id.user_name) EditText mUsername;
@@ -146,47 +166,6 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
         name = mobile = password = null;
     }
 
-    AuthCallback authCallback = new AuthCallback() {
-        @Override
-        public void success(DigitsSession session, String phoneNumber) {
-            if(!phoneNumber.equals(RegisterConstants.countryCode+mobile)){
-                showDialogError(RegisterConstants.phoneErrorTitle,RegisterConstants.phoneErrorText2 );
-                return;
-            }
-
-            progress.setMessage(RegisterConstants.registrationProgress);
-            progress.setCancelable(false);
-            progress.show();
-            final  String user_id = mobile+RegisterConstants.userIdDummyTail;
-            mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                        try{
-                            setDataOnCloud(user.getUid().toString());
-                            progress.dismiss();
-                            showRegistrationSuccessDialog();
-                        } catch(Exception e){
-                            e.printStackTrace();
-                            progress.dismiss();
-                            user.delete();
-                            showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
-                        }
-                    } else {
-                        progress.dismiss();
-                        showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
-                    }
-                }
-            });
-        }
-
-        @Override
-        public void failure(DigitsException exception) {
-            showDialogError(RegisterConstants.verificationErrorTitle, RegisterConstants.verificationErrorText);
-        }
-    };
-
     private void setDataOnCloud(String userId) {
         DatabaseReference mUserListDatabase = mDatabase.child(RegisterConstants.user_list_db);
         String temp_key = mUserListDatabase.push().getKey();
@@ -248,45 +227,20 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
     }
 
     private void authenticateUser() {
-        progress.setMessage(RegisterConstants.registrationProgress);
-        progress.setCancelable(false);
-        progress.show();
-        final  String user_id = mobile+RegisterConstants.userIdDummyTail;
-        mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                    try{
-                        setDataOnCloud(user.getUid().toString());
-                        progress.dismiss();
-                        showRegistrationSuccessDialog();
-                    } catch(Exception e){
-                        e.printStackTrace();
-                        progress.dismiss();
-                        user.delete();
-                        showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
-                    }
-                } else {
-                    progress.dismiss();
-                    showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
-                }
-            }
-        });
-
-        mVerification = SendOtpVerification.createSmsVerification
-                (SendOtpVerification
-                        .config("country_code" + "9753238059")
-                        .context(mActivity)
-                        .autoVerification(true)
-                        .build(), this);
-//        mVerification.initiate();
+        if(isNetworkAvailable()){
+            mVerification = SendOtpVerification
+                    .createSmsVerification(SendOtpVerification
+                            .config(RegisterConstants.countryCode+mobile)
+                            .context(mActivity)
+                            .autoVerification(true)
+                            .build(), this);
+            mVerification.initiate();
+        } else {
+            showSnackbar(RegisterConstants.networkErrorText);
+        }
 //        mVerification.verify(otp_code);
 //        mVerification.resend("voice");
 //        https://github.com/MSG91/sendotp-android
-//        Digits.logout();
-//        AuthConfig.Builder authConfigBuilder = new AuthConfig.Builder().withAuthCallBack(authCallback).withPhoneNumber(RegisterConstants.countryCode+mobile);
-//        Digits.authenticate(authConfigBuilder.build());
     }
 
     View.OnClickListener mRegisterButtonListener = new View.OnClickListener() {
@@ -317,46 +271,49 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
     }
 
     @Override
-    public void onInitiated(String s) {
-
+    public void onInitiated(String response) {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        verifyPin.setVerificationListener(mVerification);
+        verifyPin.show(manager, "verify_pin_layout");
     }
 
     @Override
-    public void onInitiationFailed(Exception e) {
-
+    public void onInitiationFailed(Exception exception) {
+        Toast.makeText(getActivity(), "Unable to send otp. Please, Check your network and try again!", Toast.LENGTH_LONG);
     }
 
     @Override
-    public void onVerified(String s) {
-
+    public void onVerified(String response) {
+        verifyPin.dismiss();
+        progress.setMessage(RegisterConstants.registrationProgress);
+        progress.setCancelable(false);
+        progress.show();
+        final  String user_id = mobile+RegisterConstants.userIdDummyTail;
+        mFirebaseAuth.createUserWithEmailAndPassword(user_id, password).addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                    try{
+                        setDataOnCloud(user.getUid().toString());
+                        progress.dismiss();
+                        showRegistrationSuccessDialog();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        progress.dismiss();
+                        user.delete();
+                        showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
+                    }
+                } else {
+                    progress.dismiss();
+                    showDialogError(RegisterConstants.registrationErrorTitle, RegisterConstants.registrationErrorText);
+                }
+            }
+        });
     }
 
     @Override
-    public void onVerificationFailed(Exception e) {
-
+    public void onVerificationFailed(Exception exception) {
+        Toast.makeText(getActivity(), "You have entered wrong pin!", Toast.LENGTH_LONG);
     }
-//
-//    @Override
-//    public void onInitiated(String response) {
-//        Log.d(TAG, "Initialized!" + response);
-//        //OTP successfully resent/sent.
-//    }
-//
-//    @Override
-//    public void onInitiationFailed(Exception exception) {
-//        Log.e(TAG, "Verification initialization failed: " + exception.getMessage());
-//        //sending otp failed.
-//    }
-//
-//    @Override
-//    public void onVerified(String response) {
-//        Log.d(TAG, "Verified!\n" + response);
-//        //OTP verified successfully.
-//    }
-//
-//    @Override
-//    public void onVerificationFailed(Exception exception) {
-//        Log.e(TAG, "Verification failed: " + exception.getMessage());
-//        //OTP  verification failed.
-//    }
 }

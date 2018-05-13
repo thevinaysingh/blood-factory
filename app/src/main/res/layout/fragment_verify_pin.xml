@@ -3,16 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/big_distance">
-    <FrameLayout
-        android:id="@+id/back"
-        android:background="@drawable/small_circle_red"
-        style="@style/back_button_frame">
-        <ImageView
-            style="@style/back_button_image"/>
-    </FrameLayout>
 
     <TextView
-        android:text=" Forgot Password"
+        android:text="Verify Pin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#08b49b"
@@ -25,17 +18,27 @@
         android:layout_marginBottom="@dimen/small_distance"
         android:background="@color/colorPrimaryDark" />
     <TextView
-        android:text="Enter your mobile no and select get my password"
+        android:text="Enter 4 digit pin and press verify your mobile number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/small_text"
         android:layout_marginBottom="@dimen/small_distance"
         android:gravity="start"/>
     <EditText
-        android:hint="Mobile No"
+        android:hint="4-digit pin"
         android:layout_height="50dp"
-        android:id="@+id/user_mob"
+        android:id="@+id/pin_no"
+        android:maxLength="4"
         style="@style/mob_et"/>
+    <TextView
+        android:text="voice call"
+        android:clickable="false"
+        android:id="@+id/resend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/small_text"
+        android:layout_marginBottom="@dimen/small_distance"
+        android:gravity="end"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -46,8 +49,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/get_my_password"
-            android:text="Get my password"
+            android:id="@+id/verify_pin"
+            android:text="Verify"
             android:layout_weight="1"
             android:background="@color/header_color"
             android:textColor="#FFFFFF"

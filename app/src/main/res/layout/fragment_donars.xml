@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/toolbar_color_new"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/big_distance"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/back"
+            android:background="@drawable/small_circle_red"
+            android:layout_marginTop="@dimen/medium_distance"
+            android:layout_marginLeft="@dimen/medium_distance"
+            style="@style/back_button_frame">
+            <ImageView
+                style="@style/back_button_image"/>
+        </FrameLayout>
+        <TextView
+            android:id="@+id/blood_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/big_text"
+            android:paddingRight="@dimen/big_distance"
+            android:paddingLeft="@dimen/big_distance"
+            android:text="Blood donars"/>
+        <LinearLayout
+            android:id="@+id/list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".user.DonarList">
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

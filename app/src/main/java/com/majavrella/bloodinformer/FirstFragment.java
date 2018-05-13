@@ -18,6 +18,7 @@ public class FirstFragment extends BaseFragment implements BackButtonSupportFrag
     private static View mFirstFragment;
     @Bind(com.majavrella.bloodinformer.R.id.loginBtn) Button mloginBtn;
     @Bind(com.majavrella.bloodinformer.R.id.registerBtn) Button mRegisterBtn;
+    @Bind(com.majavrella.bloodinformer.R.id.search_blood) Button mSearchBlood;
     private boolean consumingBackPress = true;
     private Toast toast;
 
@@ -44,6 +45,12 @@ public class FirstFragment extends BaseFragment implements BackButtonSupportFrag
             @Override
             public void onClick(View v) {
                add(RegisterFragment.newInstance());
+            }
+        });
+        mSearchBlood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add(RecieveFragment.newInstance());
             }
         });
         setStatusBarColor(Constants.colorStatusBar);

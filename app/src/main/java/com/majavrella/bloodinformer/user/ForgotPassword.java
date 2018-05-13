@@ -26,6 +26,7 @@ import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.majavrella.bloodinformer.FirstFragment;
 import com.majavrella.bloodinformer.R;
+import com.majavrella.bloodinformer.SigninFragment;
 import com.majavrella.bloodinformer.VerifyPin;
 import com.majavrella.bloodinformer.api.APIConstant;
 import com.majavrella.bloodinformer.api.APIManager;
@@ -55,7 +56,7 @@ import io.fabric.sdk.android.Fabric;
 public class ForgotPassword extends BaseFragment implements VerificationListener{
 
     private static View mForgotPassword;
-    private static VerifyPin verifyPin = new VerifyPin();
+    private static VerifyPin verifyPin;
     private String mobile;
     @Bind(R.id.user_mob) EditText mUserMobile;
     @Bind(R.id.get_my_password) Button mGetMyPassword;
@@ -153,7 +154,9 @@ public class ForgotPassword extends BaseFragment implements VerificationListener
         alertDialogBuilder.setMessage("Successfully verified. Your password is ["+userPassword+"]. can change password after login only.");
         alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface arg0, int arg1) {  }
+            public void onClick(DialogInterface arg0, int arg1) {
+                // add(SigninFragment.newInstance());
+            }
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
@@ -188,6 +191,9 @@ public class ForgotPassword extends BaseFragment implements VerificationListener
                             .config(RegisterConstants.countryCode+mobile)
                             .context(getActivity())
                             .autoVerification(true)
+                            .senderId("BINFRM")
+                            .message("Dear user, You are trying to know your password if it is you, use OTP PIN ##OTP## that will be expired in 5 mins. If this is not you please do not share it with anyone.")
+                            .expiry("5")
                             .build(), this);
             mVerification.initiate();
         } else {
@@ -219,7 +225,8 @@ public class ForgotPassword extends BaseFragment implements VerificationListener
     @Override
     public void onInitiated(String s) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
-        verifyPin.setVerificationListener(mVerification);
+        verifyPin = new VerifyPin();
+        verifyPin.setVerificationListener(mVerification, manager);
         verifyPin.show(manager, "verify_pin_layout");
     }
 
@@ -231,12 +238,15 @@ public class ForgotPassword extends BaseFragment implements VerificationListener
     @Override
     public void onVerified(String s) {
         verifyPin.dismiss();
+        hideKeyboard(getActivity());
         successDialog();
+        Toast.makeText(getActivity(), "Successfully verified your pin", Toast.LENGTH_LONG);
     }
 
     @Override
     public void onVerificationFailed(Exception e) {
-        Toast.makeText(getActivity(), "You have entered wrong pin!", Toast.LENGTH_LONG);
+        hideKeyboard(getActivity());
+        showDialogError("OTP Verification", "You have entered wrong pin. Please, enter correct pin and try again!");
     }
 
     @Override

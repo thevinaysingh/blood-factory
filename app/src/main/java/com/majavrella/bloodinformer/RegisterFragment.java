@@ -233,6 +233,9 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
                             .config(RegisterConstants.countryCode+mobile)
                             .context(mActivity)
                             .autoVerification(true)
+                            .senderId("BINFRM")
+                            .message("Dear "+name+", Thanks for registering with Blood Informer. Use this OTP PIN ##OTP## and be a part of life saving heroes.")
+                            .expiry("5")
                             .build(), this);
             mVerification.initiate();
         } else {
@@ -273,7 +276,7 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
     @Override
     public void onInitiated(String response) {
         FragmentManager manager = getActivity().getSupportFragmentManager();
-        verifyPin.setVerificationListener(mVerification);
+        verifyPin.setVerificationListener(mVerification, manager);
         verifyPin.show(manager, "verify_pin_layout");
     }
 
@@ -285,6 +288,7 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
     @Override
     public void onVerified(String response) {
         verifyPin.dismiss();
+        hideKeyboard(getActivity());
         progress.setMessage(RegisterConstants.registrationProgress);
         progress.setCancelable(false);
         progress.show();
@@ -314,6 +318,7 @@ public class RegisterFragment extends BaseFragment implements VerificationListen
 
     @Override
     public void onVerificationFailed(Exception exception) {
-        Toast.makeText(getActivity(), "You have entered wrong pin!", Toast.LENGTH_LONG);
+        hideKeyboard(getActivity());
+        showDialogError("OTP Verification", "You have entered wrong pin. Please, enter correct pin and try again!");
     }
 }

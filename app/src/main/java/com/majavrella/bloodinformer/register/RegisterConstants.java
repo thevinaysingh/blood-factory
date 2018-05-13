@@ -36,7 +36,7 @@ public class RegisterConstants {
     public static final String serverErrorText = "Server is not responding properly or url is incorrect";
 
     public static final String loginErrorTitle = "Login error";
-    public static final String loginErrorText = "Login failed, Something went wrong.";
+    public static final String loginErrorText = "Id or password incorrect or you may not be a user!";
 
     public static final String editBoxError = "Check Internet or edit box";
 

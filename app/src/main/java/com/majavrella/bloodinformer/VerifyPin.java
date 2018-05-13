@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class VerifyPin extends DialogFragment {
 
     private static View mVerifyPinView;
     private static Verification mVerification;
+    private static FragmentManager mFragmentManager;
     private String pinNo;
     @Bind(R.id.pin_no) EditText mPinNo;
     @Bind(R.id.resend)
@@ -56,8 +58,9 @@ public class VerifyPin extends DialogFragment {
     @Bind(R.id.verify_pin) Button mVerifyPin;
     protected ProgressDialog progress;
 
-    public void setVerificationListener(Verification mVerification) {
+    public void setVerificationListener(Verification mVerification, FragmentManager mFragmentManager) {
         this.mVerification = mVerification;
+        this.mFragmentManager = mFragmentManager;
     }
 
     @Override
@@ -89,6 +92,7 @@ public class VerifyPin extends DialogFragment {
         mResend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mFragmentManager.popBackStack();
                 mVerification.resend("voice");
             }
         });

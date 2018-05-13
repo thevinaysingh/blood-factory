@@ -32,6 +32,7 @@
         style="@style/mob_et"/>
     <TextView
         android:text="voice call"
+        android:visibility="gone"
         android:clickable="false"
         android:id="@+id/resend"
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -269,7 +270,7 @@ public class SigninFragment extends BaseFragment {
                                 setUserListDBRefKeyForCurrentUser();
                                 startUserActivity();
                             } else {
-                                showLoginFailedSnackbar();
+                                // showLoginFailedSnackbar();
                                 showDialogError(RegisterConstants.loginErrorTitle,RegisterConstants.loginErrorText);
                             }
                             progress.dismiss();

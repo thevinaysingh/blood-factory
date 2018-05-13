@@ -12,7 +12,7 @@
             android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundWhite"
+            android:background="@color/toolbar_color_new"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -305,7 +305,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/donate_btn_text"
-                    android:background="@color/new_btn_color"
                     android:layout_weight="1"
                     android:id="@+id/donate_button"
                     style="@style/CommonButton"
@@ -317,7 +316,7 @@
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundWhite"
+            android:background="@color/toolbar_color_new"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -335,6 +334,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_gravity="center"
+                        android:background="@drawable/circle_with_new_color"
                         android:gravity="center"
                         android:padding="@dimen/very_small_distance">
                         <ImageView
@@ -612,7 +612,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Edit &amp; Save"
-                    android:background="@color/new_btn_color"
                     android:layout_weight="1"
                     android:id="@+id/edit_button"
                     style="@style/CommonButton"
@@ -625,7 +624,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="#f2eeee"
             android:gravity="center">
             <FrameLayout
                 android:layout_width="wrap_content"

@@ -633,7 +633,7 @@ public class DonateFragment extends UserFragment {
 
     private void showSuccessMsgDonated() {
         getFragmentManager().popBackStackImmediate();
-        Toast.makeText(mActivity, "Donated successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mActivity, "You have created your blood donation profile successfully!", Toast.LENGTH_SHORT).show();
         //mDonateBloodPage.setVisibility(View.GONE);
         //mSuccessPage.setVisibility(View.VISIBLE);
     }

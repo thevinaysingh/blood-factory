@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Create Account"
+                    android:text="Register"
                     android:layout_marginLeft="10dp"
                     android:textSize="30sp"
                     android:textColor="#fff"/>
@@ -81,9 +81,9 @@
                 android:layout_height="wrap_content"
                 android:text="Register"
                 android:layout_weight="1"
-                android:background="#ffffff"
+                android:background="@color/colorButton"
                 android:id="@+id/register"
-                android:textColor="#08b49b"
+                android:textColor="@color/backgroundWhite"
                 style="@style/frontButton"
                 android:gravity="center">
             </Button>
@@ -100,7 +100,7 @@
                 android:clickable="true"
                 android:layout_height="40dp"
                 android:text="Have account ?"
-                android:textColor="@color/black"
+                android:textColor="@color/backgroundWhite"
                 android:textSize="17sp"
                 android:gravity="center"/>
             <LinearLayout
@@ -116,7 +116,7 @@
                     android:focusableInTouchMode="true"
                     android:text="  Login now."
                     android:textColor="#ffffff"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
                     android:gravity="center"/>
                 <View
                     android:layout_width="100dp"

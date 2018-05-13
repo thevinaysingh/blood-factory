@@ -7,7 +7,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="0dp"
+        android:paddingTop="5dp"
         android:paddingBottom="10dp"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
@@ -18,6 +18,7 @@
         android:gravity="start">
         <FrameLayout
             android:id="@+id/back"
+            android:background="@drawable/small_circle_red"
             style="@style/back_button_frame">
             <ImageView
                 style="@style/back_button_image"/>
@@ -41,7 +42,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User login"
+                    android:text="Login"
                     android:layout_marginLeft="@dimen/medium_distance"
                     android:textSize="30sp"
                     android:textColor="@color/backgroundWhite"/>
@@ -60,14 +61,33 @@
                 android:id="@+id/user_password"
                 android:hint="Password"
                 style="@style/password_et"/>
-            <CheckBox
-                android:id="@+id/show_password"
-                android:text="Show password"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/backgroundWhite"
-                android:textSize="@dimen/very_small_text"
-                android:layout_marginBottom="@dimen/very_small_distance"/>
+                android:orientation="horizontal"
+                android:paddingRight="@dimen/medium_distance"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/show_password"
+                    android:text="Show password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/backgroundWhite"
+                    android:textSize="@dimen/small_text"
+                    android:layout_marginBottom="@dimen/very_small_distance"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Forgot Password"
+                    android:clickable="true"
+                    android:id="@+id/lostPassword"
+                    android:textSize="@dimen/small_text"
+                    android:textColor="@color/backgroundWhite"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,24 +101,10 @@
                     android:id="@+id/signin"
                     android:text="Login"
                     android:layout_weight="1"
-                    android:background="@color/backgroundWhite"
-                    android:textColor="#08b49b"
+                    android:background="@color/colorButton"
+                    android:textColor="@color/backgroundWhite"
                     style="@style/frontButton"
                     android:gravity="center"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lost Password ? "
-                    android:layout_marginTop="@dimen/big_distance"
-                    android:clickable="true"
-                    android:id="@+id/lostPassword"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"/>
-                <View
-                    android:layout_width="145dp"
-                    android:layout_height="1dp"
-                    android:background="#ff0000"
-                    android:layout_gravity="end"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +118,7 @@
                     android:layout_height="40dp"
                     android:clickable="true"
                     android:text="Not a Member ?"
-                    android:textColor="@color/black"
+                    android:textColor="@color/backgroundWhite"
                     android:textSize="17sp"
                     android:gravity="center"/>
                 <LinearLayout
@@ -127,13 +133,13 @@
                         android:id="@+id/textRegister"
                         android:text=" Register now."
                         android:textColor="@color/backgroundWhite"
-                        android:textSize="18sp"
+                        android:textSize="17sp"
                         android:gravity="center"/>
                     <View
                         android:layout_width="115dp"
                         android:layout_height="1dp"
                         android:layout_marginTop="-4dp"
-                        android:background="#ff0000"
+                        android:background="@color/colorButton"
                         android:layout_gravity="center"/>
                 </LinearLayout>
             </LinearLayout>
